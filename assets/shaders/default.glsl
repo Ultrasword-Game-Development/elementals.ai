@@ -22,6 +22,6 @@ in vec2 uvs;
 out vec4 color;
 
 void main(){
-    vec2 spos = vec2(uvs.x + sin(uvs.y * 10 + time * 0.01) * 0.1, uvs.y);
+    vec2 spos = vec2(uvs.x + sin(uvs.y * 10 + time) * 0.1, uvs.y);
     color = vec4(texture(tex, spos).xy, texture(tex, spos).z * 1.5, 1.0);
 }

@@ -94,7 +94,7 @@ while singleton.RUNNING:
     ftex = gl.surface_to_texture(singleton.FRAMEBUFFER)
     ftex.use(0)
     gl.GLContext.FRAMEBUFFER_SHADER._program['tex'] = 0
-    gl.GLContext.FRAMEBUFFER_SHADER._program['time'] = t
+    gl.GLContext.FRAMEBUFFER_SHADER._program['time'] = singleton.ACTIVE_TIME
     gl.GLContext.FRAMEBUFFER_RENDER_OBJECT.render(mode=moderngl.TRIANGLE_STRIP)
 
     # singleton.WINDOW.blit(pygame.transform.scale(singleton.FRAMEBUFFER, singleton.WIN_SIZE), (0, 0))
@@ -114,6 +114,8 @@ while singleton.RUNNING:
     signal.update_signals()
     clock.tick(singleton.FPS)
 
+    # update statistics
     singleton.FRAME_COUNTER += 1
+    singleton.ACTIVE_TIME += singleton.DELTA_TIME
 
 # ---------------------------- #

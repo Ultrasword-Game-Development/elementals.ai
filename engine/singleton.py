@@ -5,6 +5,7 @@ RUNNING = False
 
 FPS = 60
 FRAME_COUNTER = 0
+ACTIVE_TIME = 0
 
 # ---------------------------- #
 
