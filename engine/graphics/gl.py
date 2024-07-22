@@ -69,9 +69,7 @@ class GLContext:
         singleton.FULL_QUAD_BUFFER = singleton.CONTEXT.buffer(data=array('f', DEFAULT_QUAD_BUFFER))
 
         # create the framebuffer render object
-        cls.FRAMEBUFFER_SHADER = shader.ShaderProgram('assets/shaders/default.glsl')
-        cls.FRAMEBUFFER_SHADER.add_layer(shader.TYPE_VERTEX)
-        cls.FRAMEBUFFER_SHADER.add_layer(shader.TYPE_FRAGMENT)
+        cls.FRAMEBUFFER_SHADER = shader.ShaderProgram(singleton.DEFAULT_SHADER)
         cls.FRAMEBUFFER_SHADER.create()
 
         cls.FRAMEBUFFER_RENDER_OBJECT = singleton.CONTEXT.vertex_array(cls.FRAMEBUFFER_SHADER._program, [

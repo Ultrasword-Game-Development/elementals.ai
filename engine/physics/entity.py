@@ -14,9 +14,17 @@ class Entity:
         self.position = pygame.math.Vector2()
         self.velocity = pygame.math.Vector2()
         self.rect = pygame.Rect(0, 0, 0, 0)
-        self.sprite = pygame.Surface((0,0)).convert_alpha()
+        self.sprite = None
+        self.bitmask = None
 
-        
+    def update(self):
+        """ Update the entity """
+        pass
+
+    def render(self, surface: pygame.Surface):
+        """ Render the entity """
+        if self.sprite:
+            surface.blit(self.sprite, self.position)
 
     def __getstate__(self):
         """ Pickle state """

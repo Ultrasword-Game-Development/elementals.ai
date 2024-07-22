@@ -5,6 +5,8 @@ from engine import singleton
 # ---------------------------- #
 # utils
 
+SHADER_CACHE = {}
+
 SHADER_TYPE = 0
 SHADER_CODE = 1
 
@@ -32,9 +34,15 @@ TYPE_MAPPING = {
     TYPE_RTX: CALL_RTX
 }
 
-def create_shader_context(shadertype: int, shadercode: str):
-    """ Create a shader context """
-    pass
+
+def load_shader(path: str, config: list = []):
+    """ Loads a shader to the cache """
+    if path in SHADER_CACHE:
+        return SHADER_CACHE[path]
+    shader = ShaderProgram(path, config)
+    shader.create()
+    SHADER_CACHE[path] = shader
+    return shader
 
 # ---------------------------- #
 # shader class
@@ -49,14 +57,6 @@ class ShaderProgram:
 
         self._shaders = []
         self._program = None
-    
-    def add_layer(self, layertype: int):
-        """ Add a layer to the shader """
-        self._config.append(layertype)
-    
-    def get_layers(self):
-        """ Return the layers of the shader - editable """
-        return self._config
 
     def create(self):
         """ Create the shader program """

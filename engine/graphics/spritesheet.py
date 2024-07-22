@@ -1,5 +1,6 @@
-import pygame
 import os
+import pygame
+
 
 from engine import io
 
@@ -53,7 +54,7 @@ class SpriteSheet:
         """ Create a new spritesheet """
         self._path = path
         self._json = None
-        self._config = config
+        self._config = config.copy()
 
         if path.endswith('.json'):
             self._json = path
@@ -111,7 +112,8 @@ class SpriteSheet:
 
     def __hash__(self):
         """ Hash the spritesheet """
-        return hash(tuple([self._path] + list(flatten_config_values())))
+        hashable = tuple([self._path] + list(flatten_config_values()))
+        return hash(hashable)
 
     # ---------------------------- #
     # pickle
@@ -121,6 +123,7 @@ class SpriteSheet:
         state = self.__dict__.copy()
         # remove unpicklable entries
         del state['image']
+        del state['sprites']
         return state
 
     def __setstate__(self, state):
@@ -128,6 +131,7 @@ class SpriteSheet:
         self.__dict__.update(state)
         # restore unpicklable entries
         self.image = io.load_image(self._path)
+        self.sprites = []
         self._load_sprites()
 
 

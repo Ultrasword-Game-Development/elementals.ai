@@ -1,5 +1,15 @@
 import pygame
+import sys
+import os
 
+from engine import io
+
+# ---------------------------- #
+# pre-run scripts
+
+
+
+# ---------------------------- #
 
 RUNNING = False
 
@@ -33,6 +43,8 @@ ATTRIBUTES = []
 CONTEXT = None
 FULL_QUAD_BUFFER = None
 
+DEFAULT_SHADER = "assets/shaders/default.glsl"
+
 # ---------------------------- #
 
 DELTA_TIME = 0
@@ -46,3 +58,26 @@ ANIMATION_DELTA = 1 / ANIMATION_FRAMERATE
 
 
 
+
+# ---------------------------- #
+# util functions
+
+def system_update_function():
+    """ Update the system """
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            RUNNING = False
+            pygame.quit()
+            sys.exit()
+        elif e.type == pygame.KEYDOWN:
+            io.KEY_HELD.add(e.key)
+        elif e.type == pygame.KEYUP:
+            io.KEY_HELD.remove(e.key)
+        elif e.type == pygame.MOUSEBUTTONDOWN:
+            if e.button > 3:
+                continue
+            io.MOUSE_PRESSED[e.button] = True
+        elif e.type == pygame.MOUSEBUTTONUP:
+            if e.button > 3:
+                continue
+            io.MOUSE_PRESSED[e.button] = False

@@ -67,7 +67,6 @@ class Animation:
         """ Pickle state """
         state = self.__dict__.copy()
         # remove unpicklable entries
-        del state['_spritesheet']
         del state['_frames']
         return state
     
@@ -75,8 +74,9 @@ class Animation:
         """ Unpickle state """
         self.__dict__.update(state)
         # restore unpicklable entries
-        self._spritesheet = spritesheet.SpriteSheet(state['_path'])
         self._frames = self._spritesheet.sprites
+        # register the animation
+        load_animation_from_spritesheet(self._spritesheet)
 
 
 # ---------------------------- #
