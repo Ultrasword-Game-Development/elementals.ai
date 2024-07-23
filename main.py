@@ -60,6 +60,8 @@ with open(world_save, 'rb') as f:
 # w.ssheet = spritesheet.SpriteSheet('assets/sprites/mage.json')
 # w.t_ani = animation.load_animation_from_spritesheet(w.ssheet)
 # w.t_ani_reg = w.t_ani.get_registry()
+# w.p_ani = animation.load_animation('assets/sprites/player.json')
+# w.p_ani_reg = w.p_ani.get_registry()
 
 # with open(world_save, 'wb') as f:
 #     dill.dump(w, f)
@@ -86,6 +88,8 @@ while singleton.RUNNING:
 
     w.t_ani_reg.update()
     singleton.FRAMEBUFFER.blit(w.t_ani_reg.sprite, (10, 50))
+    w.p_ani_reg.update()
+    singleton.FRAMEBUFFER.blit(w.p_ani_reg.sprite, (100, 90))
 
     singleton.FRAMEBUFFER.blit(image, (200, 100))
     for x in range(len(w.ssheet)):
