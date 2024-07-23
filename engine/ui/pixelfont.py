@@ -1,15 +1,7 @@
-""" 
-pixelfont.py
+import pygame
 
-Contains the PixelFont class that takes in user defined .png font files and generates 
-    a usable font object for text rendering.
-
-"""
-
-import pygame as pg
-
-from . import asset
-from ..utils import *
+from engine import io
+from engine import utils
 
 class PixelFont:
     CHAR_ORDER = [
@@ -98,10 +90,10 @@ class PixelFont:
         ";",
     ]
 
-    def __init__(self, file: str):
+    def __init__(self, path: str):
         """Initialize the PixelFont object"""
-        self.file = file
-        self.surface = asset.ImageHandler[file]
+        self.path = path
+        self.surface = io.load_image(self.path)
         self.surface.set_colorkey((0, 0, 0))
         self._chars = {}
 
@@ -116,7 +108,7 @@ class PixelFont:
         for x in range(self.surface.get_width()):
             if self.surface.get_at((x, 0))[0] == 127:
                 # cut out / is end of previous character
-                self._chars[self.CHAR_ORDER[c_count]] = clip(
+                self._chars[self.CHAR_ORDER[c_count]] = utils.clip(
                     self.surface, x - c_width, 0, c_width, self.surface.get_height()
                 )
                 c_width = 0
@@ -137,7 +129,7 @@ class PixelFont:
 
     def palette_swap(self, old_c, new_c):
         """Palette swap function"""
-        self.surface = palette_swap(self.surface, old_c, new_c)
+        self.surface = utils.palette_swap(self.surface, old_c, new_c)
         self.load_sprites()
 
     def alter_palette(self, function):

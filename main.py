@@ -1,5 +1,6 @@
 import os
 import sys
+import platform
 
 # TODO - figure out what to do when I compile this program (because that'll be quite a problem)
 if not os.environ.get("PYTHONHASHSEED"):

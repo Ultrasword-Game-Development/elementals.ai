@@ -11,10 +11,11 @@ from engine import singleton
 
 from engine.handler import signal
 
+from engine.ui import ui
+
 from engine.graphics import gl
 from engine.graphics import animation
 from engine.graphics import spritesheet
-
 
 # ---------------------------- #
 # create a window
@@ -34,11 +35,17 @@ gl.GLContext.create_context()
 # ---------------------------- #
 # editor UI loadup
 
+ui.start_ui()
 
+# editor window
 
+base_window = ui.UIObject(0, 0, padding=2)
+base_window.set_background_color(utils.hex_to_rgb('002266'))
 
+side_window = ui.UIObject(0, 0, h=0.8, padding=5, parent=base_window)
+side_window.set_background_color(utils.hex_to_rgb('004488'))
 
-
+ui.add_ui_object(base_window, side_window)
 
 # ---------------------------- #
 
@@ -54,7 +61,9 @@ while singleton.RUNNING:
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
 
     # print(io.get_mouse_rel())
-
+    
+    ui.update_ui_items()
+    ui.render_ui_items(singleton.FRAMEBUFFER)
     
 
     # ---------------------------- #
