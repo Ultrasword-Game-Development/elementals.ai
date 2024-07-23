@@ -1,0 +1,6 @@
+dill==0.3.8
+glcontext==2.5.0
+moderngl==5.10.0
+numpy==2.0.1
+opensimplex==0.4.5.1
+pygame-ce==2.5.0
