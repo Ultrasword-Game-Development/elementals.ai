@@ -2,9 +2,6 @@ import pygame
 
 from engine import singleton
 
-from OpenGL import GL
-
-
 # ---------------------------- #
 # utils
 
@@ -90,8 +87,6 @@ class ShaderProgram:
     
     def load_quad_vertexarray(self, name: str, program=None, buffer: list = None, *args, **kwargs):
         """ Create a quad buffer """
-
-        print(self._path, self._vertex_arrays)
         if not program:
             if name not in self._vertex_arrays:
                 raise ValueError(f"Shader Program of name : `{name}` not found")
