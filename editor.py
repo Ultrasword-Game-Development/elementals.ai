@@ -72,7 +72,6 @@ while singleton.RUNNING:
     ui.update_ui_items()
     ui.render_ui_items(singleton.FRAMEBUFFER)
     
-
     # ---------------------------- #
     # final rendering
     gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, {

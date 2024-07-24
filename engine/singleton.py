@@ -69,6 +69,7 @@ def system_update_function():
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             RUNNING = False
+            CONTEXT.release()
             pygame.quit()
             sys.exit()
         elif e.type == pygame.KEYDOWN:

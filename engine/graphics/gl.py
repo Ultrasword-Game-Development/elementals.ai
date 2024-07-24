@@ -78,11 +78,8 @@ class GLContext:
         singleton.FULL_QUAD_BUFFER = singleton.CONTEXT.buffer(data=array('f', DEFAULT_QUAD_BUFFER))
 
         # create the framebuffer render object
-        cls.FRAMEBUFFER_SHADER = shader.ShaderProgram(singleton.DEFAULT_SHADER)
-        cls.FRAMEBUFFER_SHADER.create()
-
-        cls.SCREEN_SHADER = shader.ShaderProgram(singleton.DEFAULT_SCREEN_SHADER)
-        cls.SCREEN_SHADER.create()
+        cls.FRAMEBUFFER_SHADER = shader.load_shader(singleton.DEFAULT_SHADER)
+        cls.SCREEN_SHADER = shader.load_shader(singleton.DEFAULT_SCREEN_SHADER)
 
         cls.FRAMEBUFFER_RENDER_OBJECT = singleton.CONTEXT.vertex_array(cls.FRAMEBUFFER_SHADER._program, [
                 (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
@@ -94,10 +91,11 @@ class GLContext:
     def render_to_opengl_window(cls, sprite: pygame.Surface, variables: dict = {}, _shader: str = None):
         """ Render a sprite to the opengl window """
         a_shader = cls.FRAMEBUFFER_SHADER if _shader is None else shader.load_shader(_shader)
+        a_shader.use()
         tex = surface_to_texture(sprite)
         tex.use(0)
         for key, value in variables.items():
-            a_shader._program[key] = value
+            a_shader[key] = value
         cls.FRAMEBUFFER_RENDER_OBJECT.render(mode=moderngl.TRIANGLE_STRIP)
         tex.release()
     

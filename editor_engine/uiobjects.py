@@ -3,8 +3,12 @@ import pygame
 
 from engine import io
 from engine import utils
+from engine import singleton
 
 from engine.ui import ui
+
+from engine.graphics import shader
+
 
 # ---------------------------- #
 # 
@@ -34,6 +38,8 @@ class SpriteSelect(ui.UIObject):
 # color picker / selector
 
 class ColorPicker(ui.ExternalUIObject):
+    DEFAULT_COLORPICKTER_SHADER = "assets/shaders/color-picker.glsl"
+    
     """
     the actual colorpicker object is a small 8x8 icon
     - drawn onto the framebuffer
@@ -55,6 +61,15 @@ class ColorPicker(ui.ExternalUIObject):
 
         self._color_picker = pygame.Surface((self._screen_area[0] - self._padding, self._screen_area[1] - self._padding), 0, 16).convert_alpha()
         self._color_picker.fill(self._color)
+        
+        # create an opengl framebuffer
+        self._rgb_surface = pygame.Surface((256, 256), 0, 16).convert_alpha()
+        self._renderbuffer = singleton.CONTEXT.renderbuffer(self._rgb_surface.get_size(), components=4, samples=0)        
+        self._gl_framebuffer = singleton.CONTEXT.framebuffer([self._renderbuffer], None)
+        
+        # load up shader + quad
+        self._color_shader = shader.load_shader(self.DEFAULT_COLORPICKTER_SHADER)
+        self._color_render_quad = singleton.FULL_QUAD_BUFFER
     
     def render(self, surface: pygame.Surface):
         """ Render the object """
@@ -62,8 +77,27 @@ class ColorPicker(ui.ExternalUIObject):
 
     def update(self):
         """ Update the object """
-        # check if mouse clicked
+        # handle stuff if mouse clicked
+
+        # have to use self.color_selector = (r, g, b, a) to update the color        
         pass
+    
+    @property
+    def color_selection(self):
+        """ Get the color selection """
+        return self._color
+
+    @color_selection.setter
+    def color_selection(self, new: tuple):
+        """ Set the new color sleection """
+        if len(new) != 4: raise ValueError("Color must be a 4-tuple (255, 255, 255, 255)")
+        self._color = new
+        
+        # render new color selector
+        
+        self._color_shader["color"] = self.color_selection[0:3]
+        
+        
 
 
 

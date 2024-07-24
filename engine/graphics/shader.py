@@ -2,6 +2,9 @@ import pygame
 
 from engine import singleton
 
+from OpenGL import GL
+
+
 # ---------------------------- #
 # utils
 
@@ -35,11 +38,11 @@ TYPE_MAPPING = {
 }
 
 
-def load_shader(path: str, config: list = []):
+def load_shader(path: str):
     """ Loads a shader to the cache """
     if path in SHADER_CACHE:
         return SHADER_CACHE[path]
-    shader = ShaderProgram(path, config)
+    shader = ShaderProgram(path)
     shader.create()
     SHADER_CACHE[path] = shader
     return shader
@@ -50,10 +53,9 @@ def load_shader(path: str, config: list = []):
 class ShaderProgram:
     """ Only Supports Framgent+Vertex Simple Shaders """
 
-    def __init__(self, path: str, config: list = []):
+    def __init__(self, path: str):
         """ Create a new shader """
         self._path = path
-        self._config = config
 
         self._shaders = []
         self._program = None
@@ -84,6 +86,17 @@ class ShaderProgram:
                     vertex_shader = self._shaders[0][SHADER_CODE],
                     fragment_shader = self._shaders[1][SHADER_CODE])
 
-
+    def use(self):
+        """ Use the shader """
+        print(self._program)
+        GL.glUseProgram(self._program)
+    
+    def __getitem__(self, key):
+        """ Get an item """
+        return self._program[key]
+    
+    def __setitem__(self, key, value):
+        """ Set an item """
+        self._program[key] = value
 
 

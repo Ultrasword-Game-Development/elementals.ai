@@ -259,15 +259,15 @@ class ExternalUIObject(UIObject):
     
     def is_left_clicked_screen(self):
         """ Check if the left mouse button is clicked """
-        return self.is_hovering_screen and io.is_left_clicked()
+        return self.is_hovering_screen() and io.is_left_clicked()
     
     def is_right_clicked_screen(self):
         """ Check if the right mouse button is clicked """
-        return self.is_hovering_screen and io.is_right_clicked()
+        return self.is_hovering_screen() and io.is_right_clicked()
     
     def is_dragged_screen(self):
         """ Check if the object is being dragged """
-        return self.is_hovering_screen and tuple(io.get_mouse_rel()) != (0, 0)
+        return self.is_hovering_screen() and tuple(io.get_mouse_rel()) != (0, 0)
     
     def get_clicked_relative_pos_screen(self, click_pos: tuple):
         """ Get relative position of a mouse click """
@@ -321,6 +321,8 @@ def add_ui_object(*args):
 def update_ui_items():
     """ Update all UI items """
     for item in GLOBAL_UI_CHACHE:
+        item.update()
+    for item in GLOBAL_UI_SCREEN_CACHE:
         item.update()
     
 def render_ui_items(surface: pygame.Surface):
