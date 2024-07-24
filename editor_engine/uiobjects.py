@@ -67,6 +67,3 @@ class ColorPicker(ui.ExternalUIObject):
 
 
 
-
-
-

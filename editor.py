@@ -87,8 +87,6 @@ while singleton.RUNNING:
         "tex": 0,
         "time": singleton.ACTIVE_TIME    
     }, _shader=singleton.DEFAULT_SCREEN_SHADER)
-    # singleton.WINDOW.blit(pygame.transform.scale(singleton.FRAMEBUFFER, singleton.WIN_SIZE), (0, 0))
-
 
     pygame.display.flip()
 
