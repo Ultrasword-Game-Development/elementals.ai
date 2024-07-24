@@ -44,6 +44,9 @@ ATTRIBUTES = []
 CONTEXT = None
 FULL_QUAD_BUFFER = None
 
+FRAMEBUFFER_SHADER_QUAD = "fb_shader_quad"
+SCREEN_SHADER_QUAD = "screen_shader_quad"
+
 DEFAULT_SHADER = "assets/shaders/default.glsl"
 DEFAULT_SCREEN_SHADER = "assets/shaders/defaultscreen.glsl"
 

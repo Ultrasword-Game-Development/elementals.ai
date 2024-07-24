@@ -59,6 +59,8 @@ class ShaderProgram:
 
         self._shaders = []
         self._program = None
+        
+        self._vertex_arrays = {}
 
     def create(self):
         """ Create the shader program """
@@ -85,12 +87,19 @@ class ShaderProgram:
         self._program = singleton.CONTEXT.program(
                     vertex_shader = self._shaders[0][SHADER_CODE],
                     fragment_shader = self._shaders[1][SHADER_CODE])
-
-    def use(self):
-        """ Use the shader """
-        print(self._program)
-        GL.glUseProgram(self._program)
     
+    def load_quad_vertexarray(self, name: str, program=None, buffer: list = None, *args, **kwargs):
+        """ Create a quad buffer """
+
+        print(self._path, self._vertex_arrays)
+        if not program:
+            if name not in self._vertex_arrays:
+                raise ValueError(f"Shader Program of name : `{name}` not found")
+            return self._vertex_arrays[name]
+        vao = singleton.CONTEXT.vertex_array(program, buffer, *args, **kwargs)
+        self._vertex_arrays[name] = vao
+        return self._vertex_arrays[name]
+
     def __getitem__(self, key):
         """ Get an item """
         return self._program[key]
