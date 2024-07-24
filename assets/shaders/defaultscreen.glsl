@@ -5,6 +5,8 @@ in vec2 vert;
 in vec2 texcoord;
 out vec2 uvs;
 
+uniform float time;
+
 void main(){
     uvs = texcoord;
     gl_Position = vec4(vert, 0.0, 1.0);
@@ -22,8 +24,8 @@ out vec4 color;
 void main(){
     time;
     
-    // vec2 spos = vec2(uvs.x + sin(uvs.y * 10 + time) * 0.1, uvs.y);
-    vec2 spos = uvs;
+    vec2 spos = vec2(uvs.x + sin(uvs.y * 10 + time) * 0.1, uvs.y);
+    // vec2 spos = uvs;
     
     // discard invisible pixels 
     if (texture(tex, spos).w == 0.0) discard;

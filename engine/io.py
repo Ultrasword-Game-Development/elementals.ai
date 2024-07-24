@@ -2,6 +2,9 @@ import pygame
 import json
 import os
 
+from engine import utils
+from engine import singleton
+
 # ---------------------------- #
 # caches
 
@@ -88,3 +91,13 @@ def is_right_clicked():
 def is_scroll_clicked():
     """ Check if the scroll wheel is clicked """
     return get_mouse_pressed()[1]
+
+def get_abs_mouse_pos():
+    """ Get the mouse position """
+    return pygame.mouse.get_pos()
+
+def get_framebuffer_mouse_pos():
+    """ Get the mouse position """
+    return utils.mouse_surface_to_framebuffer_pos_int(pygame.mouse.get_pos(), singleton.FB_SIZE, singleton.WIN_SIZE)
+
+

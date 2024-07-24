@@ -17,6 +17,8 @@ from engine.graphics import gl
 from engine.graphics import animation
 from engine.graphics import spritesheet
 
+from editor_engine import uiobjects
+
 # ---------------------------- #
 # create a window
 
@@ -37,15 +39,20 @@ gl.GLContext.create_context()
 
 ui.start_ui()
 
-# editor window
-
 base_window = ui.UIObject(0, 0, padding=2)
-base_window.set_background_color(utils.hex_to_rgb('002266'))
+base_window.set_background_color(utils.hex_to_rgb('00233A'))
 
-side_window = ui.UIObject(0, 0, h=0.8, padding=5, parent=base_window)
-side_window.set_background_color(utils.hex_to_rgb('004488'))
+editor_window = uiobjects.Editor(0, 0, w = 0.8, h=1.0, padding=1, parent=base_window)
+editor_window.set_background_color(utils.hex_to_rgb('033454'))
 
-ui.add_ui_object(base_window, side_window)
+sprite_select_window = uiobjects.SpriteSelect(0.8, 0, w = 0.2, h=1.0, padding=[0, 1, 1, 1], parent=base_window)
+sprite_select_window.set_background_color(utils.hex_to_rgb('#1F618D'))
+
+ui.add_ui_object(base_window, editor_window, sprite_select_window)
+
+
+color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=1, parent=editor_window)
+ui.add_ui_object(color_picker)
 
 # ---------------------------- #
 
@@ -68,16 +75,22 @@ while singleton.RUNNING:
 
     # ---------------------------- #
     # final rendering
-    ftex = gl.surface_to_texture(singleton.FRAMEBUFFER)
-    ftex.use(0)
-    gl.GLContext.FRAMEBUFFER_SHADER._program['tex'] = 0
-    gl.GLContext.FRAMEBUFFER_SHADER._program['time'] = singleton.ACTIVE_TIME
-    gl.GLContext.FRAMEBUFFER_RENDER_OBJECT.render(mode=moderngl.TRIANGLE_STRIP)
+    gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, {
+        "tex": 0,
+        "time": singleton.ACTIVE_TIME
+    })
 
+    # ---------------------------- #
+    # render screen items
+    ui.render_screen_ui_items(singleton.SCREENBUFFER)
+    gl.GLContext.render_to_opengl_window(singleton.SCREENBUFFER, {
+        "tex": 0,
+        "time": singleton.ACTIVE_TIME    
+    }, _shader=singleton.DEFAULT_SCREEN_SHADER)
     # singleton.WINDOW.blit(pygame.transform.scale(singleton.FRAMEBUFFER, singleton.WIN_SIZE), (0, 0))
 
+
     pygame.display.flip()
-    ftex.release()
 
     # ---------------------------- #
     # update events

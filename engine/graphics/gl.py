@@ -39,8 +39,12 @@ class GLContext:
     # ---------------------------- #
     # items
 
+    SCREEN_SHADER = None
     FRAMEBUFFER_SHADER = None
     FRAMEBUFFER_RENDER_OBJECT = None
+
+    ACTIVE_SPRITES = {}
+    _SPRITE_COUNTER = 0
 
     # ---------------------------- #
     # init
@@ -63,6 +67,11 @@ class GLContext:
         # create pygame window
         singleton.WINDOW = pygame.display.set_mode(singleton.WIN_SIZE, singleton.WIN_FLAGS, singleton.WIN_DEPTH, 0, 0)
         singleton.FRAMEBUFFER = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
+        singleton.SCREENBUFFER = pygame.Surface(singleton.WIN_SIZE, 0, 16).convert_alpha()
+
+        # empty the surfaces
+        singleton.FRAMEBUFFER.fill((0, 0, 0, 0))
+        singleton.SCREENBUFFER.fill((0, 0, 0, 0))
 
         # create the screen quad buffer
         singleton.CONTEXT = moderngl.create_context()
@@ -72,11 +81,29 @@ class GLContext:
         cls.FRAMEBUFFER_SHADER = shader.ShaderProgram(singleton.DEFAULT_SHADER)
         cls.FRAMEBUFFER_SHADER.create()
 
+        cls.SCREEN_SHADER = shader.ShaderProgram(singleton.DEFAULT_SCREEN_SHADER)
+        cls.SCREEN_SHADER.create()
+
         cls.FRAMEBUFFER_RENDER_OBJECT = singleton.CONTEXT.vertex_array(cls.FRAMEBUFFER_SHADER._program, [
                 (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
         ])
 
         return moderngl.create_context()
-
-
+    
+    @classmethod
+    def render_to_opengl_window(cls, sprite: pygame.Surface, variables: dict = {}, _shader: str = None):
+        """ Render a sprite to the opengl window """
+        a_shader = cls.FRAMEBUFFER_SHADER if _shader is None else shader.load_shader(_shader)
+        tex = surface_to_texture(sprite)
+        tex.use(0)
+        for key, value in variables.items():
+            a_shader._program[key] = value
+        cls.FRAMEBUFFER_RENDER_OBJECT.render(mode=moderngl.TRIANGLE_STRIP)
+        tex.release()
+    
+    @classmethod
+    def register_sprite(cls, name: str, sprite: pygame.Surface):
+        """ Register a sprite to the active sprites """
+        cls.ACTIVE_SPRITES[name] = (sprite, cls._SPRITE_COUNTER)
+        cls._SPRITE_COUNTER += 1
 

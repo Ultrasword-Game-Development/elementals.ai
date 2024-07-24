@@ -29,6 +29,7 @@ FB_SIZE = [WIN_SIZE[0] // FB_FACTOR, WIN_SIZE[1] // FB_FACTOR]
 
 WINDOW = None
 FRAMEBUFFER = None
+SCREENBUFFER = None
 
 # ---------------------------- #
 
@@ -44,6 +45,7 @@ CONTEXT = None
 FULL_QUAD_BUFFER = None
 
 DEFAULT_SHADER = "assets/shaders/default.glsl"
+DEFAULT_SCREEN_SHADER = "assets/shaders/defaultscreen.glsl"
 
 # ---------------------------- #
 
