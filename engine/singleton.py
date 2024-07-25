@@ -69,6 +69,7 @@ ANIMATION_DELTA = 1 / ANIMATION_FRAMERATE
 
 def system_update_function():
     """ Update the system """
+    global RUNNING
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             RUNNING = False

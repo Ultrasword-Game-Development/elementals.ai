@@ -5,7 +5,11 @@ import platform
 # TODO - figure out what to do when I compile this program (because that'll be quite a problem)
 if not os.environ.get("PYTHONHASHSEED"):
     os.environ["PYTHONHASHSEED"] = "13"
-    os.execv(sys.executable, ['python'] + sys.argv)
+    
+    import subprocess
+    subprocess.run([sys.executable] + sys.argv)
+    sys.exit()
+    # os.execv(sys.executable, ['python'] + sys.argv)
 
 import dill
 import time
@@ -122,5 +126,6 @@ while singleton.RUNNING:
     # update statistics
     singleton.FRAME_COUNTER += 1
     singleton.ACTIVE_TIME += singleton.DELTA_TIME
+
 
 # ---------------------------- #
