@@ -22,10 +22,12 @@ from engine import utils
 from engine import singleton
 
 from engine.handler import signal
+from engine.handler import world
 
 from engine.graphics import gl
 from engine.graphics import animation
 from engine.graphics import spritesheet
+
 
 # ---------------------------- #
 # create a window
@@ -45,19 +47,13 @@ gl.GLContext.create_context()
 # ---------------------------- #
 # testing
 
-class World:
-    def __init__(self):
-        pass
 
 world_save = "assets/level/level.save"
 
 with open(world_save, 'rb') as f:
     w = dill.load(f)
 
-
-# signal testing
-
-# w = World()
+# w = world.World()
 # w.t_signal = signal.Signal("Test Signal")
 # w.t_emitter = w.t_signal.get_unique_emitter()
 # w.t_signal.add_emitter_handling_function(lambda data: print(data))
@@ -71,7 +67,6 @@ with open(world_save, 'rb') as f:
 # with open(world_save, 'wb') as f:
 #     dill.dump(w, f)
 
-image = io.load_image('assets/sprites/icons/player-big.png')
 
 
 # ---------------------------- #
@@ -96,7 +91,6 @@ while singleton.RUNNING:
     w.p_ani_reg.update()
     singleton.FRAMEBUFFER.blit(w.p_ani_reg.sprite, (100, 90))
 
-    singleton.FRAMEBUFFER.blit(image, (200, 100))
     for x in range(len(w.ssheet)):
         singleton.FRAMEBUFFER.blit(w.ssheet[x], (x * 10, 30))
 

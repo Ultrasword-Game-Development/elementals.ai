@@ -22,9 +22,17 @@ from engine.graphics import shader
 
 class Editor(ui.Frame):
     
+    def __post_init__(self):
+        """ Post init function """
+        super().__post_init__()
+        self._camera_pos = (0, 0)
+        
     def render(self, surface: pygame.Surface):
         """ Render the object """
-
+        # render onto the frame
+        
+        # render grid lines
+        
         super().render(surface)
 
 # ---------------------------- #

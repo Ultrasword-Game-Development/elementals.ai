@@ -53,10 +53,10 @@ sprite_select_window.set_background_color(utils.hex_to_rgb('#1F618D'))
 ui.add_ui_object(base_window, editor_window, sprite_select_window)
 
 
-color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=10, parent=editor_window)
-ui.add_ui_object(color_picker)
+# color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=10, parent=editor_window)
+# ui.add_ui_object(color_picker)
 
-color_picker.color_selection = utils.normalize_rgb((255, 0, 0, 255))
+# color_picker.color_selection = utils.normalize_rgb((255, 0, 0, 255))
 
 # ---------------------------- #
 

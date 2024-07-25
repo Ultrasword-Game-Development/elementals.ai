@@ -298,7 +298,6 @@ class Frame(UIObject):
 
 
 
-
 # ---------------------------- #
 # ui functions
 

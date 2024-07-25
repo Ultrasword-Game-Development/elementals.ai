@@ -51,18 +51,28 @@ DEFAULT_SHADER = "assets/shaders/default.glsl"
 DEFAULT_SCREEN_SHADER = "assets/shaders/defaultscreen.glsl"
 
 # ---------------------------- #
+# time
 
 DELTA_TIME = 0
 START_TIME = 0
 END_TIME = 0
 
 # ---------------------------- #
+# animation
 
 ANIMATION_FRAMERATE = 8
 ANIMATION_DELTA = 1 / ANIMATION_FRAMERATE
 
+# ---------------------------- #
+# world
 
+DEFAULT_CHUNK_WIDTH = 8
+DEFAULT_CHUNK_HEIGHT = 8
 
+DEFAULT_TILE_WIDTH = 16
+DEFAULT_TILE_HEIGHT = 16
+
+DEFAULT_LAYER_COUNT = 8
 
 # ---------------------------- #
 # util functions
