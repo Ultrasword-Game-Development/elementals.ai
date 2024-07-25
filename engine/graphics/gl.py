@@ -41,6 +41,8 @@ class GLContext:
 
     SCREEN_SHADER = None
     FRAMEBUFFER_SHADER = None
+
+    SCREEN_RENDER_OBJECT = None
     FRAMEBUFFER_RENDER_OBJECT = None
 
     ACTIVE_SPRITES = {}
@@ -81,22 +83,24 @@ class GLContext:
         cls.FRAMEBUFFER_SHADER = shader.load_shader(singleton.DEFAULT_SHADER)
         cls.SCREEN_SHADER = shader.load_shader(singleton.DEFAULT_SCREEN_SHADER)
 
-        cls.FRAMEBUFFER_RENDER_OBJECT = singleton.CONTEXT.vertex_array(cls.FRAMEBUFFER_SHADER._program, [
+        cls.FRAMEBUFFER_RENDER_OBJECT = cls.FRAMEBUFFER_SHADER.load_quad_vertexarray(singleton.FRAMEBUFFER_SHADER_QUAD, cls.FRAMEBUFFER_SHADER._program, [
+                (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
+        ])
+        cls.SCREEN_RENDER_OBJECT = cls.SCREEN_SHADER.load_quad_vertexarray(singleton.SCREEN_SHADER_QUAD, cls.SCREEN_SHADER._program, [
                 (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
         ])
 
         return moderngl.create_context()
     
     @classmethod
-    def render_to_opengl_window(cls, sprite: pygame.Surface, variables: dict = {}, _shader: str = None):
+    def render_to_opengl_window(cls, sprite: pygame.Surface, _shader: str, _vao: str, variables: dict = {}):
         """ Render a sprite to the opengl window """
-        a_shader = cls.FRAMEBUFFER_SHADER if _shader is None else shader.load_shader(_shader)
-        a_shader.use()
+        a_shader = shader.load_shader(_shader)
         tex = surface_to_texture(sprite)
         tex.use(0)
         for key, value in variables.items():
             a_shader[key] = value
-        cls.FRAMEBUFFER_RENDER_OBJECT.render(mode=moderngl.TRIANGLE_STRIP)
+        a_shader.load_quad_vertexarray(_vao).render(mode=moderngl.TRIANGLE_STRIP)
         tex.release()
     
     @classmethod

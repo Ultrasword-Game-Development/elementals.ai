@@ -74,7 +74,7 @@ while singleton.RUNNING:
     
     # ---------------------------- #
     # final rendering
-    gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, {
+    gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
         "tex": 0,
         "time": singleton.ACTIVE_TIME
     })
@@ -82,10 +82,10 @@ while singleton.RUNNING:
     # ---------------------------- #
     # render screen items
     ui.render_screen_ui_items(singleton.SCREENBUFFER)
-    gl.GLContext.render_to_opengl_window(singleton.SCREENBUFFER, {
+    gl.GLContext.render_to_opengl_window(singleton.SCREENBUFFER, singleton.DEFAULT_SCREEN_SHADER, singleton.SCREEN_SHADER_QUAD, {
         "tex": 0,
         "time": singleton.ACTIVE_TIME    
-    }, _shader=singleton.DEFAULT_SCREEN_SHADER)
+    })
 
     pygame.display.flip()
 
