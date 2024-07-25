@@ -13,24 +13,31 @@ void main(){
 ===f
 #version 330 core
 
-// Input from the vertex shader
 in vec2 uvs;
+uniform vec4 color;
 
-// Output color
-out vec4 fragColor;
+out vec4 fcolor;
 
-// Uniform color variable
-uniform vec3 color;
+uniform float time;
 
 void main()
 {
-    vec3 white = vec3(1.0, 1.0, 1.0);
-    vec3 black = vec3(0.0, 0.0, 0.0);
+    time;
+    vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
+    vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
 
-    // interpolate between topleft, topright based on x coords
-    vec3 topColor = mix(white, color, uvs.x);
-    vec3 finalColor = mix(topColor, black, uvs.y);    
+    // // interpolate between topleft, topright based on x coords
+    // vec4 brightness = mix(white, black, uvs.y);
+    // vec4 sideColor = mix(black, color, uvs.x);
 
-    // Set the fragment color
-    fragColor = vec4(finalColor, 1.0);
+    // // Set the fragment color
+    // fcolor = ;
+        // Interpolate between white and the specified color based on the x-coordinate
+    vec4 topColor = mix(white, color, uvs.x);
+
+    // Interpolate between the top color and black based on the y-coordinate
+    vec4 finalColor = mix(black, topColor, uvs.y);
+
+    fcolor = finalColor;
+    
 }

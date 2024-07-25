@@ -17,7 +17,7 @@ DEFAULT_QUAD_BUFFER = [
 ]
 
 DEFAULT_CONVERSION_CONFIG = {
-    'bit_depth': 4,
+    'color_channels': 4,
     'filter': (moderngl.NEAREST, moderngl.NEAREST),
     'swizzle': 'BGRA', # pygame formatting is weird
 }
@@ -25,7 +25,7 @@ DEFAULT_CONVERSION_CONFIG = {
 
 def surface_to_texture(surface, config: dict = DEFAULT_CONVERSION_CONFIG):
     """ Convert a pygame surface to a moderngl texture """
-    tex = singleton.CONTEXT.texture(surface.get_size(), config['bit_depth'])
+    tex = singleton.CONTEXT.texture(surface.get_size(), config['color_channels'])
     tex.filter = config['filter']
     tex.swizzle = config['swizzle']
     tex.write(surface.get_view('1'))
@@ -83,18 +83,22 @@ class GLContext:
         cls.FRAMEBUFFER_SHADER = shader.load_shader(singleton.DEFAULT_SHADER)
         cls.SCREEN_SHADER = shader.load_shader(singleton.DEFAULT_SCREEN_SHADER)
 
-        cls.FRAMEBUFFER_RENDER_OBJECT = cls.FRAMEBUFFER_SHADER.load_quad_vertexarray(singleton.FRAMEBUFFER_SHADER_QUAD, cls.FRAMEBUFFER_SHADER._program, [
+        cls.FRAMEBUFFER_RENDER_OBJECT = cls.FRAMEBUFFER_SHADER.load_quad_vertexarray(singleton.FRAMEBUFFER_SHADER_QUAD, [
                 (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
         ])
-        cls.SCREEN_RENDER_OBJECT = cls.SCREEN_SHADER.load_quad_vertexarray(singleton.SCREEN_SHADER_QUAD, cls.SCREEN_SHADER._program, [
+        cls.SCREEN_RENDER_OBJECT = cls.SCREEN_SHADER.load_quad_vertexarray(singleton.SCREEN_SHADER_QUAD, [
                 (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
         ])
+
+        # debug output
+        print("Using OpenGL version:", singleton.CONTEXT.version_code)
 
         return moderngl.create_context()
     
     @classmethod
     def render_to_opengl_window(cls, sprite: pygame.Surface, _shader: str, _vao: str, variables: dict = {}):
         """ Render a sprite to the opengl window """
+        singleton.CONTEXT.screen.use()
         a_shader = shader.load_shader(_shader)
         tex = surface_to_texture(sprite)
         tex.use(0)
@@ -102,6 +106,20 @@ class GLContext:
             a_shader[key] = value
         a_shader.load_quad_vertexarray(_vao).render(mode=moderngl.TRIANGLE_STRIP)
         tex.release()
+    
+    @classmethod
+    def render_to_framebuffer(cls, framebuffer, _shader: str, _vao: str, variables: dict = {}, work_group_size: tuple = (8, 8, 8)):
+        """ Render to a framebuffer - compute shader only """
+        a_shader = shader.load_shader(_shader)
+        for key, value in variables.items():
+            a_shader[key] = value
+        
+        # work groups :)
+        nx, ny, nz = a_shader.get_size()[0] // work_group_size[0], a_shader.get_size()[1] // work_group_size[1], 1
+        framebuffer.bind_to_image(0, read=False, write=True)
+        
+        a_shader.run(nx, ny, nz)
+
     
     @classmethod
     def register_sprite(cls, name: str, sprite: pygame.Surface):

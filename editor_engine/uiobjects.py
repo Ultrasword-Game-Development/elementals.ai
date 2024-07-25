@@ -1,12 +1,15 @@
 
 import pygame
 
+from array import array
+
 from engine import io
 from engine import utils
 from engine import singleton
 
 from engine.ui import ui
 
+from engine.graphics import gl
 from engine.graphics import shader
 
 
@@ -38,7 +41,8 @@ class SpriteSelect(ui.UIObject):
 # color picker / selector
 
 class ColorPicker(ui.ExternalUIObject):
-    DEFAULT_COLORPICKTER_SHADER = "assets/shaders/color-picker.glsl"
+    DEFAULT_COLORPICKER_SHADER = "assets/shaders/color-picker.glsl"
+    DEFAULT_COLORPICKER_VAO = "color_picker_quad"
     
     """
     the actual colorpicker object is a small 8x8 icon
@@ -64,16 +68,29 @@ class ColorPicker(ui.ExternalUIObject):
         
         # create an opengl framebuffer
         self._rgb_surface = pygame.Surface((256, 256), 0, 16).convert_alpha()
-        self._renderbuffer = singleton.CONTEXT.renderbuffer(self._rgb_surface.get_size(), components=4, samples=0)        
-        self._gl_framebuffer = singleton.CONTEXT.framebuffer([self._renderbuffer], None)
-        
+        self._rgb_texture = singleton.CONTEXT.texture(self._rgb_surface.get_size(), 4)
+        self._rgb_texture.filter = (gl.moderngl.LINEAR, gl.moderngl.LINEAR)
+
+        self._framebuffer = singleton.CONTEXT.framebuffer(color_attachments=[self._rgb_texture])
+
         # load up shader + quad
-        self._color_shader = shader.load_shader(self.DEFAULT_COLORPICKTER_SHADER)
-        self._color_render_quad = singleton.FULL_QUAD_BUFFER
+        self._color_shader = shader.load_shader(self.DEFAULT_COLORPICKER_SHADER)
+        self._color_render_quad = self._color_shader.load_quad_vertexarray(self.DEFAULT_COLORPICKER_VAO, [
+            (singleton.CONTEXT.buffer(
+                data=array('f', [
+                    # position (x, y), uv coords (x, y)
+                    1.0, -1.0, 1.0, 1.0,  # bottomright
+                    -1.0, -1.0, 0.0, 1.0, # bottomleft (but not rly)
+                    1.0, 1.0, 1.0, 0.0,   # topright (but not rly)
+                    -1.0, 1.0, 0.0, 0.0,  # topleft
+                ])
+            ), '2f 2f', 'vert', 'texcoord')
+        ])
     
     def render(self, surface: pygame.Surface):
         """ Render the object """
-        pygame.draw.rect(surface, (255, 255, 255), self.get_screen_ui_rect())
+        # pygame.draw.rect(surface, (255, 255, 255), self.get_screen_ui_rect())
+        surface.blit(self._rgb_surface, self.get_screen_ui_rect())
 
     def update(self):
         """ Update the object """
@@ -94,8 +111,21 @@ class ColorPicker(ui.ExternalUIObject):
         self._color = new
         
         # render new color selector
+        self._framebuffer.use()
+        self._framebuffer.clear()
+        self._rgb_texture.use(0)
+
+        self._color_shader["color"] = self.color_selection
+        self._color_shader["time"] = singleton.ACTIVE_TIME
+        self._color_render_quad.render(mode=gl.moderngl.TRIANGLE_STRIP)
+
+        # ´extract framebuffer data to surface
+        data = self._framebuffer.read(viewport=self._rgb_surface.get_size(), components=4)
         
-        self._color_shader["color"] = self.color_selection[0:3]
+        # create pygame surface
+        self._rgb_surface = pygame.image.fromstring(data, self._rgb_surface.get_size(), 'RGBA')
+
+        
         
         
 
