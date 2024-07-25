@@ -5,6 +5,8 @@ import pickle
 import moderngl
 import pygame
 
+import math
+
 from engine import io
 from engine import utils
 from engine import singleton
@@ -51,8 +53,10 @@ sprite_select_window.set_background_color(utils.hex_to_rgb('#1F618D'))
 ui.add_ui_object(base_window, editor_window, sprite_select_window)
 
 
-color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=1, parent=editor_window)
+color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=10, parent=editor_window)
 ui.add_ui_object(color_picker)
+
+color_picker.color_selection = utils.normalize_rgb((255, 0, 0, 255))
 
 # ---------------------------- #
 
@@ -73,7 +77,7 @@ while singleton.RUNNING:
     ui.render_ui_items(singleton.FRAMEBUFFER)
     
     # ---------------------------- #
-    # final rendering
+    # framebuffer rendering
     gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
         "tex": 0,
         "time": singleton.ACTIVE_TIME

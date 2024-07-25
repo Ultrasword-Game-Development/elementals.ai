@@ -35,15 +35,6 @@ TYPE_MAPPING = {
 }
 
 
-def load_shader(path: str):
-    """ Loads a shader to the cache """
-    if path in SHADER_CACHE:
-        return SHADER_CACHE[path]
-    shader = ShaderProgram(path)
-    shader.create()
-    SHADER_CACHE[path] = shader
-    return shader
-
 # ---------------------------- #
 # shader class
 
@@ -85,14 +76,11 @@ class ShaderProgram:
                     vertex_shader = self._shaders[0][SHADER_CODE],
                     fragment_shader = self._shaders[1][SHADER_CODE])
     
-    def load_quad_vertexarray(self, name: str, program=None, buffer: list = None, *args, **kwargs):
+    def load_quad_vertexarray(self, name: str, _buffer_config: list = None, *args, **kwargs):
         """ Create a quad buffer """
-        if not program:
-            if name not in self._vertex_arrays:
-                raise ValueError(f"Shader Program of name : `{name}` not found")
-            return self._vertex_arrays[name]
-        vao = singleton.CONTEXT.vertex_array(program, buffer, *args, **kwargs)
-        self._vertex_arrays[name] = vao
+        if name not in self._vertex_arrays:
+            vao = singleton.CONTEXT.vertex_array(self._program, _buffer_config, *args, **kwargs)
+            self._vertex_arrays[name] = vao
         return self._vertex_arrays[name]
 
     def __getitem__(self, key):
@@ -103,4 +91,40 @@ class ShaderProgram:
         """ Set an item """
         self._program[key] = value
 
+
+# ---------------------------- #
+# compute shader
+
+class ComputeShader(ShaderProgram):
+
+    """ CANNOT USE - opengl version 430 + """
+
+    def create(self):
+        """ Create the shader program """
+        with open(self._path, 'r') as f:
+            code = f.read().split('\n')
+        
+        # check if it is compute
+        if code[0] != CALL_COMPUTE:
+            raise ValueError("Compute Shader must start with ===c")
+        
+        # store code in a single string
+        shadercode = "\n".join(code[1:])
+        
+        # create the program
+        self._program = singleton.CONTEXT.compute_shader(source=shadercode)
+
+
+# ---------------------------- #
+# functions
+
+
+def load_shader(path: str, shadertype = ShaderProgram):
+    """ Loads a shader to the cache """
+    if path in SHADER_CACHE:
+        return SHADER_CACHE[path]
+    shader = shadertype(path)
+    shader.create()
+    SHADER_CACHE[path] = shader
+    return shader
 

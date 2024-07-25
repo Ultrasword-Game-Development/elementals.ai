@@ -24,8 +24,8 @@ out vec4 color;
 void main(){
     time;
     
-    vec2 spos = vec2(uvs.x + sin(uvs.y * 10 + time) * 0.1, uvs.y);
-    // vec2 spos = uvs;
+    // vec2 spos = vec2(uvs.x + sin(uvs.y * 10 + time) * 0.1, uvs.y);
+    vec2 spos = uvs;
     
     // discard invisible pixels 
     if (texture(tex, spos).w == 0.0) discard;

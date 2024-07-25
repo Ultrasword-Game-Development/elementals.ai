@@ -14,6 +14,9 @@ def rgb_to_hex(rgb: tuple):
 def hash_sha256(item):
     return hashlib.sha256(item)
 
+def normalize_rgb(color: tuple):
+    return tuple([c / 255 for c in color])
+
 # ---------------------------- #
 # surface
 
