@@ -26,10 +26,10 @@ class Entity:
         """ Update the entity """
         pass
 
-    def render(self, surface: pygame.Surface):
+    def render(self, surface: pygame.Surface, offset: tuple):
         """ Render the entity """
         if self.sprite:
-            surface.blit(self.sprite, self.position)
+            surface.blit(self.sprite, self.position - offset)
     
     def handle_death_signal(self, data: dict):
         """ Death function -- to be overriden """

@@ -24,6 +24,8 @@ class PhysicsHandler:
         """ Update the physics handler """
         for entity in self._entities.values():
             entity.update()
+            # render
+            entity.render(surface, offset)
             
     def add_entity(self, entity):
         """ Add an entity to the physics handler """

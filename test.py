@@ -40,25 +40,29 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
 singleton.DEBUG = True
+singleton.update_default_chunk_tile_config(8, 8, 16, 16)
 
 # ---------------------------- #
 # loading the world
 
-
 _w = world.World()
+_w.get_layer_at(0).set_chunk_at(world.Chunk(
+    (_w.get_camera_chunk())
+))
 
+_c = _w.get_layer_at(0).get_chunk_at(_w.get_camera_chunk())
 
-_c = world.Chunk((0, 0))
 
 _spritesheet = spritesheet.SpriteSheet("assets/sprites/player.json")
 
 # temp load a chunk up with a tile
-for i in range(8):
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     for j in range(2):
         _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
 
-for i in range(8):
-    _c.set_tile_at((i, 4), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
+
 
 
 # ---------------------------- #
@@ -74,7 +78,7 @@ while singleton.RUNNING:
     # ---------------------------- #
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
 
-    _c.update_and_render(singleton.FRAMEBUFFER, pygame.math.Vector2(0, 0))
+    _w.update_and_render(singleton.FRAMEBUFFER)
 
     singleton.FRAMEBUFFER.blit(_spritesheet.image, (100, 100))
     

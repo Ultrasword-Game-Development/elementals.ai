@@ -17,6 +17,7 @@ def hash_sha256(item):
 def normalize_rgb(color: tuple):
     return tuple([c / 255 for c in color])
 
+
 # ---------------------------- #
 # surface
 
