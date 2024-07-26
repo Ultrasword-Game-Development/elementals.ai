@@ -46,10 +46,18 @@ gl.GLContext.create_context()
 _w = world.World()
 _c = world.Chunk((0, 0))
 
-# temp load a chunk up with a tile
-_t = world.DefaultTile((0, 0), "assets/sprites/player.png")
-_c.set_tile_at((0, 0), _t)
+_spritesheet = spritesheet.SpriteSheet("assets/sprites/player.json")
 
+# temp load a chunk up with a tile
+for i in range(8):
+    for j in range(2):
+        _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
+
+for i in range(8):
+    _c.set_tile_at((i, 4), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
+
+
+print(io.IMAGES_CACHE)
 
 
 # ---------------------------- #
@@ -66,8 +74,12 @@ while singleton.RUNNING:
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
 
     _c.update_and_render(singleton.FRAMEBUFFER, pygame.math.Vector2(0, 0))
+
+    singleton.FRAMEBUFFER.blit(_spritesheet.image, (100, 100))
     
-    
+    # # render all sprites from the spritecache
+    # for i, sprite in enumerate(_c._sprite_cacher._cached_sprites.values()):
+    #     singleton.FRAMEBUFFER.blit(sprite, (20 * i, 50))
     
     # ---------------------------- #
     # render screen items

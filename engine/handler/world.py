@@ -104,11 +104,15 @@ class Chunk:
                     continue
                 # update logic
                 tile.update()
-                # render logic
+                # render logic -- custom render function
+
                 surface.blit(
                     self._sprite_cacher[tile._sprite_path], 
                     tile[CHUNK_TILE_PIXEL_COORD] - camera_offset + self._chunk_offset
                 )
+                pygame.draw.rect(surface, (255, 255, 255),
+                    pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - camera_offset + self._chunk_offset, 
+                                self._sprite_cacher[tile._sprite_path].get_size()), 1)
     
     # ---------------------------- #
     # utils

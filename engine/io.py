@@ -30,6 +30,13 @@ def load_image(path: str, convert: bool = True):
     return image
 
 
+def cache_image(path: str, image: pygame.Surface):
+    """ Cache an image """
+    if path in IMAGES_CACHE:
+        raise ValueError(f"Image at path: {path} already cached.")
+    IMAGES_CACHE[path] = image
+
+
 # ---------------------------- #
 # audio
 
@@ -99,10 +106,6 @@ def get_abs_mouse_pos():
 def get_framebuffer_mouse_pos():
     """ Get the mouse position """
     return utils.mouse_surface_to_framebuffer_pos_int(pygame.mouse.get_pos(), singleton.FB_SIZE, singleton.WIN_SIZE)
-
-
-
-
 
 
 

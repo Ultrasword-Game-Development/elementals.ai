@@ -60,11 +60,15 @@ class SpriteSheet:
             self._json = path
             self._load_json_config(path)
 
-        self.image =  io.load_image(self._path)
+        self.image = io.load_image(self._path)
         self.sprites = []
 
         # load sprites
         self._load_sprites()
+
+        # cache all the images
+        for index, image in enumerate(self.sprites):
+            io.cache_image(self.get_sprite_str_id(index), image)
 
     def _load_json_config(self, path: str):
         """ Load a json config file """
@@ -100,14 +104,24 @@ class SpriteSheet:
                 left += spacingx + width
             top += spacingy + height
         self.sprites = images
+    
+    def get_sprite_str_id(self, index: int):
+        """ Get the sprite uuid """
+        return self._path + "||" + str(index)
+
+    # ---------------------------- #
+    # utils
 
     def __getitem__(self, key: int):
+        """ Get the sprite """
         return self.sprites[key]
 
     def __iter__(self):
+        """ Iterate over the sprites """
         return iter(self.sprites)
     
     def __len__(self):
+        """ Get the number of sprites """
         return len(self.sprites)
 
     def __hash__(self):
