@@ -51,6 +51,9 @@ class Signal:
     def handle(self, blob: dict):
         """ Handle the signal """
         for ifunc in self._emitter_handling_functions:
+            # TODO - singleton debug output log
+            # blob[TIME]
+            # blob[PARENT]
             ifunc(blob[DATA])
     
     def add_data_requirement(self, key: str):

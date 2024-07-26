@@ -12,6 +12,7 @@ from engine import io
 # ---------------------------- #
 
 RUNNING = False
+DEBUG = False
 
 FPS = 60
 FRAME_COUNTER = 0
@@ -79,7 +80,8 @@ DEFAULT_LAYER_COUNT = 8
 
 def system_update_function():
     """ Update the system """
-    global RUNNING
+    global RUNNING, DEBUG
+    io.KEY_CLICKED.clear()
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             RUNNING = False
@@ -87,6 +89,7 @@ def system_update_function():
             pygame.quit()
             sys.exit()
         elif e.type == pygame.KEYDOWN:
+            io.KEY_CLICKED.add(e.key)
             io.KEY_HELD.add(e.key)
         elif e.type == pygame.KEYUP:
             io.KEY_HELD.remove(e.key)
@@ -98,3 +101,7 @@ def system_update_function():
             if e.button > 3:
                 continue
             io.MOUSE_PRESSED[e.button] = False
+    
+    # TODO - REMOVE THIS -- check if debug toggle
+    if io.get_key_clicked(pygame.K_d) and io.get_key_pressed(pygame.K_LSHIFT):
+        DEBUG = not DEBUG

@@ -39,11 +39,15 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PRO
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
+singleton.DEBUG = True
+
 # ---------------------------- #
 # loading the world
 
 
 _w = world.World()
+
+
 _c = world.Chunk((0, 0))
 
 _spritesheet = spritesheet.SpriteSheet("assets/sprites/player.json")
@@ -55,9 +59,6 @@ for i in range(8):
 
 for i in range(8):
     _c.set_tile_at((i, 4), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
-
-
-print(io.IMAGES_CACHE)
 
 
 # ---------------------------- #

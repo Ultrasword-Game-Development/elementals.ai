@@ -6,6 +6,9 @@ import dataclasses
 from engine import io
 from engine import singleton
 
+from engine.handler import signal
+from engine.handler import physics
+
 # ---------------------------- #
 # constants
 
@@ -26,7 +29,7 @@ class DefaultTile:
     Just data... and updating.
     
     """
-    
+        
     _tile_id: str
     _index_position: tuple
     _sprite_path: str
@@ -47,6 +50,10 @@ class DefaultTile:
     
     def update(self):
         """ Update the tile """
+        pass
+    
+    def render(self, surface):
+        """ Render the tile """
         pass
     
     # ---------------------------- #
@@ -104,15 +111,15 @@ class Chunk:
                     continue
                 # update logic
                 tile.update()
-                # render logic -- custom render function
-
+                # render logic
                 surface.blit(
                     self._sprite_cacher[tile._sprite_path], 
                     tile[CHUNK_TILE_PIXEL_COORD] - camera_offset + self._chunk_offset
                 )
-                pygame.draw.rect(surface, (255, 255, 255),
-                    pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - camera_offset + self._chunk_offset, 
-                                self._sprite_cacher[tile._sprite_path].get_size()), 1)
+                if singleton.DEBUG:
+                    pygame.draw.rect(surface, (255, 255, 255),
+                        pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - camera_offset + self._chunk_offset, 
+                            self._sprite_cacher[tile._sprite_path].get_size()), 1)
     
     # ---------------------------- #
     # utils
@@ -145,7 +152,8 @@ class Chunk:
 
 class Layer:
     def __init__(self) -> None:
-        pass
+        """ Initialize the layer """
+        self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
 
 
 # ---------------------------- #
@@ -154,9 +162,8 @@ class Layer:
 class World:
     def __init__(self) -> None:
         
-        self._layers = []
-        pass
-
+        self._physics = physics.PhysicsHandler()
+        self._layers = [Layer() for _ in range(singleton.DEFAULT_LAYER_COUNT)]
 
     
 # ---------------------------- #

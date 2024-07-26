@@ -13,6 +13,7 @@ AUDIO_CACHE = {}
 FONT_CACHE = {}
 
 KEY_HELD = set()
+KEY_CLICKED = set()
 
 MOUSE_PRESSED = [0, 0, 0, 0]
 
@@ -68,6 +69,10 @@ def json_to_dict(path: str):
 # ---------------------------- #
 # keyboard
 
+def get_key_clicked(key: int):
+    """ Check if a key is clicked """
+    return key in KEY_CLICKED
+
 def get_key_pressed(key: int):
     """ Check if a key is pressed """
     return pygame.key.get_pressed()[key]
@@ -110,7 +115,7 @@ def get_framebuffer_mouse_pos():
 
 
 # ---------------------------- #
-# sprite cacher
+# sprite cacher (glorified dictionary)
 
 class SpriteCacher:
     def __init__(self) -> None:
