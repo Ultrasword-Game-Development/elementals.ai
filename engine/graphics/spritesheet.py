@@ -24,6 +24,8 @@ DEFAULT_CONFIG = {
     'spacingy': 0,
 }
 
+SPRITESHEET_CACHE = {}
+
 
 def __create_config(width: int, height: int, padx: int = 0, pady: int = 0, spacingx: int = 0, spacingy: int = 0):
     return {
@@ -39,7 +41,34 @@ def flatten_config_values(config: dict = DEFAULT_CONFIG):
     """ Flatten the config values """
     return (config[WIDTH], config[HEIGHT], config[PADX], config[PADY], config[SPACINGX], config[SPACINGY])
 
+def generate_config_from_json(json_path: str):
+    """ Generate a config from a json file """
+    data = io.json_to_dict(json_path)
+    meta = data["meta"]
+    frame = data["frames"][0]["frame"]
+    return __create_config(frame["w"], frame["h"], padx=0, pady=0, spacingx=0, spacingy=0)
 
+def load_spritesheet(image_path: str, config: dict = DEFAULT_CONFIG):
+    """ Load a spritesheet """
+    # check if its a json
+    _json_path = None
+    if image_path.endswith('.json'):
+        # load the json + find the image path
+        data = io.json_to_dict(image_path)
+        _json_path = image_path
+        image_path = os.path.dirname(image_path) + "/" + data["meta"]["image"]
+        config = generate_config_from_json(_json_path)
+    
+    # check if already loaded
+    _hash = hash(tuple([image_path] + list(flatten_config_values(config))))
+    if _hash in SPRITESHEET_CACHE:
+        return SPRITESHEET_CACHE[_hash]
+
+    # create new spritesheet + cache it
+    result = SpriteSheet(_json_path if _json_path else image_path, config)
+    SPRITESHEET_CACHE[hash(result)] = result
+    return result
+    
 # ---------------------------- #
 # sprite sheet object
 
@@ -73,7 +102,7 @@ class SpriteSheet:
     def _load_json_config(self, path: str):
         """ Load a json config file """
         data = io.json_to_dict(path)
-        self._path = os.path.join(os.path.dirname(self._json), data["meta"]["image"])
+        self._path = os.path.dirname(self._json) + "/" + data["meta"]["image"]
 
         # the aseprite files should NOT have padding/margins
         size = (data["frames"][0]["frame"]['w'], data["frames"][0]["frame"]['h'])
@@ -81,7 +110,7 @@ class SpriteSheet:
         self._config[HEIGHT] = size[1]
 
     def _load_sprites(self):
-        """ Loads all sprites from the spritesheet """
+        """ Loads all sprites from the spritesheet - including empty ones """
         left = 0
         top = 0
 
@@ -103,7 +132,8 @@ class SpriteSheet:
                 images.append(snip)
                 left += spacingx + width
             top += spacingy + height
-        self.sprites = images
+            left = padx
+        self.sprites = images        
     
     def get_sprite_str_id(self, index: int):
         """ Get the sprite uuid """
@@ -126,7 +156,7 @@ class SpriteSheet:
 
     def __hash__(self):
         """ Hash the spritesheet """
-        hashable = tuple([self._path] + list(flatten_config_values()))
+        hashable = tuple([self._path] + list(flatten_config_values(self._config)))
         return hash(hashable)
 
     # ---------------------------- #
@@ -147,5 +177,8 @@ class SpriteSheet:
         self.image = io.load_image(self._path)
         self.sprites = []
         self._load_sprites()
+        # cache all the images
+        for index, image in enumerate(self.sprites):
+            io.cache_image(self.get_sprite_str_id(index), image)
 
 

@@ -24,6 +24,8 @@ CAMERA_MOVED_CHUNKS = "_camera_moved_chunks"
 CAMERA_OLD_CHUNK = "_old_chunk"
 CAMERA_NEW_CHUNK = "_new_chunk"
 
+CHUNK_PARENT_KEY = "_chunk_parent_key"
+
 
 # ---------------------------- #
 # tile
@@ -61,9 +63,11 @@ class DefaultTile:
         """ Update the tile """
         pass
     
-    def render(self, surface):
+    def render(self, surface, camera: camera.PseudoCamera, offset: tuple):
         """ Render the tile """
-        pass
+        surface.blit(
+            
+        )
     
     # ---------------------------- #
     # utils
@@ -168,6 +172,9 @@ class Chunk:
         )
         # cache sprite
         self._sprite_cacher.load_sprite(tile._sprite_path, tile[CHUNK_TILE_RECT])
+        
+        # set parent definition into tile
+        tile[CHUNK_PARENT_KEY] = self
     
     def __hash__(self):
         """ Hash the chunk """
@@ -337,6 +344,9 @@ class World:
             int(self.camera.center[0] // singleton.DEFAULT_CHUNK_PIXEL_WIDTH),
             int(self.camera.center[1] // singleton.DEFAULT_CHUNK_PIXEL_HEIGHT)
         )
+
+    # ---------------------------- #
+    # serializable??
 
     
 # ---------------------------- #

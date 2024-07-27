@@ -50,23 +50,22 @@ gl.GLContext.create_context()
 
 world_save = "assets/level/level.save"
 
-with open(world_save, 'rb') as f:
-    w = dill.load(f)
+# with open(world_save, 'rb') as f:
+#     w = dill.load(f)
 
-# w = world.World()
-# w.t_signal = signal.Signal("Test Signal")
-# w.t_emitter = w.t_signal.get_unique_emitter()
-# w.t_signal.add_emitter_handling_function(lambda data: print(data))
+w = world.World()
+w.t_signal = signal.Signal("Test Signal")
+w.t_emitter = w.t_signal.get_unique_emitter()
+w.t_signal.add_emitter_handling_function(lambda data: print(data))
 
-# w.ssheet = spritesheet.SpriteSheet('assets/sprites/mage.json')
-# w.t_ani = animation.load_animation_from_spritesheet(w.ssheet)
-# w.t_ani_reg = w.t_ani.get_registry()
-# w.p_ani = animation.load_animation('assets/sprites/player.json')
-# w.p_ani_reg = w.p_ani.get_registry()
+w.ssheet = spritesheet.load_spritesheet("assets/sprites/mage.json")
+w.t_ani = animation.load_animation_from_json("assets/sprites/mage.json")
+w.t_ani_reg = w.t_ani.get_registry()
+w.p_ani = animation.load_animation_from_json('assets/sprites/player.json')
+w.p_ani_reg = w.p_ani.get_registry()
 
-# with open(world_save, 'wb') as f:
-#     dill.dump(w, f)
-
+with open(world_save, 'wb') as f:
+    dill.dump(w, f)
 
 
 # ---------------------------- #
