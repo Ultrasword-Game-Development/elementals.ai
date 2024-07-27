@@ -125,6 +125,5 @@ class SignalEmitter:
         """ Unpickle state """
         self.__dict__.update(state)
         # restore unpicklable entries
-        print(self._name)
         self._parent = get_signal(state['_name'])
 

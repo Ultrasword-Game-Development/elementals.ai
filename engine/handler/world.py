@@ -1,6 +1,8 @@
-
+import os
+import dill
 import uuid
 import pygame
+import datetime
 import dataclasses
 
 from engine import io
@@ -26,6 +28,8 @@ CAMERA_NEW_CHUNK = "_new_chunk"
 
 CHUNK_PARENT_KEY = "_chunk_parent_key"
 
+WORLD_BLOBS_FOLDER = "assets/level/blobs"
+WORLD_BLOBS_CHUNKS_FOLDER = "chunkdata/"
 
 # ---------------------------- #
 # tile
@@ -74,7 +78,16 @@ class DefaultTile:
 
     def __setitem__(self, key, value):
         """ Set the data item """
-        self._data[key] = value
+        # check if item can be serialized
+        if key in self._data:
+            self._data[key] = value
+            return
+        # check if it works in dill
+        try:
+            dill.dumps(value)
+            self._data[key] = value
+        except:
+            raise ValueError(f"Data item {key} cannot be serialized because value: {value} is not serializable")
     
     def __getitem__(self, key):
         """ Get the data item """
@@ -83,6 +96,17 @@ class DefaultTile:
     def __hash__(self):
         """ Hash the tile """
         return hash(self._tile_id)
+
+    # ---------------------------- #
+    # serialize
+    
+    def __getstate__(self):
+        """ Get the state of the tile """
+        return self.__dict__
+
+    def __setstate__(self, state):
+        """ Set the state of the tile """
+        self.__dict__.update(state)
 
 # ---------------------------- #
 # chunk
@@ -96,7 +120,9 @@ class Chunk:
                 ) -> None:
         """ Initialize the (square) chunks """
         self._chunk_id = generate_id()
-        self._chunk_hash_str = f"{chunk_position[0]}||{chunk_position[1]}"
+        self._chunk_hash_str = f"{chunk_position[0]}=={chunk_position[1]}"
+        self._layer = None
+        self._world_storage_key = None
         
         self._chunk_position = chunk_position
         self._chunk_tile_dimensions = (
@@ -190,13 +216,37 @@ class Chunk:
     @classmethod
     def get_chunk_hash_str(cls, position: tuple) -> str:
         """ Get the chunk hash """
-        return f"{position[0]}||{position[1]}"
+        return f"{position[0]}=={position[1]}"
     
     @classmethod
     def get_chunk_hash(cls, position: tuple) -> str:
         """ Get the chunk hash """
         return hash(cls.get_chunk_hash_str(position))
 
+    # ---------------------------- #
+    # serializable
+    
+    def __getstate__(self) -> object:
+        """ Get the state of the chunk """
+        state = self.__dict__.copy()
+        # load all chunks into a chunk save file
+        _filename = self._chunk_hash_str
+        # the chunk save folder should already exist
+        # we save the chunkdata into the file to isolate chunk data and world data (transferrable terrain)
+        with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'wb') as f:
+            dill.dump(self._tiles, f)
+        del state["_tiles"]
+        # return the state
+        return state
+    
+    def __setstate__(self, state: object):
+        """ Set the state of the chunk """
+        self.__dict__.update(state)
+        # load up the chunk save file
+        _filename = self._chunk_hash_str
+        with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'rb') as f:
+            self._tiles = dill.load(f)
+        
 
 # ---------------------------- #
 # layer
@@ -247,6 +297,9 @@ class Layer:
     def set_chunk_at(self, chunk: Chunk):
         """ Set the chunk at the position """
         self._chunks[hash(chunk)] = chunk
+        # set world variables
+        chunk._layer = self
+        chunk._world_storage_key = self._world._world_storage_key
     
     def get_chunk_at(self, position: tuple) -> Chunk:
         """ Get the chunk at the position """
@@ -255,15 +308,34 @@ class Layer:
     def create_default_chunk(self, position: tuple):
         """ Create a default chunk """
         _c = Chunk(position)
+        _c._layer = self
+        _c._world_storage_key = self._world._world_storage_key
         self._chunks[position] = _c
         return _c
+
+    # ---------------------------- #
+    # serializable
+    
+    def __getstate__(self):
+        """ Get the state of the layer """
+        state = self.__dict__.copy()
+        del state["_layer_buffer"]
+        return state
+    
+    def __setstate__(self, state):
+        """ Set the state of the layer """
+        self.__dict__.update(state)
+        # load unserializable data
+        self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
 
 # ---------------------------- #
 # world
 
 class World:
-    def __init__(self) -> None:
+    def __init__(self, name: str = None) -> None:
         """ Initialize the world """
+        # store a "save file" with the creatino date and world name
+        self._world_storage_key = f"{name if name else "New World"}=={str(datetime.datetime.now()).split()[0]}"
         
         self._camera = camera.PseudoCamera((0, 0), singleton.FB_SIZE)
         self.camera = self._camera
@@ -344,10 +416,19 @@ class World:
             int(self.camera.center[0] // singleton.DEFAULT_CHUNK_PIXEL_WIDTH),
             int(self.camera.center[1] // singleton.DEFAULT_CHUNK_PIXEL_HEIGHT)
         )
-
+    
     # ---------------------------- #
-    # serializable??
-
+    # serializable
+    
+    def __getstate__(self):
+        """ Get the state of the world """
+        state = self.__dict__.copy()
+        # create a blob storage file - this should run first
+        if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key):
+            os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key)
+        if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER):
+            os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER)
+        return state
     
 # ---------------------------- #
 # utils

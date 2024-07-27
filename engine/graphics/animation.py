@@ -70,7 +70,7 @@ class Animation:
         """ Unpickle state """
         self.__dict__.update(state)
         # restore unpicklable entries
-        self._spritesheet = spritesheet.SpriteSheet(self._json_path)
+        self._spritesheet = spritesheet.load_spritesheet(self._json_path)
         self._animation_types = {}
         # register the animation
         Animation.load_sprite_data_from_json(self._json_path, self)
@@ -98,7 +98,6 @@ class Animation:
         # create all animation_types (layers of the aseprite file)
         for l_id, layer in enumerate(_layers):
             _name = layer["name"]
-            print(layer, sprites_per_row * l_id)
             animation._animation_types[_name] = [
                 # get all sprites from spritesheet on this layer 
                 sheet[sprites_per_row * l_id + __sid] for __sid in range(sprites_per_row)
@@ -166,8 +165,7 @@ class AnimationRegistry:
         """ Unpickle state """
         self.__dict__.update(state)
         # restore unpicklable entries
-        self._parent = ANI_CACHE[state['_parent_hash']]
-
+        self._parent = load_animation_from_json(self._parent_hash)
 
 
 # ---------------------------- #

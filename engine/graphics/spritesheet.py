@@ -27,47 +27,6 @@ DEFAULT_CONFIG = {
 SPRITESHEET_CACHE = {}
 
 
-def __create_config(width: int, height: int, padx: int = 0, pady: int = 0, spacingx: int = 0, spacingy: int = 0):
-    return {
-        'w': width,
-        'h': height,
-        'padx': padx,
-        'pady': pady,
-        'spacingx': spacingx,
-        'spacingy': spacingy,
-    }
-
-def flatten_config_values(config: dict = DEFAULT_CONFIG):
-    """ Flatten the config values """
-    return (config[WIDTH], config[HEIGHT], config[PADX], config[PADY], config[SPACINGX], config[SPACINGY])
-
-def generate_config_from_json(json_path: str):
-    """ Generate a config from a json file """
-    data = io.json_to_dict(json_path)
-    meta = data["meta"]
-    frame = data["frames"][0]["frame"]
-    return __create_config(frame["w"], frame["h"], padx=0, pady=0, spacingx=0, spacingy=0)
-
-def load_spritesheet(image_path: str, config: dict = DEFAULT_CONFIG):
-    """ Load a spritesheet """
-    # check if its a json
-    _json_path = None
-    if image_path.endswith('.json'):
-        # load the json + find the image path
-        data = io.json_to_dict(image_path)
-        _json_path = image_path
-        image_path = os.path.dirname(image_path) + "/" + data["meta"]["image"]
-        config = generate_config_from_json(_json_path)
-    
-    # check if already loaded
-    _hash = hash(tuple([image_path] + list(flatten_config_values(config))))
-    if _hash in SPRITESHEET_CACHE:
-        return SPRITESHEET_CACHE[_hash]
-
-    # create new spritesheet + cache it
-    result = SpriteSheet(_json_path if _json_path else image_path, config)
-    SPRITESHEET_CACHE[hash(result)] = result
-    return result
     
 # ---------------------------- #
 # sprite sheet object
@@ -179,6 +138,57 @@ class SpriteSheet:
         self._load_sprites()
         # cache all the images
         for index, image in enumerate(self.sprites):
-            io.cache_image(self.get_sprite_str_id(index), image)
+            if not self.get_sprite_str_id(index) in io.IMAGES_CACHE:
+                io.cache_image(self.get_sprite_str_id(index), image)
+        # cache self
+        cache_spritesheet(self)
+
+# ---------------------------- #
+# functions
 
 
+def __create_config(width: int, height: int, padx: int = 0, pady: int = 0, spacingx: int = 0, spacingy: int = 0):
+    return {
+        'w': width,
+        'h': height,
+        'padx': padx,
+        'pady': pady,
+        'spacingx': spacingx,
+        'spacingy': spacingy,
+    }
+
+def flatten_config_values(config: dict = DEFAULT_CONFIG):
+    """ Flatten the config values """
+    return (config[WIDTH], config[HEIGHT], config[PADX], config[PADY], config[SPACINGX], config[SPACINGY])
+
+def generate_config_from_json(json_path: str):
+    """ Generate a config from a json file """
+    data = io.json_to_dict(json_path)
+    meta = data["meta"]
+    frame = data["frames"][0]["frame"]
+    return __create_config(frame["w"], frame["h"], padx=0, pady=0, spacingx=0, spacingy=0)
+
+def load_spritesheet(image_path: str, config: dict = DEFAULT_CONFIG):
+    """ Load a spritesheet """
+        # check if its a json
+    _json_path = None
+    if image_path.endswith('.json'):
+        # load the json + find the image path
+        data = io.json_to_dict(image_path)
+        _json_path = image_path
+        image_path = os.path.dirname(image_path) + "/" + data["meta"]["image"]
+        config = generate_config_from_json(_json_path)
+
+    # check if already loaded
+    _hash = hash(tuple([image_path] + list(flatten_config_values(config))))
+    if _hash in SPRITESHEET_CACHE:
+        return SPRITESHEET_CACHE[_hash]
+
+    # create new spritesheet + cache it
+    result = SpriteSheet(_json_path if _json_path else image_path, config)
+    SPRITESHEET_CACHE[hash(result)] = result
+    return result
+
+def cache_spritesheet(sheet: SpriteSheet):
+    """ Cache a spritesheet """
+    SPRITESHEET_CACHE[hash(sheet)] = sheet
