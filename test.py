@@ -24,6 +24,8 @@ from engine.graphics import gl
 from engine.graphics import animation
 from engine.graphics import spritesheet
 
+from engine.addon import tiles
+
 # ---------------------------- #
 # create a window
 
@@ -53,7 +55,7 @@ _w.get_layer_at(0).set_chunk_at(world.Chunk(
 _c = _w.get_layer_at(0).get_chunk_at(_w.get_camera_chunk())
 
 
-_spritesheet = spritesheet.SpriteSheet("assets/sprites/player.json")
+_spritesheet = spritesheet.load_spritesheet("assets/sprites/player.json")
 
 # temp load a chunk up with a tile
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
@@ -63,6 +65,10 @@ for i in range(singleton.DEFAULT_CHUNK_WIDTH):
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
 
+# add an animated sprite at location - (0, 0)
+_c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
+_c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
+_c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/player.json", offset=2))
 
 
 # ---------------------------- #

@@ -100,7 +100,11 @@ class Animation:
             _name = layer["name"]
             animation._animation_types[_name] = [
                 # get all sprites from spritesheet on this layer 
-                sheet[sprites_per_row * l_id + __sid] for __sid in range(sprites_per_row)
+                    (
+                        sheet.get_sprite_str_id(sprites_per_row * l_id + __sid),
+                        sheet[sprites_per_row * l_id + __sid]
+                    ) 
+                    for __sid in range(sprites_per_row)
             ]
         
         # set the default animation type
@@ -142,7 +146,12 @@ class AnimationRegistry:
     @property
     def sprite(self):
         """ Return the current frame """
-        return self._parent[self._animation_type][self._frame]
+        return self._parent[self._animation_type][self._frame][1]
+    
+    @property
+    def sprite_path(self):
+        """ Return the current frame path """
+        return self._parent[self._animation_type][self._frame][0]
     
     # ---------------------------- #
     # utils

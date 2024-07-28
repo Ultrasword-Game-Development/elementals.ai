@@ -125,7 +125,7 @@ class SpriteCacher:
     # ---------------------------- #
     # caching functions
     
-    def load_sprite(self, path: str, rect: pygame.Rect, cut_rect: pygame.Rect = None) -> pygame.Surface:
+    def load_sprite(self, path: str, size_rect: pygame.Rect, cut_rect: pygame.Rect = None) -> pygame.Surface:
         """ Load a sprite and cache it """
         if path in self._cached_sprites:
             return self._cached_sprites[path]
@@ -134,7 +134,7 @@ class SpriteCacher:
         if cut_rect:
             sprite = sprite.subsurface(cut_rect) 
         # TODO - consider simply using opengl to just render the images instead of caching them
-        self[path] = pygame.transform.scale(sprite, (rect.width, rect.height))
+        self[path] = pygame.transform.scale(sprite, (size_rect.width, size_rect.height))
         return sprite
         
     # ---------------------------- #

@@ -3,6 +3,8 @@ import pygame
 from array import array
 
 from engine import singleton
+
+from engine.handler import signal
 from engine.graphics import shader
 
 # ---------------------------- #
@@ -70,6 +72,9 @@ class GLContext:
         singleton.WINDOW = pygame.display.set_mode(singleton.WIN_SIZE, singleton.WIN_FLAGS, singleton.WIN_DEPTH, 0, 0)
         singleton.FRAMEBUFFER = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
         singleton.SCREENBUFFER = pygame.Surface(singleton.WIN_SIZE, 0, 16).convert_alpha()
+        
+        # create signal
+        singleton.GLOBAL_FRAME_SIGNAL_EMITTER = signal.Signal(singleton.GLOBAL_FRAME_SIGNAL_KEY).get_unique_emitter()
 
         # empty the surfaces
         singleton.FRAMEBUFFER.fill((0, 0, 0, 0))

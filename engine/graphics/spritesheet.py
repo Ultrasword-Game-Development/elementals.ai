@@ -54,9 +54,10 @@ class SpriteSheet:
         # load sprites
         self._load_sprites()
 
-        # cache all the images
-        for index, image in enumerate(self.sprites):
-            io.cache_image(self.get_sprite_str_id(index), image)
+        if not self._path in SPRITESHEET_CACHE:
+            # cache all the images
+            for index, image in enumerate(self.sprites):
+                io.cache_image(self.get_sprite_str_id(index), image)
 
     def _load_json_config(self, path: str):
         """ Load a json config file """

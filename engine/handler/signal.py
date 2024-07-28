@@ -40,7 +40,7 @@ class Signal:
         self._name = name
         self._urgency = urgency
         self._registries = []
-        self._emitter_handling_functions = []
+        self._emitter_handling_functions = {}
 
         # requirements for data sending
         self._data_requirements = []
@@ -48,26 +48,41 @@ class Signal:
         # self-register
         cache_signal(self)
     
+    # ---------------------------- #
+    # logic
+    
     def handle(self, blob: dict):
         """ Handle the signal """
-        for ifunc in self._emitter_handling_functions:
+        for ifunc, icache in self._emitter_handling_functions.values():
             # TODO - singleton debug output log
             # blob[TIME]
             # blob[PARENT]
-            ifunc(blob[DATA])
+            ifunc(blob[DATA], **icache)
     
     def add_data_requirement(self, key: str):
         """ Add a data requirement """
         self._data_requirements.append(key)
 
-    def add_emitter_handling_function(self, func):
-        """ Add a handling function for an emitter """
-        self._emitter_handling_functions.append(func)
+    def add_emitter_handling_function(self, key: str, func, **cached_data) -> str:
+        """ Add a handling function for an emitter - they should all have **kwargs """
+        self._emitter_handling_functions[key] = (func, cached_data)
+        return key
 
     def get_unique_emitter(self):
         """ Return a signal registry """
         self._registries.append(SignalEmitter(self))
         return self._registries[-1]
+
+    # ---------------------------- #
+    # utils
+    
+    def get_registered_function_info(self, key: str):
+        """ Return the function and cached data """
+        return self._emitter_handling_functions.get(key)
+
+    def has_registered_function_key(self, key: str):
+        """ Return if the key is registered """
+        return key in self._emitter_handling_functions
 
     def __hash__(self):
         """ Return the hash of the signal """

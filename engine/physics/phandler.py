@@ -7,6 +7,7 @@ from engine.handler import signal
 # constants
 
 DEATH_SIGNAL_NAME = "_physics_death_signal"
+DEATH_SIGNAL_ID = "_physics_death_signal_id"
 
 # ---------------------------- #
 # physics / entity handler
@@ -18,7 +19,7 @@ class PhysicsHandler:
         
         # death signal
         self._death_signal = signal.Signal(DEATH_SIGNAL_NAME)
-        self._death_signal.add_emitter_handling_function(self.handle_death_signal)
+        self._death_signal.add_emitter_handling_function(DEATH_SIGNAL_ID, self.handle_death_signal)
     
     def update_and_render(self, surface: pygame.Surface, offset: tuple):
         """ Update the physics handler """

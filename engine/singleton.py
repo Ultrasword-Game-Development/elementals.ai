@@ -2,6 +2,8 @@ import pygame
 import sys
 import os
 
+import dill
+
 from engine import io
 
 # ---------------------------- #
@@ -58,6 +60,9 @@ DELTA_TIME = 0
 START_TIME = 0
 END_TIME = 0
 
+GLOBAL_FRAME_SIGNAL_EMITTER = None
+GLOBAL_FRAME_SIGNAL_KEY = "global_frame_signal"
+
 # ---------------------------- #
 # animation
 
@@ -81,6 +86,8 @@ DEFAULT_LAYER_COUNT = 3
 DEFAULT_CHUNK_RENDER_DISTANCE = 2
 
 UPDATE_INVISIBLE_CHUNKS = True
+
+SAVING_WORLD_FLAG = False
 
 # ---------------------------- #
 # util functions
@@ -120,6 +127,22 @@ def system_update_function():
                 continue
             io.MOUSE_PRESSED[e.button] = False
     
+    # TODO - decide if i want to keep this (update per frame) signal emitter
+    GLOBAL_FRAME_SIGNAL_EMITTER.emit()
+    
     # TODO - REMOVE THIS -- check if debug toggle
     if io.get_key_clicked(pygame.K_d) and io.get_key_pressed(pygame.K_LSHIFT):
         DEBUG = not DEBUG
+
+def save_world(path: str, world):
+    """ Save the world to a file """
+    global SAVING_WORLD_FLAG
+    SAVING_WORLD_FLAG = True
+    with open(path, "wb") as f:
+        dill.dump(world, f)
+    SAVING_WORLD_FLAG = False
+
+def load_world(path: str):
+    """ Load a world from a file """
+    with open(path, "rb") as f:
+        return dill.load(f)

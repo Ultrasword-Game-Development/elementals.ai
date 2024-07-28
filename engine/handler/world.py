@@ -1,7 +1,9 @@
 import os
 import dill
 import uuid
+import copy
 import pygame
+import pickle
 import datetime
 import dataclasses
 
@@ -19,6 +21,7 @@ from engine.physics import phandler
 
 CHUNK_TILE_RECT = "_tile_rect"
 CHUNK_TILE_PIXEL_COORD = "_tile_pixel_coords"
+CHUNK_TILE_PARENT_POSITION_KEY = "_chunk_parent_key"
 
 WORLD_SIGNAL_HANDLER = "_world_signal_handler"
 
@@ -26,10 +29,11 @@ CAMERA_MOVED_CHUNKS = "_camera_moved_chunks"
 CAMERA_OLD_CHUNK = "_old_chunk"
 CAMERA_NEW_CHUNK = "_new_chunk"
 
-CHUNK_PARENT_KEY = "_chunk_parent_key"
 
 WORLD_BLOBS_FOLDER = "assets/level/blobs"
 WORLD_BLOBS_CHUNKS_FOLDER = "chunkdata/"
+
+WORLD_CACHE = {}
 
 # ---------------------------- #
 # tile
@@ -63,15 +67,17 @@ class DefaultTile:
     # ---------------------------- #
     # to be overriden
     
+    def __post_init__(self, chunk: "Chunk"):
+        """ Post init function """
+        pass
+    
     def update(self):
         """ Update the tile """
         pass
     
     def render(self, surface, camera: camera.PseudoCamera, offset: tuple):
         """ Render the tile """
-        surface.blit(
-            
-        )
+        pass
     
     # ---------------------------- #
     # utils
@@ -86,8 +92,8 @@ class DefaultTile:
         try:
             dill.dumps(value)
             self._data[key] = value
-        except:
-            raise ValueError(f"Data item {key} cannot be serialized because value: {value} is not serializable")
+        except Exception as e:
+            raise ValueError(f"Data item `{key}` cannot be serialized because value: `{value}` is not serializable\nError as : {e}")
     
     def __getitem__(self, key):
         """ Get the data item """
@@ -102,11 +108,14 @@ class DefaultTile:
     
     def __getstate__(self):
         """ Get the state of the tile """
-        return self.__dict__
+        state = self.__dict__.copy()
+        del state['_data']
+        return state
 
     def __setstate__(self, state):
         """ Set the state of the tile """
         self.__dict__.update(state)
+        self._data = {}
 
 # ---------------------------- #
 # chunk
@@ -200,7 +209,8 @@ class Chunk:
         self._sprite_cacher.load_sprite(tile._sprite_path, tile[CHUNK_TILE_RECT])
         
         # set parent definition into tile
-        tile[CHUNK_PARENT_KEY] = self
+        tile[CHUNK_TILE_PARENT_POSITION_KEY] = self.get_chunk_hash_str(self._chunk_position)
+        tile.__post_init__(self)
     
     def __hash__(self):
         """ Hash the chunk """
@@ -231,37 +241,55 @@ class Chunk:
         state = self.__dict__.copy()
         # load all chunks into a chunk save file
         _filename = self._chunk_hash_str
+        
+        if not singleton.SAVING_WORLD_FLAG:
+            del state["_tiles"]
+            del state["_sprite_cacher"]
+            return state
+
         # the chunk save folder should already exist
-        # we save the chunkdata into the file to isolate chunk data and world data (transferrable terrain)
+        # we save the chunkdata into the file to isolate chunk data and world data (transferrable terrain) 
         with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'wb') as f:
-            dill.dump(self._tiles, f)
+            f.write(pickle.dumps(self._tiles))
         del state["_tiles"]
+        del state["_sprite_cacher"]
         # return the state
         return state
     
     def __setstate__(self, state: object):
         """ Set the state of the chunk """
+        # recreate the hash str
         self.__dict__.update(state)
+        # create a new sprite cacher
+        self._sprite_cacher = io.SpriteCacher()
         # load up the chunk save file
         _filename = self._chunk_hash_str
         with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'rb') as f:
-            self._tiles = dill.load(f)
+            _tiles = dill.load(f)
+        self._tiles = [ [ None for x in range(len(_tiles[y])) ] for y in range(len(_tiles)) ]
+        # re "place" all the tiles
+        for y in range(len(_tiles)):
+            for x in range(len(_tiles[y])):
+                if _tiles[y][x]:
+                    self.set_tile_at((x, y), _tiles[y][x])
         
-
+        
 # ---------------------------- #
 # layer
 
 class Layer:
-    def __init__(self) -> None:
+    def __init__(self, layer_num: int) -> None:
         """ Initialize the layer """
         self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
+        self._layer_id = layer_num
         self._physics_handler = phandler.PhysicsHandler()
 
         # chunk handler
         self._chunks = {}
-
-        # parent
         self._world = None
+
+        # data
+        self._data = {}
 
     # ---------------------------- #
     # logic
@@ -292,6 +320,26 @@ class Layer:
         pass
 
     # ---------------------------- #
+    # data
+
+    def __setitem__(self, key, value):
+        """ Set the data item """
+        # check if item can be serialized
+        if key in self._data:
+            self._data[key] = value
+            return
+        # check if it works in dill
+        try:
+            dill.dumps(value)
+            self._data[key] = value
+        except:
+            raise ValueError(f"Data item {key} cannot be serialized because value: {value} is not serializable")
+    
+    def __getitem__(self, key):
+        """ Get the data item """
+        return self._data[key]
+
+    # ---------------------------- #
     # utils
 
     def set_chunk_at(self, chunk: Chunk):
@@ -310,7 +358,8 @@ class Layer:
         _c = Chunk(position)
         _c._layer = self
         _c._world_storage_key = self._world._world_storage_key
-        self._chunks[position] = _c
+        self._chunks[hash(_c)] = _c
+        print(hash(_c), _c._chunk_hash_str)
         return _c
 
     # ---------------------------- #
@@ -336,6 +385,8 @@ class World:
         """ Initialize the world """
         # store a "save file" with the creatino date and world name
         self._world_storage_key = f"{name if name else "New World"}=={str(datetime.datetime.now()).split()[0]}"
+        # cache the world
+        self.cache_world(self)
         
         self._camera = camera.PseudoCamera((0, 0), singleton.FB_SIZE)
         self.camera = self._camera
@@ -355,7 +406,7 @@ class World:
 
         # signal handler
         self._layer_signals = signal.Signal(WORLD_SIGNAL_HANDLER)
-        self._layers = [Layer() for _ in range(singleton.DEFAULT_LAYER_COUNT)]
+        self._layers = [Layer(_) for _ in range(singleton.DEFAULT_LAYER_COUNT)]
         # give each layer a signal emitter
         for layer in self._layers:
             layer._signal_emitter = self._layer_signals.get_unique_emitter()
@@ -423,12 +474,44 @@ class World:
     def __getstate__(self):
         """ Get the state of the world """
         state = self.__dict__.copy()
+        
+        # check if actually saving
+        if not singleton.SAVING_WORLD_FLAG:
+            return state
+        
         # create a blob storage file - this should run first
         if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key):
             os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key)
         if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER):
             os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER)
         return state
+    
+    # ---------------------------- #
+    # caching
+    
+    @classmethod
+    def cache_world(cls, world):
+        """ Cache the world """
+        if world._world_storage_key in WORLD_CACHE:
+            raise ValueError(f"World with key {world._world_storage_key} already exists in cache")
+        WORLD_CACHE[world._world_storage_key] = world
+    
+    @classmethod
+    def load_world(cls, world_key: str):
+        """ Load the world from the cache """
+        if world_key in WORLD_CACHE:
+            return WORLD_CACHE[world_key]
+        # load the world
+        result = singleton.load_world(world_key)
+        cls.cache_world(result)
+        return result
+    
+    @classmethod
+    def reload_world(cls, world_key: str):
+        """ Reload the world """
+        result = singleton.load_world(world_key)
+        WORLD_CACHE[world_key] = result
+        return result
     
 # ---------------------------- #
 # utils
