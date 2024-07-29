@@ -1,8 +1,16 @@
-
-
-
-
+import os
 import sys
+import platform
+
+# TODO - figure out what to do when I compile this program (because that'll be quite a problem)
+if not os.environ.get("PYTHONHASHSEED"):
+    os.environ["PYTHONHASHSEED"] = "13"
+    
+    import subprocess
+    subprocess.run([sys.executable] + sys.argv)
+    sys.exit()
+    # os.execv(sys.executable, ['python'] + sys.argv)
+
 import dill
 import time
 import pickle
@@ -83,6 +91,8 @@ while singleton.RUNNING:
 
     # ---------------------------- #
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
+    singleton.SCREENBUFFER.fill((0, 0, 0, 0))
+
 
     _w.update_and_render(singleton.FRAMEBUFFER)
 
@@ -95,6 +105,10 @@ while singleton.RUNNING:
     # ---------------------------- #
     # render screen items
     gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
+        "tex": 0,
+        "time": singleton.ACTIVE_TIME    
+    })
+    gl.GLContext.render_to_opengl_window(singleton.SCREENBUFFER, singleton.DEFAULT_SCREEN_SHADER, singleton.SCREEN_SHADER_QUAD, {
         "tex": 0,
         "time": singleton.ACTIVE_TIME    
     })

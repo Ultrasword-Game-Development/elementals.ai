@@ -8,6 +8,7 @@ import datetime
 import dataclasses
 
 from engine import io
+from engine import utils
 from engine import singleton
 
 from engine.handler import signal
@@ -148,10 +149,7 @@ class Chunk:
             singleton.DEFAULT_TILE_HEIGHT if not tile_dimensions[1] else tile_dimensions[1]
         )
         
-        self._chunk_offset = pygame.math.Vector2(
-            self._chunk_position[0] * singleton.DEFAULT_CHUNK_PIXEL_WIDTH,
-            self._chunk_position[1] * singleton.DEFAULT_CHUNK_PIXEL_HEIGHT
-        )
+        self._chunk_offset = pygame.math.Vector2(get_chunk_offset(self._chunk_position))
     
         # create tile storage
         self._tiles = [ 
@@ -183,11 +181,11 @@ class Chunk:
                     self._sprite_cacher[tile._sprite_path], 
                     tile[CHUNK_TILE_PIXEL_COORD] - camera.position + self._chunk_offset
                 )
-                if singleton.DEBUG:
-                    pygame.draw.rect(surface, (255, 255, 255),
+                if singleton.DEBUG or singleton.EDITOR_DEBUG:
+                    pygame.draw.rect(surface, (255, 255, 255, 150),
                         pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - camera.position + self._chunk_offset, 
                             self._sprite_cacher[tile._sprite_path].get_size()), 1)
-    
+
     # ---------------------------- #
     # utils
     
@@ -233,6 +231,14 @@ class Chunk:
         """ Get the chunk hash """
         return hash(cls.get_chunk_hash_str(position))
 
+    @classmethod
+    def generate_chunk_rect_given_chunk_position(cls, chunk_pos: tuple, camera: camera.PseudoCamera):
+        """ Generate the chunk rect given the chunk position """
+        return pygame.Rect(
+            get_chunk_offset(chunk_pos) - camera.position,
+            (singleton.DEFAULT_CHUNK_PIXEL_HEIGHT, singleton.DEFAULT_CHUNK_PIXEL_WIDTH)
+        )
+
     # ---------------------------- #
     # serializable
     
@@ -272,7 +278,7 @@ class Chunk:
             for x in range(len(_tiles[y])):
                 if _tiles[y][x]:
                     self.set_tile_at((x, y), _tiles[y][x])
-        
+    
         
 # ---------------------------- #
 # layer
@@ -387,7 +393,11 @@ class World:
         self._world_storage_key = f"{name if name else "New World"}=={str(datetime.datetime.now()).split()[0]}"
         # cache the world
         self.cache_world(self)
+
+        # background color
+        self._background_color = singleton.WIN_BACKGROUND
         
+        # camera data
         self._camera = camera.PseudoCamera((0, 0), singleton.FB_SIZE)
         self.camera = self._camera
         self._camera_old_chunk = (
@@ -423,6 +433,7 @@ class World:
 
     def update_and_render(self, surface: pygame.Surface):
         """ Update and render the world """
+        surface.fill(self._background_color)
         # check if camera entered new chunk
         new_c_chunk = (
             int(self.camera.center[0] // singleton.DEFAULT_CHUNK_PIXEL_WIDTH), 
@@ -457,9 +468,14 @@ class World:
     def update_renderable_chunks(self):
         """ Update the renderable chunks """
         self._renderable_chunks_hash_strs.clear()
+        for rx, ry in self.iterate_renderable_chunk_positions():
+            self._renderable_chunks_hash_strs.add(Chunk.get_chunk_hash((rx, ry)))
+
+    def iterate_renderable_chunk_positions(self):
+        """ Iterate the renderable chunks """
         for cx in range(self._camera_old_chunk[0] - self._render_distance, self._camera_old_chunk[0] + self._render_distance + 1):
             for cy in range(self._camera_old_chunk[1] - self._render_distance, self._camera_old_chunk[1] + self._render_distance + 1):
-                self._renderable_chunks_hash_strs.add(Chunk.get_chunk_hash((cx, cy)))
+                yield (cx, cy)
 
     def get_camera_chunk(self):
         """ Get the camera chunk """
@@ -519,3 +535,17 @@ class World:
 def generate_id() -> str:
     """ Generate a unique id """
     return uuid.uuid4().hex
+
+def get_chunk_from_position(pos: tuple):
+    """ Get the chunk from the position """
+    return (
+        int(pos[0] // singleton.DEFAULT_CHUNK_PIXEL_WIDTH),
+        int(pos[1] // singleton.DEFAULT_CHUNK_PIXEL_HEIGHT)
+    )
+
+def get_chunk_offset(chunk_pos: tuple):
+    """ Get the chunk offset """
+    return (
+        chunk_pos[0] * singleton.DEFAULT_CHUNK_PIXEL_WIDTH,
+        chunk_pos[1] * singleton.DEFAULT_CHUNK_PIXEL_HEIGHT
+    )

@@ -14,6 +14,7 @@ FONT_CACHE = {}
 
 KEY_HELD = set()
 KEY_CLICKED = set()
+KEY_MOD_CLICKED = None
 
 MOUSE_PRESSED = [0, 0, 0, 0]
 
@@ -29,7 +30,6 @@ def load_image(path: str, convert: bool = True):
     image = image if not convert else image.convert_alpha()
     IMAGES_CACHE[path] = image
     return image
-
 
 def cache_image(path: str, image: pygame.Surface):
     """ Cache an image """
@@ -84,6 +84,10 @@ def get_key_released(key: int):
 def get_key_held(key: int):
     """ Check if a key is held """
     return key in KEY_HELD
+
+def check_mod_pressed(key: int):
+    """ Check if a modifier key is pressed """
+    return KEY_MOD_CLICKED & key
 
 # ---------------------------- #
 # mouse

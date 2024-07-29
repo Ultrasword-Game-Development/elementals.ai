@@ -108,7 +108,7 @@ class UIObject(entity.Entity):
         
         # set variables
         self._position = [self.abs_position[0] + relx + padding[PADDING_LEFT], 
-                self.abs_position[1] + rely + padding[PADDING_TOP]]
+                        self.abs_position[1] + rely + padding[PADDING_TOP]]
         self._area = [self.abs_area[0] - padding[PADDING_LEFT] - padding[PADDING_RIGHT], 
                         self.abs_area[1] - padding[PADDING_BOTTOM] - padding[PADDING_TOP]]
         self._text = None
@@ -128,13 +128,13 @@ class UIObject(entity.Entity):
     # ---------------------------- #
     # base functions
     
-    def render(self, surface: pygame.Surface):
-        """ Render the object """
-        pygame.draw.rect(surface, self._background_color, self.get_ui_rect())    
-    
     def update(self):
         """ Update the object """
         pass
+
+    def render(self, surface: pygame.Surface):
+        """ Render the object """
+        pygame.draw.rect(surface, self._background_color, self.get_ui_rect())    
     
     @property
     def area(self):
@@ -155,7 +155,7 @@ class UIObject(entity.Entity):
     
     def is_hovering(self):
         """ Check if the mouse is touching the object """
-        mpos = io.get_mouse_pos()
+        mpos = io.get_framebuffer_mouse_pos()
         return self.get_ui_rect().collidepoint(mpos)
     
     def is_left_clicked(self):
@@ -279,7 +279,7 @@ class ExternalUIObject(UIObject):
     def get_screen_ui_rect(self):
         """ Get the pygame rect of the object """
         return pygame.Rect(self._screen_pos + self._screen_area)
-
+    
 
 # ---------------------------- #
 # custom ui objects

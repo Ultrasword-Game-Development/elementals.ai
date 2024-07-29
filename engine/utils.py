@@ -17,6 +17,9 @@ def hash_sha256(item):
 def normalize_rgb(color: tuple):
     return tuple([c / 255 for c in color])
 
+def clamp(val, min_val, max_val):
+    return max(min(val, max_val), min_val)
+
 
 # ---------------------------- #
 # surface
@@ -36,12 +39,25 @@ def clip(image, x, y, w, h):
 
 def framebuffer_pos_to_screen_pos(pos, framebuffer_size, screen_size):
     """Convert framebuffer position to screen position"""
-    return (pos[0] * screen_size[0] / framebuffer_size[0], pos[1] * screen_size[1] / framebuffer_size[1])
+    x_ratio = screen_size[0] / framebuffer_size[0]
+    y_ratio = screen_size[1] / framebuffer_size[1]
+    return (pos[0] * x_ratio, pos[1] * y_ratio)
 
 def framebuffer_pos_to_screen_pos_int(pos, framebuffer_size, screen_size):
     """Convert framebuffer position to screen position"""
-    return (int(pos[0] * screen_size[0] / framebuffer_size[0]), int(pos[1] * screen_size[1] / framebuffer_size[1]))
+    ratio = framebuffer_pos_to_screen_pos(pos, framebuffer_size, screen_size)
+    return (int(ratio[0]), int(ratio[1]))
 
+def framebuffer_rect_to_screen_rect_int(rect, framebuffer_size, screen_size):
+    """Convert framebuffer rect to screen rect"""
+    x_ratio = screen_size[0] / framebuffer_size[0]
+    y_ratio = screen_size[1] / framebuffer_size[1]
+    return pygame.Rect(
+        rect.left * x_ratio,
+        rect.top * y_ratio,
+        rect.width * x_ratio,
+        rect.height * y_ratio
+    )
 
 # ---------------------------- #
 # mouse

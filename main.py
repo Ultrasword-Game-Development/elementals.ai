@@ -51,6 +51,7 @@ gl.GLContext.create_context()
 
 
 world_save = "assets/level/world.elal"
+# world_save = "assets/level/test_world.elal"
 
 w = world.World.load_world(world_save)
 
@@ -84,18 +85,11 @@ w = world.World.load_world(world_save)
 # w.p_ani = animation.load_animation_from_json('assets/sprites/player.json')
 # w.p_ani_reg = w.p_ani.get_registry()
 
-
-
-
-print("world flag should be on")
-singleton.save_world(world_save, w)
-print("world flag off")
+# singleton.save_world(world_save, w)
 
 
 
 # ---------------------------- #
-
-t = 0
 
 singleton.RUNNING = True
 singleton.START_TIME = time.time()
@@ -107,6 +101,7 @@ while singleton.RUNNING:
 
     # ---------------------------- #
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
+    singleton.SCREENBUFFER.fill((0, 0, 0, 0))
     
     # w.t_emitter.emit()
     
@@ -123,17 +118,16 @@ while singleton.RUNNING:
 
     # ---------------------------- #
     # final rendering
-    t += 1
-    ftex = gl.surface_to_texture(singleton.FRAMEBUFFER)
-    ftex.use(0)
-    gl.GLContext.FRAMEBUFFER_SHADER._program['tex'] = 0
-    gl.GLContext.FRAMEBUFFER_SHADER._program['time'] = singleton.ACTIVE_TIME
-    gl.GLContext.FRAMEBUFFER_RENDER_OBJECT.render(mode=moderngl.TRIANGLE_STRIP)
-
-    # singleton.WINDOW.blit(pygame.transform.scale(singleton.FRAMEBUFFER, singleton.WIN_SIZE), (0, 0))
+    gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
+        "tex": 0,
+        "time": singleton.ACTIVE_TIME    
+    })
+    gl.GLContext.render_to_opengl_window(singleton.SCREENBUFFER, singleton.DEFAULT_SCREEN_SHADER, singleton.SCREEN_SHADER_QUAD, {
+        "tex": 0,
+        "time": singleton.ACTIVE_TIME    
+    })
 
     pygame.display.flip()
-    ftex.release()
 
     # ---------------------------- #
     # update events

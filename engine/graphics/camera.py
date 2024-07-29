@@ -26,7 +26,6 @@ class PseudoCamera:
     """
     def __init__(self, position: tuple, area: tuple):
         """ Create a new pseudo camera """
-        self.__old = pygame.math.Vector2((0, 0))
         self.__position = pygame.math.Vector2(position)
         self._rect = pygame.Rect(position, area)
 
@@ -38,7 +37,6 @@ class PseudoCamera:
     def __add__(self, other: tuple):
         """ Add to the camera """
         self.__position += (other[0], -other[1])
-        print(self.__position, other)
         self._rect.topleft = self.__position
         return self
     
@@ -81,6 +79,14 @@ class PseudoCamera:
     def area(self):
         """ Get the area of the camera """
         return pygame.math.Vector2(self._rect.size)
+    
+    @area.setter
+    def area(self, other: tuple):
+        """ Set the area of the camera """
+        _center = self.center
+        self._rect.size = other
+        # recalculate center position
+        self.position = _center - self.area // 2
 
     @property
     def rect(self):

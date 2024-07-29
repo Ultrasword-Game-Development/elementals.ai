@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import platform
 
 import dill
 
@@ -10,11 +11,26 @@ from engine import io
 # pre-run scripts
 
 
+# default settings = Windows
+CONTROL_KEY_EQUIV = pygame.K_LCTRL
+
+# operating system specific info
+if platform.system() == "Windows":
+    pass
+elif platform.system() == "Linux":
+    pass
+elif platform.system() == "Darwin":
+    CONTROL_KEY_EQUIV = pygame.K_LMETA
+elif platform.system() == "Java":
+    print("why are you playing on java wth. Get outta here lol.")
+    sys.exit()
+
 
 # ---------------------------- #
 
 RUNNING = False
 DEBUG = False
+EDITOR_DEBUG = False
 
 FPS = 60
 FRAME_COUNTER = 0
@@ -90,6 +106,13 @@ UPDATE_INVISIBLE_CHUNKS = True
 SAVING_WORLD_FLAG = False
 
 # ---------------------------- #
+# misc functions
+
+def GAME_EXIT_FUNCTION():
+    """ Function to call when the game exits """
+    print("Note: Exiting Game")
+
+# ---------------------------- #
 # util functions
 
 def update_default_chunk_tile_config(width: int, height: int, tile_width: int, tile_height: int):
@@ -105,11 +128,13 @@ def update_default_chunk_tile_config(width: int, height: int, tile_width: int, t
 
 def system_update_function():
     """ Update the system """
-    global RUNNING, DEBUG
+    global RUNNING, DEBUG, EDITOR_DEBUG
     io.KEY_CLICKED.clear()
+    io.KEY_MOD_CLICKED = pygame.key.get_mods()
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             RUNNING = False
+            GAME_EXIT_FUNCTION()
             CONTEXT.release()
             pygame.quit()
             sys.exit()
@@ -133,6 +158,8 @@ def system_update_function():
     # TODO - REMOVE THIS -- check if debug toggle
     if io.get_key_clicked(pygame.K_d) and io.get_key_pressed(pygame.K_LSHIFT):
         DEBUG = not DEBUG
+    if io.get_key_clicked(pygame.K_e) and io.get_key_pressed(pygame.K_LSHIFT):
+        EDITOR_DEBUG = not EDITOR_DEBUG
 
 def save_world(path: str, world):
     """ Save the world to a file """

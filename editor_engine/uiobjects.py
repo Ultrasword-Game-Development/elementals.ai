@@ -9,12 +9,17 @@ from engine import singleton
 
 from engine.ui import ui
 
+from engine.handler import world
+
 from engine.graphics import gl
 from engine.graphics import shader
+from engine.graphics import camera
 
+from editor_engine import editor_singleton
 
 # ---------------------------- #
-# 
+# constants
+
 
 
 # ---------------------------- #
@@ -24,16 +29,74 @@ class Editor(ui.Frame):
     
     def __post_init__(self):
         """ Post init function """
-        super().__post_init__()
-        self._camera_pos = (0, 0)
+        # store world current data
+        self._world_camera = editor_singleton.CURRENT_EDITING_WORLD.camera
+        self._camera_scale = 2.0
+        self._camera_scale_ratio = 1.0
+        self._camera_scale_ratio_increment = 0.1
+        self._camera = camera.PseudoCamera((0, 0), pygame.math.Vector2(self._area) * self._camera_scale * self._camera_scale_ratio)
+        self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
+        self._frame.fill((0, 0, 0, 0))
+        # set new value
+        editor_singleton.CURRENT_EDITING_WORLD._camera = self._camera
+        editor_singleton.CURRENT_EDITING_WORLD.camera = self._camera
         
+    # ---------------------------- #
+    # logic
+
+    def update(self):
+        """ Update the object """
+        # zooming in + zooming out :)
+        if io.get_key_pressed(singleton.CONTROL_KEY_EQUIV) and io.get_key_clicked(pygame.K_EQUALS):
+            self._camera_scale_ratio = utils.clamp(self._camera_scale_ratio - self._camera_scale_ratio_increment, 0.1, self._camera_scale)
+            self._camera.area = pygame.math.Vector2(self._area) * self._camera_scale * self._camera_scale_ratio
+            self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
+            self._frame.fill((0, 0, 0, 0))
+            print(__file__, 'Note: Zooming in')
+        elif io.get_key_pressed(singleton.CONTROL_KEY_EQUIV) and io.get_key_clicked(pygame.K_MINUS):
+            self._camera_scale_ratio = utils.clamp(self._camera_scale_ratio + self._camera_scale_ratio_increment, 0.1, self._camera_scale)
+            self._camera.area = pygame.math.Vector2(self._area) * self._camera_scale * self._camera_scale_ratio
+            self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
+            self._frame.fill((0, 0, 0, 0))
+            print(__file__, 'Note: Zooming out')
+
+        # convert screen mouse pos to world pos
+        mouse_pos = io.get_framebuffer_mouse_pos()
+
+        # print(mouse_pos)
+        # print(self.is_hovering())
+
     def render(self, surface: pygame.Surface):
         """ Render the object """
-        # render onto the frame
-        
-        # render grid lines
-        
-        super().render(surface)
+        # render the world into the frame
+        editor_singleton.CURRENT_EDITING_WORLD.update_and_render(self._frame)
+
+        # TODO - scaling the image???
+
+        if singleton.EDITOR_DEBUG:
+            # render all rects in chunks to the screen lol
+            for active_chunk in editor_singleton.CURRENT_EDITING_WORLD.iterate_renderable_chunk_positions():
+                for layer in editor_singleton.CURRENT_EDITING_WORLD._layers:
+                    # render the chunk rect
+                    pygame.draw.rect(self._frame, (255, 0, 0, 150), world.Chunk.generate_chunk_rect_given_chunk_position(active_chunk, self._camera), 1)
+
+        surface.blit(pygame.transform.scale(self._frame, self._area), self.get_ui_rect())
+        # super().render(surface)
+    
+    def resize_screen(self, new_size: tuple):
+        """ Resize the screen """
+        self._camera.area = new_size
+        # create new frame
+        self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
+        self._frame.fill((0, 0, 0, 0))
+    
+    def close(self):
+        """ Close the editor window """
+        # reset the world camera
+        editor_singleton.CURRENT_EDITING_WORLD._camera = self._world_camera
+        editor_singleton.CURRENT_EDITING_WORLD.camera = self._world_camera
+
+        print('Note: Closing Editor')
 
 # ---------------------------- #
 # sprite selection window

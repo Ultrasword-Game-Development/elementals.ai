@@ -1,4 +1,16 @@
+import os
 import sys
+import platform
+
+# TODO - figure out what to do when I compile this program (because that'll be quite a problem)
+if not os.environ.get("PYTHONHASHSEED"):
+    os.environ["PYTHONHASHSEED"] = "13"
+    
+    import subprocess
+    subprocess.run([sys.executable] + sys.argv)
+    sys.exit()
+    # os.execv(sys.executable, ['python'] + sys.argv)
+
 import dill
 import time
 import pickle
@@ -20,7 +32,7 @@ from engine.graphics import animation
 from engine.graphics import spritesheet
 
 from editor_engine import uiobjects
-
+from editor_engine import editor_singleton
 # ---------------------------- #
 # create a window
 
@@ -29,6 +41,8 @@ pygame.init()
 clock = pygame.time.Clock()
 
 singleton.WIN_BACKGROUND = utils.hex_to_rgb('001E3D')
+singleton.DEBUG = False
+singleton.EDITOR_DEBUG = True
 
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
@@ -36,10 +50,15 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PRO
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
+
 # ---------------------------- #
 # editor UI loadup
 
+
+# Note: must load world + start ui
 ui.start_ui()
+editor_singleton.CURRENT_EDITING_WORLD = (w:=singleton.load_world("assets/level/test_world.elal"))
+
 
 base_window = ui.UIObject(0, 0, padding=2)
 base_window.set_background_color(utils.hex_to_rgb('00233A'))
@@ -52,11 +71,21 @@ sprite_select_window.set_background_color(utils.hex_to_rgb('#1F618D'))
 
 ui.add_ui_object(base_window, editor_window, sprite_select_window)
 
+# editor_window.resize_screen(w.camera.area * 2)
 
 # color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=10, parent=editor_window)
 # ui.add_ui_object(color_picker)
 
 # color_picker.color_selection = utils.normalize_rgb((255, 0, 0, 255))
+
+def exit_func():
+    """ Exit function """
+    # save the world or something
+    print("saving world - (not really)")
+    # don't actaully do it yet
+
+singleton.GAME_EXIT_FUNCTION = exit_func
+
 
 # ---------------------------- #
 
@@ -70,6 +99,8 @@ while singleton.RUNNING:
 
     # ---------------------------- #
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
+    singleton.SCREENBUFFER.fill((0, 0, 0, 0))
+
 
     # print(io.get_mouse_rel())
     
