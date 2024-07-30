@@ -40,9 +40,15 @@ class PseudoCamera:
         self._rect.topleft = self.__position
         return self
     
+    def __iadd__(self, other: tuple):
+        """ Add to the camera """
+        self.__position += (other[0], -other[1])
+        self._rect.topleft = self.__position
+        return self
+    
     def __sub__(self, other: tuple):
         """ Subtract from the camera """
-        self.__position -= (other[0], 0-other[1])
+        self.__position -= (other[0], other[1])
         self._rect.topleft = self.__position
         return self
     

@@ -49,6 +49,7 @@ FB_SIZE = [WIN_SIZE[0] // FB_FACTOR, WIN_SIZE[1] // FB_FACTOR]
 WINDOW = None
 FRAMEBUFFER = None
 SCREENBUFFER = None
+DEFAULT_SURFACE_FLAGS = pygame.SRCALPHA
 
 # ---------------------------- #
 

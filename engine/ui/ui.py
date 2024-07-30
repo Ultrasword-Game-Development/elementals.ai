@@ -170,6 +170,11 @@ class UIObject(entity.Entity):
         """ Check if the object is being dragged """
         return self.is_hovering and tuple(io.get_mouse_rel()) != (0, 0)
     
+    def get_relative_mouse_pos(self):
+        """ Get the relative mouse position """
+        mouse_pos = io.get_framebuffer_mouse_pos()
+        return (mouse_pos[0] - self.abs_position[0], mouse_pos[1] - self.abs_position[1])
+    
     def get_clicked_relative_pos(self, click_pos: tuple):
         """ Get relative position of a mouse click """
         return (click_pos[0] - self.abs_position[0], click_pos[1] - self.abs_position[1])

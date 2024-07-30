@@ -32,14 +32,26 @@ class Editor(ui.Frame):
         # store world current data
         self._world_camera = editor_singleton.CURRENT_EDITING_WORLD.camera
         self._camera_scale = 2.0
-        self._camera_scale_ratio = 1.0
+        self._camera_scale_ratio = 0.5
         self._camera_scale_ratio_increment = 0.1
-        self._camera = camera.PseudoCamera((0, 0), pygame.math.Vector2(self._area) * self._camera_scale * self._camera_scale_ratio)
+        self._camera = camera.PseudoCamera((0, 0), pygame.math.Vector2(self.area) * self._camera_scale * self._camera_scale_ratio)
         self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
         self._frame.fill((0, 0, 0, 0))
         # set new value
         editor_singleton.CURRENT_EDITING_WORLD._camera = self._camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = self._camera
+        # selection stats
+        self._selection_tile_coordinate = (0, 0)
+        
+        self._raw_buffer_pos = (0, 0)
+        self._buffer_tile_pos = (0, 0)
+        self._selected_tile_overlay_rect = pygame.Rect(0, 0, singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT)
+        self._selected_tile_overlay_surface = pygame.Surface((singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT), 0, 16).convert_alpha()
+        self._selected_tile_overlay_surface.fill((255, 0, 0, 100))
+        self._move_vec = pygame.math.Vector2(0, 0)
+        
+        # camera move speed
+        self._camera_move_speed = 50
         
     # ---------------------------- #
     # logic
@@ -49,22 +61,39 @@ class Editor(ui.Frame):
         # zooming in + zooming out :)
         if io.get_key_pressed(singleton.CONTROL_KEY_EQUIV) and io.get_key_clicked(pygame.K_EQUALS):
             self._camera_scale_ratio = utils.clamp(self._camera_scale_ratio - self._camera_scale_ratio_increment, 0.1, self._camera_scale)
-            self._camera.area = pygame.math.Vector2(self._area) * self._camera_scale * self._camera_scale_ratio
+            self._camera.area = pygame.math.Vector2(self.area) * self._camera_scale * self._camera_scale_ratio
             self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
             self._frame.fill((0, 0, 0, 0))
-            print(__file__, 'Note: Zooming in')
+            print(__file__, 'Note: Zooming in', self._camera)
         elif io.get_key_pressed(singleton.CONTROL_KEY_EQUIV) and io.get_key_clicked(pygame.K_MINUS):
             self._camera_scale_ratio = utils.clamp(self._camera_scale_ratio + self._camera_scale_ratio_increment, 0.1, self._camera_scale)
-            self._camera.area = pygame.math.Vector2(self._area) * self._camera_scale * self._camera_scale_ratio
+            self._camera.area = pygame.math.Vector2(self.area) * self._camera_scale * self._camera_scale_ratio
             self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
             self._frame.fill((0, 0, 0, 0))
-            print(__file__, 'Note: Zooming out')
+            print(__file__, 'Note: Zooming out', self._camera)
 
         # convert screen mouse pos to world pos
-        mouse_pos = io.get_framebuffer_mouse_pos()
-
-        # print(mouse_pos)
-        # print(self.is_hovering())
+        self._raw_buffer_pos = pygame.math.Vector2(utils.framebuffer_pos_to_screen_pos_int(self.get_relative_mouse_pos(), self._area, self._camera.area)) + self._camera.position
+        # find selected tile coords
+        x_coord = int(self._raw_buffer_pos.x // singleton.DEFAULT_TILE_WIDTH)
+        y_coord = int(self._raw_buffer_pos.y // singleton.DEFAULT_TILE_HEIGHT)
+        self._buffer_tile_pos = (x_coord, y_coord)
+        
+        self._selected_tile_overlay_rect.topleft = (x_coord * singleton.DEFAULT_TILE_WIDTH, y_coord * singleton.DEFAULT_TILE_HEIGHT) - self._camera.position
+        
+        # camera movement
+        self._move_vec *= 0.1
+        if io.get_key_pressed(pygame.K_d):
+            self._move_vec += (self._camera_move_speed * singleton.DELTA_TIME, 0)
+        if io.get_key_pressed(pygame.K_a):
+            self._move_vec += (-self._camera_move_speed * singleton.DELTA_TIME, 0)
+        if io.get_key_pressed(pygame.K_w):
+            self._move_vec += (0, self._camera_move_speed * singleton.DELTA_TIME)
+        if io.get_key_pressed(pygame.K_s):
+            self._move_vec += (0, -self._camera_move_speed * singleton.DELTA_TIME)
+        if io.get_key_pressed(pygame.K_LSHIFT):
+            self._move_vec *= 1.4
+        self._camera += self._move_vec
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
@@ -79,6 +108,11 @@ class Editor(ui.Frame):
                 for layer in editor_singleton.CURRENT_EDITING_WORLD._layers:
                     # render the chunk rect
                     pygame.draw.rect(self._frame, (255, 0, 0, 150), world.Chunk.generate_chunk_rect_given_chunk_position(active_chunk, self._camera), 1)
+
+        # draw a circle
+        pygame.draw.circle(self._frame, (255, 0, 0, 255), self._raw_buffer_pos - self._camera.position, 2)
+        # draw an overlay rect
+        self._frame.blit(self._selected_tile_overlay_surface, self._selected_tile_overlay_rect.topleft)
 
         surface.blit(pygame.transform.scale(self._frame, self._area), self.get_ui_rect())
         # super().render(surface)
