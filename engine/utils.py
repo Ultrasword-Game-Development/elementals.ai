@@ -26,11 +26,21 @@ def clamp(val, min_val, max_val):
 
 def palette_swap(surf, old_c, new_c):
     """Palette swap function"""
+    _storage = surf.get_colorkey()
+    surf.set_colorkey(None)
+
+    # background surface
     c_copy = surf.copy()
+    c_copy.set_colorkey(None)
     c_copy.fill(new_c)
+
+    # colorkey surface
     c_surf = surf.copy()
     c_surf.set_colorkey(old_c)
     c_copy.blit(c_surf, (0, 0))
+
+    surf.set_colorkey(_storage)
+    c_copy.set_colorkey(_storage)
     return c_copy
 
 def clip(image, x, y, w, h):
@@ -77,9 +87,6 @@ def mouse_framebuffer_to_surface_pos(pos, framebuffer_size, screen_size):
 def mouse_framebuffer_to_surface_pos_int(pos, framebuffer_size, screen_size):
     """Convert mouse framebuffer position to surface position"""
     return (int(pos[0] * screen_size[0] / framebuffer_size[0]), int(pos[1] * screen_size[1] / framebuffer_size[1]))
-
-
-
 
 # ---------------------------- #
 

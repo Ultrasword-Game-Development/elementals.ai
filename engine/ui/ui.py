@@ -79,7 +79,7 @@ class UIObject(entity.Entity):
             elif type(w) == float:
                 ww = int(w * parent.abs_area[0])
             if not h:
-                hh = parent.abs_area
+                hh = parent.abs_area[1]
             elif type(h) == float:
                 hh = int(h * parent.abs_area[1])
             
@@ -197,6 +197,7 @@ class UIObject(entity.Entity):
         """ Add a child to the object """
         self._children.append(child)
         self._child_number = len(self._children)
+        self.conform_child_area(child)
     
     def remove_child(self, child):
         """ Remove a child from the object """
@@ -218,15 +219,10 @@ class UIObject(entity.Entity):
         """ Set the layer of the object """
         self._layer = layer
     
-    def conform_child_rect(self, child_rect: pygame.Rect):
-        """ Conform the child rect to the parent rect """
-        if not self._horizontal_align:
-            return pygame.Rect(self.abs_position[0] + child_rect.x, self.abs_position[1] + child_rect.y, child_rect.width, child_rect.height)
-        # return with horizontal conformation
-        return pygame.Rect(
-            
-        )
-
+    def conform_child_area(self, child: "UIObject"):
+        """ Conform the child area to the parent """
+        # TODO - still need to do this
+        pass
 
     # ---------------------------- #
     # misc
@@ -294,13 +290,12 @@ class Frame(UIObject):
     def __post_init__(self):
         """ Post init function """
         self._frame = pygame.Surface(self._area, 0, 16).convert_alpha()
-        self._frame.fill((0, 0, 0, 0))
+        self._frame.fill(self._background_color)
     
     def render(self, surface: pygame.Surface):
         """ Render the object """
         super().render(surface)
         surface.blit(self._frame, self.get_ui_rect().topleft)
-
 
 
 # ---------------------------- #

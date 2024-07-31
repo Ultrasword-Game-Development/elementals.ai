@@ -6,6 +6,7 @@ import platform
 import dill
 
 from engine import io
+from engine.graphics import gl
 
 # ---------------------------- #
 # pre-run scripts
@@ -152,6 +153,8 @@ def system_update_function():
             if e.button > 3:
                 continue
             io.MOUSE_PRESSED[e.button] = False
+        elif e.type == pygame.WINDOWSIZECHANGED:
+            gl.GLContext.handle_resizing((e.x, e.y))
     
     # TODO - decide if i want to keep this (update per frame) signal emitter
     GLOBAL_FRAME_SIGNAL_EMITTER.emit()

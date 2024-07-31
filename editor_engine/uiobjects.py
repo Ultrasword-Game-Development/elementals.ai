@@ -8,6 +8,7 @@ from engine import utils
 from engine import singleton
 
 from engine.ui import ui
+from engine.ui import pixelfont
 
 from engine.handler import world
 
@@ -31,9 +32,9 @@ class Editor(ui.Frame):
         """ Post init function """
         # store world current data
         self._world_camera = editor_singleton.CURRENT_EDITING_WORLD.camera
-        self._camera_scale = 2.0
-        self._camera_scale_ratio = 0.5
-        self._camera_scale_ratio_increment = 0.1
+        self._camera_scale = 1.0
+        self._camera_scale_ratio = 0.25
+        self._camera_scale_ratio_increment = 0.05
         self._camera = camera.PseudoCamera((0, 0), pygame.math.Vector2(self.area) * self._camera_scale * self._camera_scale_ratio)
         self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
         self._frame.fill((0, 0, 0, 0))
@@ -82,7 +83,7 @@ class Editor(ui.Frame):
         self._selected_tile_overlay_rect.topleft = (x_coord * singleton.DEFAULT_TILE_WIDTH, y_coord * singleton.DEFAULT_TILE_HEIGHT) - self._camera.position
         
         # camera movement
-        self._move_vec *= 0.1
+        self._move_vec *= 0.7
         if io.get_key_pressed(pygame.K_d):
             self._move_vec += (self._camera_move_speed * singleton.DELTA_TIME, 0)
         if io.get_key_pressed(pygame.K_a):
@@ -115,6 +116,7 @@ class Editor(ui.Frame):
         self._frame.blit(self._selected_tile_overlay_surface, self._selected_tile_overlay_rect.topleft)
 
         surface.blit(pygame.transform.scale(self._frame, self._area), self.get_ui_rect())
+        # print(self.get_ui_rect())
         # super().render(surface)
     
     def resize_screen(self, new_size: tuple):
@@ -129,14 +131,55 @@ class Editor(ui.Frame):
         # reset the world camera
         editor_singleton.CURRENT_EDITING_WORLD._camera = self._world_camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = self._world_camera
-
         print('Note: Closing Editor')
 
 # ---------------------------- #
-# sprite selection window
+# sprite selection
 
-class SpriteSelect(ui.UIObject):
-    pass
+class SpriteSelect(ui.Frame):
+    
+    def __post_init__(self):
+        """ Post init function """
+        super().__post_init__()
+        # include tabs
+        self._tabs = {}
+        self._selected_tab = None
+
+        self._font = pixelfont.load_pixelfont("assets/fonts/small_font.png")
+
+        self._empty_text = self._font.render_to_surface("No Tab\nSelected", newline=True, options={
+            'text_align': pixelfont.CENTER_ALIGN
+        }, scale = 10)
+        self._empty_text_rect = self._empty_text.get_rect()
+        self._empty_text_rect.center = self.get_ui_rect().center
+
+    def update(self):
+        """ Update the object """
+        if not self._selected_tab:
+            # render empty page
+
+            return
+
+    def render(self, surface: pygame.Surface):
+        """ Render the object """
+        super().render(surface)
+
+        surface.blit(self._empty_text, self._empty_text_rect)
+
+
+# ---------------------------- #
+# tab
+
+class TabsManager(ui.Frame):
+
+    def __post_init__(self):
+        pass
+
+    def update(self):
+        pass
+
+    def render(self, surface: pygame.Surface):
+        pass
 
 
 # -------------------------------------------------- #

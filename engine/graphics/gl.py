@@ -129,7 +129,6 @@ class GLContext:
         framebuffer.bind_to_image(0, read=False, write=True)
         
         a_shader.run(nx, ny, nz)
-
     
     @classmethod
     def register_sprite(cls, name: str, sprite: pygame.Surface):
@@ -137,3 +136,13 @@ class GLContext:
         cls.ACTIVE_SPRITES[name] = (sprite, cls._SPRITE_COUNTER)
         cls._SPRITE_COUNTER += 1
 
+    # ---------------------------- #
+    # utils
+
+    @classmethod
+    def handle_resizing(cls, new_size: tuple):
+        """ Handles the resizing of the window """
+        singleton.WIN_SIZE = new_size
+        singleton.CONTEXT.viewport = (0, 0, *new_size)
+        print(singleton.FB_SIZE, singleton.WIN_SIZE)
+        print(singleton.CONTEXT.viewport)

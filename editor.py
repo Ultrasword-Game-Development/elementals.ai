@@ -43,6 +43,7 @@ clock = pygame.time.Clock()
 singleton.WIN_BACKGROUND = utils.hex_to_rgb('001E3D')
 singleton.DEBUG = False
 singleton.EDITOR_DEBUG = True
+singleton.FB_SIZE = (1920, 1080)
 
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
@@ -59,14 +60,17 @@ gl.GLContext.create_context()
 ui.start_ui()
 editor_singleton.CURRENT_EDITING_WORLD = (w:=singleton.load_world("assets/level/test_world.elal"))
 
-
 base_window = ui.UIObject(0, 0, padding=2)
 base_window.set_background_color(utils.hex_to_rgb('00233A'))
 
 editor_window = uiobjects.Editor(0, 0, w = 0.8, h=1.0, padding=1, parent=base_window)
 editor_window.set_background_color(utils.hex_to_rgb('033454'))
 
-sprite_select_window = uiobjects.SpriteSelect(0.8, 0, w = 0.2, h=1.0, padding=[0, 1, 1, 1], parent=base_window)
+right_side_hub = ui.UIObject(0.8, 0, w = 0.2, h=1.0, padding=[0, 1, 1, 1], parent=base_window)
+right_side_hub.set_background_color(utils.hex_to_rgb('1F618D'))
+
+# add children
+sprite_select_window = uiobjects.SpriteSelect(0.0, 0.1, padding=1, parent=right_side_hub)
 sprite_select_window.set_background_color(utils.hex_to_rgb('#1F618D'))
 
 ui.add_ui_object(base_window, editor_window, sprite_select_window)
