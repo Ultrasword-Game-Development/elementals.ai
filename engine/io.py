@@ -16,7 +16,6 @@ KEY_HELD = set()
 KEY_CLICKED = set()
 KEY_MOD_CLICKED = None
 
-MOUSE_PRESSED = [0, 0, 0, 0]
 
 # ---------------------------- #
 # images
@@ -56,7 +55,6 @@ def load_font(path: str, size: int):
     FONT_CACHE[size][path] = font
     return font
 
-
 # ---------------------------- #
 # utils
 
@@ -94,15 +92,44 @@ def check_mod_pressed(key: int):
 
 get_mouse_pos = pygame.mouse.get_pos
 get_mouse_pressed = pygame.mouse.get_pressed
-get_mouse_rel = pygame.mouse.get_rel
+get_mouse_clicked = pygame.mouse.get_just_pressed
+
+MOUSE_REL = (0, 0)
+
+def update_mouse_rel():
+    """ Update the mouse relative position """
+    global MOUSE_REL
+    MOUSE_REL = pygame.mouse.get_rel()
+    
+
+
+def get_mouse_rel():
+    """ Get the mouse relative position """
+    return MOUSE_REL    
 
 def is_left_clicked():
     """ Check if the left mouse button is clicked """
-    return get_mouse_pressed()[0]
+    return get_mouse_clicked()[0]
 
 def is_right_clicked():
     """ Check if the right mouse button is clicked """
+    return get_mouse_clicked()[2]
+
+def is_middle_clicked():
+    """ Check if the middle mouse button is clicked """
+    return get_mouse_clicked()[1]
+
+def is_left_pressed():
+    """ Check if the left mouse button is pressed """
+    return get_mouse_pressed()[0]
+
+def is_right_pressed():
+    """ Check if the right mouse button is pressed """
     return get_mouse_pressed()[2]
+
+def is_middle_pressed():
+    """ Check if the middle mouse button is pressed """
+    return get_mouse_pressed()[1]
 
 def is_scroll_clicked():
     """ Check if the scroll wheel is clicked """

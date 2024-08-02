@@ -133,6 +133,7 @@ def system_update_function():
     global RUNNING, DEBUG, EDITOR_DEBUG
     io.KEY_CLICKED.clear()
     io.KEY_MOD_CLICKED = pygame.key.get_mods()
+    io.update_mouse_rel()
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             RUNNING = False
@@ -145,14 +146,15 @@ def system_update_function():
             io.KEY_HELD.add(e.key)
         elif e.type == pygame.KEYUP:
             io.KEY_HELD.remove(e.key)
+        # TODO - handle mouse scrolling
         elif e.type == pygame.MOUSEBUTTONDOWN:
             if e.button > 3:
                 continue
-            io.MOUSE_PRESSED[e.button] = True
+            # io.MOUSE_PRESSED[e.button] = True
         elif e.type == pygame.MOUSEBUTTONUP:
             if e.button > 3:
                 continue
-            io.MOUSE_PRESSED[e.button] = False
+            # io.MOUSE_PRESSED[e.button] = False
         elif e.type == pygame.WINDOWSIZECHANGED:
             gl.GLContext.handle_resizing((e.x, e.y))
     

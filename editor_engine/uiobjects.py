@@ -79,22 +79,35 @@ class Editor(ui.Frame):
         x_coord = int(self._raw_buffer_pos.x // singleton.DEFAULT_TILE_WIDTH)
         y_coord = int(self._raw_buffer_pos.y // singleton.DEFAULT_TILE_HEIGHT)
         self._buffer_tile_pos = (x_coord, y_coord)
+        self._buffer_chunk_pos = (x_coord // singleton.DEFAULT_CHUNK_WIDTH, y_coord // singleton.DEFAULT_CHUNK_HEIGHT)
+        # calculate chunk tile position
+        self._buffer_chunk_tile_pos = (
+            (singleton.DEFAULT_CHUNK_WIDTH + x_coord % singleton.DEFAULT_CHUNK_WIDTH) % singleton.DEFAULT_CHUNK_WIDTH,
+            (singleton.DEFAULT_CHUNK_HEIGHT + y_coord % singleton.DEFAULT_CHUNK_HEIGHT) % singleton.DEFAULT_CHUNK_HEIGHT)
         
         self._selected_tile_overlay_rect.topleft = (x_coord * singleton.DEFAULT_TILE_WIDTH, y_coord * singleton.DEFAULT_TILE_HEIGHT) - self._camera.position
         
         # camera movement
         self._move_vec *= 0.7
-        if io.get_key_pressed(pygame.K_d):
+        if io.get_key_pressed(pygame.K_RIGHT):
             self._move_vec += (self._camera_move_speed * singleton.DELTA_TIME, 0)
-        if io.get_key_pressed(pygame.K_a):
+        if io.get_key_pressed(pygame.K_LEFT):
             self._move_vec += (-self._camera_move_speed * singleton.DELTA_TIME, 0)
-        if io.get_key_pressed(pygame.K_w):
+        if io.get_key_pressed(pygame.K_UP):
             self._move_vec += (0, self._camera_move_speed * singleton.DELTA_TIME)
-        if io.get_key_pressed(pygame.K_s):
+        if io.get_key_pressed(pygame.K_DOWN):
             self._move_vec += (0, -self._camera_move_speed * singleton.DELTA_TIME)
         if io.get_key_pressed(pygame.K_LSHIFT):
             self._move_vec *= 1.4
         self._camera += self._move_vec
+        
+        # use mouse right drag to move camera
+        if io.is_right_pressed():
+            self._camera -= pygame.math.Vector2(io.get_mouse_rel()) // 2
+
+        # check for left clicking
+        if io.is_left_clicked():
+            print('Note: Left clicked at', self._buffer_tile_pos, " | and chunk pos: ", self._buffer_chunk_pos, " | and chunk tile pos: ", self._buffer_chunk_tile_pos)
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
@@ -157,22 +170,53 @@ class SpriteSelect(ui.Frame):
         """ Update the object """
         if not self._selected_tab:
             # render empty page
-
             return
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
         super().render(surface)
-
         surface.blit(self._empty_text, self._empty_text_rect)
+        # pygame.draw.rect(surface, (255, 255, 255), self._empty_text_rect, 1)
+        if self._border_flag:
+            pygame.draw.rect(surface, self._border_color, self.get_ui_rect(), self._border_width)
 
 
 # ---------------------------- #
 # tab
 
+class Tab(ui.Frame):
+    """ 
+    Tab object 
+    
+    Is stored within a list in the TabsManager. Has attribute called: `_frame` (is a frame type object)
+    
+    SpriteSelect simply renders the contents of this frame into itself and 
+    forwards events into the tab object.
+    
+    """
+    
+    def __post_init__(self):
+        """ Post init function """
+        self._tab_name = "Tab"
+        self._tab_content = None
+
+    def update(self):
+        """ Update the object """
+        if not self._tab_content:
+            return
+
+    def render(self, surface: pygame.Surface):
+        """ Render the object """
+        super().render(surface)
+        if self._tab_content:
+            self._tab_content.render(surface)
+
+
 class TabsManager(ui.Frame):
 
     def __post_init__(self):
+        """ Post init function """
+        # TODO - use signals + cache data to load certain tabs
         pass
 
     def update(self):
@@ -181,6 +225,44 @@ class TabsManager(ui.Frame):
     def render(self, surface: pygame.Surface):
         pass
 
+# ---------------------------- #
+# save button
+
+class SaveButton(ui.Button):
+    
+    def __post_init__(self):
+        """ Post init function """
+        super().__post_init__()
+        
+        # add the signal
+        self._signal.add_emitter_handling_function("click", self.save_world)
+        
+    # ---------------------------- #
+    # logic
+    
+    def save_world(self, data: dict):
+        """ Save the world """
+        print('Note: Saving the world (but not for real)')
+        print(editor_singleton.CURRENT_EDITING_WORLD)
+
+# ---------------------------- #
+# new world button
+
+class NewWorldButton(ui.Button):
+    
+    def __post_init__(self):
+        """ Post init function """
+        super().__post_init__()
+        
+        # add the signal
+        self._signal.add_emitter_handling_function("click", self.new_world)
+        
+    # ---------------------------- #
+    # logic
+    
+    def new_world(self, data: dict):
+        """ Create a new world """
+        print('Note: Creating a new world (but not for real)')
 
 # -------------------------------------------------- #
 # editor objects
