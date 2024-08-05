@@ -95,13 +95,16 @@ get_mouse_pressed = pygame.mouse.get_pressed
 get_mouse_clicked = pygame.mouse.get_just_pressed
 
 MOUSE_REL = (0, 0)
+MOUSE_REL_SCROLL = (0, 0)
 
 def update_mouse_rel():
     """ Update the mouse relative position """
     global MOUSE_REL
     MOUSE_REL = pygame.mouse.get_rel()
-    
 
+def get_scroll_rel():
+    """ Get the relative scroll """
+    return MOUSE_REL_SCROLL
 
 def get_mouse_rel():
     """ Get the mouse relative position """

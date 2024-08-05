@@ -73,7 +73,6 @@ right_side_hub = ui.UIObject(0.8, 0, w = 0.2, h=1.0, padding=[0, 1, 1, 1], paren
 right_side_hub.set_background_color(utils.hex_to_rgb('1F618D'))
 
 # = title
-# TODO - change
 editing_world_name = ui.Text(0.0, 0.0, w=1.0, h=0.05, padding=1, parent=right_side_hub)
 editing_world_name.set_background_color(utils.hex_to_rgb('#00082f'))
 editing_world_name.set_font("assets/fonts/Roboto-Medium.ttf")
@@ -92,8 +91,12 @@ new_world_button.set_text("New World", center=True)
 
 # = tab selector
 # TODO - change
-tab_selector = ui.Button(0.0, 0.11, w=1.0, h=0.04, padding=1, parent=right_side_hub)
-tab_selector.set_background_color(utils.hex_to_rgb('#c81313'))
+tab_selector = uiobjects.TabsManager(0.0, 0.11, w=1.0, h=0.04, padding=1, parent=right_side_hub)
+tab_selector.set_background_color(utils.hex_to_rgb('#001B6A'))
+
+for i in range(1, 11):
+    tab_selector.add_tab(uiobjects.Tab(f"Tab {i}", parent=tab_selector))
+
 
 # = sprite selection window
 sprite_select_window = uiobjects.SpriteSelect(0.0, 0.15, padding=1, parent=right_side_hub)
@@ -119,7 +122,6 @@ def exit_func():
     # don't actaully do it yet
 
 singleton.GAME_EXIT_FUNCTION = exit_func
-
 
 # ---------------------------- #
 

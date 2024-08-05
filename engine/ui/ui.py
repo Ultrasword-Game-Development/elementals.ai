@@ -371,11 +371,7 @@ class Text(UIObject):
             self._rendered_text = self._font.render(self._text, True, COLOR_THEME[TEXT])
             self._rendered_text_rect = self._rendered_text.get_rect()
             # clip out of bounds text
-            if self._rendered_text_rect.width > self._area[0]:
-                result = pygame.Surface(self._area, 0, 16).convert_alpha()
-                result.fill((0, 0, 0, 0))
-                result.blit(self._rendered_text, (0, 0))
-                self._rendered_text = result
+            utils.clip_rect_overlap(self._rendered_text, self.get_ui_rect())
             # center the text
             if self._center_rect:
                 self._rendered_text_rect.center = self.get_ui_rect().center

@@ -94,7 +94,7 @@ DEFAULT_CHUNK_WIDTH = 8
 DEFAULT_CHUNK_HEIGHT = 8
 DEFAULT_CHUNK_AREA_VEC2 = pygame.math.Vector2(DEFAULT_CHUNK_WIDTH, DEFAULT_CHUNK_HEIGHT)
 
-DEFAULT_TILE_WIDTH = 16
+DEFAULT_TILE_WIDTH = 16 
 DEFAULT_TILE_HEIGHT = 16
 
 DEFAULT_CHUNK_PIXEL_WIDTH = DEFAULT_CHUNK_WIDTH * DEFAULT_TILE_WIDTH
@@ -134,6 +134,7 @@ def system_update_function():
     io.KEY_CLICKED.clear()
     io.KEY_MOD_CLICKED = pygame.key.get_mods()
     io.update_mouse_rel()
+    io.MOUSE_REL_SCROLL = (0, 0)
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             RUNNING = False
@@ -154,6 +155,8 @@ def system_update_function():
         elif e.type == pygame.MOUSEBUTTONUP:
             if e.button > 3:
                 continue
+        elif e.type == pygame.MOUSEWHEEL:
+            io.MOUSE_REL_SCROLL = (e.x, e.y)
             # io.MOUSE_PRESSED[e.button] = False
         elif e.type == pygame.WINDOWSIZECHANGED:
             gl.GLContext.handle_resizing((e.x, e.y))

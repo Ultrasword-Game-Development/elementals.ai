@@ -11,6 +11,7 @@ from engine.ui import ui
 from engine.ui import pixelfont
 
 from engine.handler import world
+from engine.handler import signal
 
 from engine.graphics import gl
 from engine.graphics import shader
@@ -100,14 +101,16 @@ class Editor(ui.Frame):
         if io.get_key_pressed(pygame.K_LSHIFT):
             self._move_vec *= 1.4
         self._camera += self._move_vec
-        
-        # use mouse right drag to move camera
-        if io.is_right_pressed():
-            self._camera -= pygame.math.Vector2(io.get_mouse_rel()) // 2
 
-        # check for left clicking
-        if io.is_left_clicked():
-            print('Note: Left clicked at', self._buffer_tile_pos, " | and chunk pos: ", self._buffer_chunk_pos, " | and chunk tile pos: ", self._buffer_chunk_tile_pos)
+        if self.is_hovering():
+            # use mouse right drag to move camera
+            if io.is_right_pressed():
+                self._camera -= pygame.math.Vector2(io.get_mouse_rel()) // 2
+            # use scrolling to move
+            self._move_vec += pygame.math.Vector2(io.get_scroll_rel()) * 50 * singleton.DELTA_TIME
+            # check for left clicking
+            if io.is_left_clicked() and self.is_hovering():
+                print('Note: Left clicked at', self._buffer_tile_pos, " | and chunk pos: ", self._buffer_chunk_pos, " | and chunk tile pos: ", self._buffer_chunk_tile_pos)
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
@@ -184,7 +187,7 @@ class SpriteSelect(ui.Frame):
 # ---------------------------- #
 # tab
 
-class Tab(ui.Frame):
+class Tab(ui.Text):
     """ 
     Tab object 
     
@@ -195,35 +198,116 @@ class Tab(ui.Frame):
     
     """
     
-    def __post_init__(self):
+    def __init__(self, name: str = "Tab", file: str = None, parent: ui.UIObject = None):
         """ Post init function """
-        self._tab_name = "Tab"
+        super().__init__(0, 0, w=None, h=1.0, padding=1, parent=parent)
+        self._tab_name = name
         self._tab_content = None
+        
+        # render text
+        self._frame = None
+        self.set_font("assets/fonts/Roboto-Medium.ttf")
+        self.set_text(self._tab_name)
 
+        self._p_rect = self._rendered_text_rect.copy()
+        self._p_rect.topleft = self._position.copy()
+
+        self._signal_emitter = None
+
+    # ---------------------------- #
+    # logic
+    
     def update(self):
         """ Update the object """
-        if not self._tab_content:
+        if self.is_left_clicked() and self._signal_emitter:
+            self._signal_emitter.emit({"tab": self})
+    
+    def is_hovering(self):
+        """ Check if the tab is hovering """
+        mpos = io.get_framebuffer_mouse_pos()
+        return self._p_rect.collidepoint(mpos)
+
+    # ---------------------------- #
+    # rendering
+    
+    def update_text(self):
+        """ Update the text x position """
+        super().update_text()
+        # make sure to update the _frame object too
+        if not self._rendered_text:
             return
-
-    def render(self, surface: pygame.Surface):
-        """ Render the object """
-        super().render(surface)
-        if self._tab_content:
-            self._tab_content.render(surface)
-
+        self._frame = pygame.Surface(self._rendered_text_rect.size, 0, 16).convert_alpha()
+        self._frame.fill(self._main_color)
+        # copy over
+        self._frame.blit(self._rendered_text, (0, 0))
+    
 
 class TabsManager(ui.Frame):
 
     def __post_init__(self):
         """ Post init function """
-        # TODO - use signals + cache data to load certain tabs
-        pass
+        super().__post_init__()
+        self._tabs = []
+
+        # is scrollable
+        self._x_scroll = 0
+        self._max_x_scroll = 0
+        self._column_padding = 10
+
+        # add active tab
+        self._active_tab = None
+
+        # tabs manager signals
+        self._signal = signal.Signal("_tabs_manager_signal")
+        self._signal.add_emitter_handling_function("click", self._signal_click, parent=self)
+
+    # ---------------------------- #
+    # logic
 
     def update(self):
-        pass
+        """ Update the object """
+        if self.is_hovering():
+            # check for horizontal scroll
+            self._x_scroll = utils.clamp(self._x_scroll + io.get_scroll_rel()[0] * 50 * singleton.DELTA_TIME, 0, self._max_x_scroll)
+        # update tabs
+        for tab in self._tabs:
+            tab.update()
 
     def render(self, surface: pygame.Surface):
-        pass
+        """ Render the object """
+        self._frame.fill(self._main_color)
+        # render each tab
+        left = -self._x_scroll
+        y_level = self.get_ui_rect().h // 2
+        for tab in self._tabs:
+            tab._p_rect.left = tab.get_ui_rect().left + left
+            # render the tab
+            self._frame.blit(tab._frame, pygame.math.Vector2(tab._p_rect.topleft) - tab._position)
+            left += tab._rendered_text_rect.w + self._column_padding
+
+            # draw surrounding rect
+            pygame.draw.rect(
+                self._frame, 
+                (255, 0, 0), 
+                pygame.Rect(pygame.math.Vector2(tab._p_rect.topleft) - tab._position, tab._p_rect.size), 
+                1
+            )
+        # render the frame to the surface
+        surface.blit(self._frame, self.get_ui_rect())
+
+    # ---------------------------- #
+    # tab management
+
+    def add_tab(self, tab: Tab):
+        """ Add a tab """
+        self._max_x_scroll = max(0, len(self._tabs) * 100 - self._area[0])
+        self._tabs.append(tab)
+        tab._signal_emitter = self._signal.get_unique_emitter()
+    
+    def _signal_click(self, data: dict, parent: ui.UIObject):
+        """ Handle the click signal from tab objects """
+        print(data, parent)
+
 
 # ---------------------------- #
 # save button

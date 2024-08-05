@@ -47,6 +47,18 @@ def clip(image, x, y, w, h):
     """Clip a rect from a surface"""
     return image.subsurface(pygame.Rect(x, y, w, h)).convert_alpha().copy()
 
+def clip_rect_overlap(_from_image, _to_rect):
+    """ Clip the overlap between surface and rect """
+    _from_rect = _from_image.get_rect()
+    # if not bigger
+    if _from_rect.w < _to_rect.w and _from_rect.h < _to_rect.h:
+        return _from_image.copy()
+    # clip area 
+    result = pygame.Surface(_to_rect, 0, 16).convert_alpha()
+    result.fill((0, 0, 0, 0))
+    result.blit(_from_image, (0, 0), _to_rect)
+    return result
+
 def framebuffer_pos_to_screen_pos(pos, framebuffer_size, screen_size):
     """Convert framebuffer position to screen position"""
     x_ratio = screen_size[0] / framebuffer_size[0]
