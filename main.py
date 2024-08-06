@@ -55,6 +55,11 @@ world_save = "assets/level/world.elal"
 
 w = world.World.load_world(world_save)
 
+# audio
+
+pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
+pygame.mixer.music.play(-1)
+
 # w = world.World()
 # w.t_signal = signal.Signal("Test Signal")
 # w.t_emitter = w.t_signal.get_unique_emitter()

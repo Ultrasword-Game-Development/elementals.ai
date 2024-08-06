@@ -106,12 +106,19 @@ sprite_select_window.set_border(utils.hex_to_rgb('#ffffff'), 2)
 ui.add_ui_object(base_window, editor_window, sprite_select_window, right_side_hub, save_button, new_world_button)
 ui.add_ui_object(tab_selector, editing_world_name)
 
+
+
 # editor_window.resize_screen(w.camera.area * 2)
 
 # color_picker = uiobjects.ColorPicker(w=0.4, h=0.3, padding=10, parent=editor_window)
 # ui.add_ui_object(color_picker)
 
 # color_picker.color_selection = utils.normalize_rgb((255, 0, 0, 255))
+
+
+# ---------------------------- #
+
+editor_window.load_config_file("assets/editor/config/tab-example.json")
 
 # ---------------------------- #
 

@@ -78,9 +78,6 @@ DELTA_TIME = 0
 START_TIME = 0
 END_TIME = 0
 
-GLOBAL_FRAME_SIGNAL_EMITTER = None
-GLOBAL_FRAME_SIGNAL_KEY = "global_frame_signal"
-
 # ---------------------------- #
 # animation
 
@@ -108,11 +105,23 @@ UPDATE_INVISIBLE_CHUNKS = True
 SAVING_WORLD_FLAG = False
 
 # ---------------------------- #
+# signals
+
+# time signals
+GLOBAL_FRAME_SIGNAL_EMITTER = None
+GLOBAL_FRAME_SIGNAL_KEY = "global_frame_signal"
+
+# ui events
+GLOBAL_FILE_DROP_SIGNAL_EMITTER = None
+GLOBAL_FILE_DROP_SIGNAL_KEY = "global_file_drop_signal"
+
+# ---------------------------- #
 # misc functions
 
 def GAME_EXIT_FUNCTION():
     """ Function to call when the game exits """
     print("Note: Exiting Game")
+
 
 # ---------------------------- #
 # util functions
@@ -160,6 +169,9 @@ def system_update_function():
             # io.MOUSE_PRESSED[e.button] = False
         elif e.type == pygame.WINDOWSIZECHANGED:
             gl.GLContext.handle_resizing((e.x, e.y))
+        # file io stuff
+        elif e.type == pygame.DROPFILE:
+            GLOBAL_FILE_DROP_SIGNAL_EMITTER.emit(e.file)
     
     # TODO - decide if i want to keep this (update per frame) signal emitter
     GLOBAL_FRAME_SIGNAL_EMITTER.emit()

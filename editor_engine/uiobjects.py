@@ -1,4 +1,4 @@
-
+import json
 import pygame
 
 from array import array
@@ -54,6 +54,10 @@ class Editor(ui.Frame):
         
         # camera move speed
         self._camera_move_speed = 50
+
+        # signal
+        signal.get_signal(singleton.GLOBAL_FILE_DROP_SIGNAL_KEY).add_emitter_handling_function("editor_file_drop", self.load_config_file)
+
         
     # ---------------------------- #
     # logic
@@ -142,12 +146,49 @@ class Editor(ui.Frame):
         self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
         self._frame.fill((0, 0, 0, 0))
     
+    # ---------------------------- #
+    # editor function
+
     def close(self):
         """ Close the editor window """
         # reset the world camera
         editor_singleton.CURRENT_EDITING_WORLD._camera = self._world_camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = self._world_camera
         print('Note: Closing Editor')
+
+    # ---------------------------- #
+    # admin functions
+
+    def load_config_file(self, path: str):
+        """ Load a config file """
+        try:
+            with open(path, 'r') as f:
+                data = json.load(f)
+            
+            if "type" not in data:
+                # could be a spritesheet file
+                if "meta" not in data:
+                    raise Exception("Invalid config file or spritesheet")
+                # load the spritesheet
+                editor_singleton.TABSMANAGER_ELEMENT.on_file_drop(path)
+                return
+            
+            # check if necessary keys exist
+            data['tabs']
+            data['world']
+        except Exception as e:
+            print(e)
+            return
+        
+        # load the data
+        _tabdata = data['tabs']
+        _worlddata = data['world']
+        # TODO -- include other paramters
+
+        # load tabdata
+        editor_singleton.TABSMANAGER_ELEMENT.load_config(_tabdata)
+        # load the world
+        # TODO - load the world
 
 # ---------------------------- #
 # sprite selection
@@ -248,6 +289,7 @@ class TabsManager(ui.Frame):
         """ Post init function """
         super().__post_init__()
         self._tabs = []
+        editor_singleton.TABSMANAGER_ELEMENT = self
 
         # is scrollable
         self._x_scroll = 0
@@ -257,7 +299,8 @@ class TabsManager(ui.Frame):
         # add active tab
         self._active_tab = None
 
-        # tabs manager signals
+        # signals
+        # tab manager
         self._signal = signal.Signal("_tabs_manager_signal")
         self._signal.add_emitter_handling_function("click", self._signal_click, parent=self)
 
@@ -286,12 +329,12 @@ class TabsManager(ui.Frame):
             left += tab._rendered_text_rect.w + self._column_padding
 
             # draw surrounding rect
-            pygame.draw.rect(
-                self._frame, 
-                (255, 0, 0), 
-                pygame.Rect(pygame.math.Vector2(tab._p_rect.topleft) - tab._position, tab._p_rect.size), 
-                1
-            )
+            # pygame.draw.rect(
+            #     self._frame, 
+            #     (255, 0, 0), 
+            #     pygame.Rect(pygame.math.Vector2(tab._p_rect.topleft) - tab._position, tab._p_rect.size), 
+            #     1
+            # )
         # render the frame to the surface
         surface.blit(self._frame, self.get_ui_rect())
 
@@ -307,6 +350,39 @@ class TabsManager(ui.Frame):
     def _signal_click(self, data: dict, parent: ui.UIObject):
         """ Handle the click signal from tab objects """
         print(data, parent)
+
+    def load_config(self, _tab_data: list) -> None:
+        """ Load a config file """
+        print(_tab_data)
+        pass
+
+    def export_tab_data(self) -> dict:
+        """ Export the tab data """
+        pass
+
+    def on_file_drop(self, path: str):
+        """ Handle a file drop """
+        print(path)
+        """
+        I need to implement:
+        - check if spritesheet or image file
+        - if spritesheet
+            - load the spritesheet
+            - extract all image data 
+            - store dimensions + snippets from original image
+        - if image file
+            - load image
+        - resize all images to fit inside of grid
+        - store all images in a list + give ordering + id
+        - add to current tab
+        """
+        
+        if path.endswith('.json'):
+            # is a spritesheet
+            pass
+        else:
+            # not a spritesheet
+            pass
 
 
 # ---------------------------- #

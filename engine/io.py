@@ -40,6 +40,14 @@ def cache_image(path: str, image: pygame.Surface):
 # ---------------------------- #
 # audio
 
+def load_audio(path: str):
+    """ Load an audio file """
+    if path in AUDIO_CACHE:
+        return AUDIO_CACHE[path]
+
+    audio = pygame.mixer.Sound(path)
+    AUDIO_CACHE[path] = audio
+    return audio
 
 # ---------------------------- #
 # fonts

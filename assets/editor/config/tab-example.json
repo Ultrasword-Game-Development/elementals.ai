@@ -1,0 +1,19 @@
+{
+    "type": "editor_config",
+    "tabs": [
+        {
+            "name": "Tab 1",
+            "items": [
+                {"file": "assets/sprites/player.png", "x": 0, "y": 0, "w": 16, "h": 16},
+                {"file": "assets/sprites/player.png", "x": 16, "y": 0, "w": 16, "h": 16}
+            ]
+        },
+        {
+            "name": "Tab 2",
+            "items": [
+                {"file": "assets/sprites/mage.png", "x": 0, "y": 0, "w": 16, "h": 16}
+            ]
+        }
+    ],
+    "world": "assets/level/world.elal"
+}
