@@ -77,6 +77,7 @@ editing_world_name = ui.Text(0.0, 0.0, w=1.0, h=0.05, padding=1, parent=right_si
 editing_world_name.set_background_color(utils.hex_to_rgb('#00082f'))
 editing_world_name.set_font("assets/fonts/Roboto-Medium.ttf")
 editing_world_name.set_text(editor_singleton.CURRENT_EDITING_WORLD._world_storage_key)
+editor_singleton.WORLD_NAME_TITLE_ELEMENT = editing_world_name
 
 # = buttons + etc
 save_button = uiobjects.SaveButton(0.0, 0.05, w=0.5, h=0.06, padding=1, parent=right_side_hub)
@@ -94,10 +95,6 @@ new_world_button.set_text("New World", center=True)
 tab_selector = uiobjects.TabsManager(0.0, 0.11, w=1.0, h=0.04, padding=1, parent=right_side_hub)
 tab_selector.set_background_color(utils.hex_to_rgb('#001B6A'))
 
-for i in range(1, 11):
-    tab_selector.add_tab(uiobjects.Tab(f"Tab {i}", parent=tab_selector))
-
-
 # = sprite selection window
 sprite_select_window = uiobjects.SpriteSelect(0.0, 0.15, padding=1, parent=right_side_hub)
 sprite_select_window.set_background_color(utils.hex_to_rgb('#010e29'))
@@ -106,6 +103,7 @@ sprite_select_window.set_border(utils.hex_to_rgb('#ffffff'), 2)
 ui.add_ui_object(base_window, editor_window, sprite_select_window, right_side_hub, save_button, new_world_button)
 ui.add_ui_object(tab_selector, editing_world_name)
 
+editor_window.load_config_file("assets/editor/config/tab-example.json")
 
 
 # editor_window.resize_screen(w.camera.area * 2)

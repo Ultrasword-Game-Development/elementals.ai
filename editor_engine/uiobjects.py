@@ -16,6 +16,7 @@ from engine.handler import signal
 from engine.graphics import gl
 from engine.graphics import shader
 from engine.graphics import camera
+from engine.graphics import spritesheet
 
 from editor_engine import editor_singleton
 
@@ -185,11 +186,14 @@ class Editor(ui.Frame):
         _worlddata = data['world']
         # TODO -- include other paramters
 
+        # load the world
+        editor_singleton.CURRENT_EDITING_WORLD = singleton.load_world(_worlddata)
+        editor_singleton.WORLD_NAME_TITLE_ELEMENT.set_text(editor_singleton.CURRENT_EDITING_WORLD._world_storage_key)
+        editor_singleton.CURRENT_EDITING_WORLD._camera = self._camera
+        editor_singleton.CURRENT_EDITING_WORLD.camera = self._camera
         # load tabdata
         editor_singleton.TABSMANAGER_ELEMENT.load_config(_tabdata)
-        # load the world
-        # TODO - load the world
-
+        
 # ---------------------------- #
 # sprite selection
 
@@ -209,12 +213,25 @@ class SpriteSelect(ui.Frame):
         }, scale = 10)
         self._empty_text_rect = self._empty_text.get_rect()
         self._empty_text_rect.center = self.get_ui_rect().center
+        
+        editor_singleton.SPRITESELECT_ELEMENT = self
+        
+        # ui attributes
+        self._zoom = 0
+        self._grid_size = 3 # -1 for infinite  height
+        self._grid_item_size = [self._area[0] // self._grid_size, 
+                                self._area[0] // self._grid_size]
+        
+    # ---------------------------- #
+    # logic
 
     def update(self):
         """ Update the object """
         if not self._selected_tab:
             # render empty page
             return
+        # update all objects for mouse clicks
+        # TODO - update for mouse clicking
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
@@ -223,7 +240,29 @@ class SpriteSelect(ui.Frame):
         # pygame.draw.rect(surface, (255, 255, 255), self._empty_text_rect, 1)
         if self._border_flag:
             pygame.draw.rect(surface, self._border_color, self.get_ui_rect(), self._border_width)
+        # render selected tab
+        if self._selected_tab == None:
+            return
+        self._frame.blit(pygame.transform.scale(io.load_image(self._selected_tab._tab_content[0]._sprite_path), self._grid_item_size), (0, 0))
+    
+    # ---------------------------- #
+    # grid functions
+    
+    def set_grid_blocks(self, x: int, y: int):
+        """ Set the grid blocks """
+        self._grid_size = [x, y]
+        self._grid_item_size = [self._area[0] // self._grid_size[0], self._area[1] // self._grid_size[1]]
 
+    def set_selected_tab(self, new_tab):
+        """ Set the new selected tab """
+        if not self._selected_tab:
+            self._selected_tab = new_tab
+            return
+        # check if same tab
+        if new_tab._tab_name == self._selected_tab._tab_name:
+            return
+        # set new tab
+        self._selected_tab = new_tab
 
 # ---------------------------- #
 # tab
@@ -239,11 +278,14 @@ class Tab(ui.Text):
     
     """
     
-    def __init__(self, name: str = "Tab", file: str = None, parent: ui.UIObject = None):
+    def __init__(self, name: str = "Tab", tab_data: list = None, parent: ui.UIObject = None):
         """ Post init function """
         super().__init__(0, 0, w=None, h=1.0, padding=1, parent=parent)
         self._tab_name = name
-        self._tab_content = None
+        self._tab_content = []
+        self._tab_data = tab_data
+        if self._tab_data:
+            self._load_tab_data()
         
         # render text
         self._frame = None
@@ -268,9 +310,6 @@ class Tab(ui.Text):
         mpos = io.get_framebuffer_mouse_pos()
         return self._p_rect.collidepoint(mpos)
 
-    # ---------------------------- #
-    # rendering
-    
     def update_text(self):
         """ Update the text x position """
         super().update_text()
@@ -282,6 +321,21 @@ class Tab(ui.Text):
         # copy over
         self._frame.blit(self._rendered_text, (0, 0))
     
+    def _load_tab_data(self):
+        """ Load the tab data """
+        for item in self._tab_data:
+            _file = item["file"]
+            _position = (item["x"], item["y"])
+            # load the spritesheets
+            _spritesheet = spritesheet.load_spritesheet(_file)
+            _areas = (_spritesheet._config[spritesheet.WIDTH], _spritesheet._config[spritesheet.HEIGHT])
+            _coords = (_position[0] // _areas[0], _position[1] // _areas[1])
+            _sprite_str = _spritesheet.get_sprite_str_id(_coords[1] * _spritesheet._config[spritesheet.HORIZONTAL_TILES] + _coords[0])
+            # create defaulttile
+            _tile = world.DefaultTile(_position, _sprite_str)
+            # save data
+            self._tab_content.append(_tile)
+            
 
 class TabsManager(ui.Frame):
 
@@ -295,10 +349,7 @@ class TabsManager(ui.Frame):
         self._x_scroll = 0
         self._max_x_scroll = 0
         self._column_padding = 10
-
-        # add active tab
-        self._active_tab = None
-
+        
         # signals
         # tab manager
         self._signal = signal.Signal("_tabs_manager_signal")
@@ -327,14 +378,6 @@ class TabsManager(ui.Frame):
             # render the tab
             self._frame.blit(tab._frame, pygame.math.Vector2(tab._p_rect.topleft) - tab._position)
             left += tab._rendered_text_rect.w + self._column_padding
-
-            # draw surrounding rect
-            # pygame.draw.rect(
-            #     self._frame, 
-            #     (255, 0, 0), 
-            #     pygame.Rect(pygame.math.Vector2(tab._p_rect.topleft) - tab._position, tab._p_rect.size), 
-            #     1
-            # )
         # render the frame to the surface
         surface.blit(self._frame, self.get_ui_rect())
 
@@ -349,20 +392,27 @@ class TabsManager(ui.Frame):
     
     def _signal_click(self, data: dict, parent: ui.UIObject):
         """ Handle the click signal from tab objects """
-        print(data, parent)
+        editor_singleton.SPRITESELECT_ELEMENT.set_selected_tab(data["tab"])
 
     def load_config(self, _tab_data: list) -> None:
         """ Load a config file """
-        print(_tab_data)
-        pass
-
+        # clear all tabs (don't save data)
+        # TODO: create savedata prompt?
+        self._tabs.clear()
+        # create tabs
+        for item in _tab_data:
+            _tab = Tab(item["name"], item["items"], parent=self)
+            self.add_tab(_tab)
+        # set active tab to first tab
+        editor_singleton.SPRITESELECT_ELEMENT.set_selected_tab(self._tabs[0])
+        
     def export_tab_data(self) -> dict:
         """ Export the tab data """
         pass
 
-    def on_file_drop(self, path: str):
+    def on_file_drop(self, file_path: str):
         """ Handle a file drop """
-        print(path)
+        # TODO: later -- for loading indiviudal files
         """
         I need to implement:
         - check if spritesheet or image file
@@ -377,9 +427,10 @@ class TabsManager(ui.Frame):
         - add to current tab
         """
         
-        if path.endswith('.json'):
+        if file_path.endswith('.json'):
             # is a spritesheet
-            pass
+            _spritesheet = spritesheet.load_spritesheet(file_path)
+            
         else:
             # not a spritesheet
             pass

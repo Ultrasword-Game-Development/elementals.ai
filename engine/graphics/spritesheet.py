@@ -14,6 +14,8 @@ PADY = "pady"
 SPACINGX = "spacingx"
 SPACINGY = "spacingy"
 
+HORIZONTAL_TILES = "horizontal_tiles"
+VERTICAL_TILES = "vertical_tiles"
 
 DEFAULT_CONFIG = {
     'w': 18,
@@ -59,6 +61,9 @@ class SpriteSheet:
             for index, image in enumerate(self.sprites):
                 io.cache_image(self.get_sprite_str_id(index), image)
 
+    # ---------------------------- #
+    # logic
+
     def _load_json_config(self, path: str):
         """ Load a json config file """
         data = io.json_to_dict(path)
@@ -68,6 +73,8 @@ class SpriteSheet:
         size = (data["frames"][0]["frame"]['w'], data["frames"][0]["frame"]['h'])
         self._config[WIDTH] = size[0]
         self._config[HEIGHT] = size[1]
+        self._config[HORIZONTAL_TILES] = data["meta"]["size"]["w"] // size[0]
+        self._config[VERTICAL_TILES] = data["meta"]["size"]["h"] // size[1]
 
     def _load_sprites(self):
         """ Loads all sprites from the spritesheet - including empty ones """
@@ -93,7 +100,11 @@ class SpriteSheet:
                 left += spacingx + width
             top += spacingy + height
             left = padx
-        self.sprites = images        
+        self.sprites = images     
+        
+        # set other variables
+        self._config[HORIZONTAL_TILES] = (self.image.get_size()[0] - self._config[SPACINGX]) // (self._config[WIDTH] + self._config[SPACINGX])
+        self._config[VERTICAL_TILES] = (self.image.get_size()[1] - self._config[SPACINGY]) // (self._config[HEIGHT] + self._config[SPACINGY])
     
     def get_sprite_str_id(self, index: int):
         """ Get the sprite uuid """
