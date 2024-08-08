@@ -1,0 +1,377 @@
+{ "frames": [
+   {
+    "filename": "Armored Skeleton-Idle-0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Idle-1.aseprite",
+    "frame": { "x": 49, "y": 0, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Idle-2.aseprite",
+    "frame": { "x": 98, "y": 0, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Idle-3.aseprite",
+    "frame": { "x": 147, "y": 0, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Idle-4.aseprite",
+    "frame": { "x": 196, "y": 0, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Idle-5.aseprite",
+    "frame": { "x": 245, "y": 0, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-0.aseprite",
+    "frame": { "x": 0, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-1.aseprite",
+    "frame": { "x": 49, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-2.aseprite",
+    "frame": { "x": 98, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-3.aseprite",
+    "frame": { "x": 147, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-4.aseprite",
+    "frame": { "x": 196, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-5.aseprite",
+    "frame": { "x": 245, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-6.aseprite",
+    "frame": { "x": 294, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Walk-7.aseprite",
+    "frame": { "x": 343, "y": 35, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-0.aseprite",
+    "frame": { "x": 0, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-1.aseprite",
+    "frame": { "x": 49, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-2.aseprite",
+    "frame": { "x": 98, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-3.aseprite",
+    "frame": { "x": 147, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-4.aseprite",
+    "frame": { "x": 196, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-5.aseprite",
+    "frame": { "x": 245, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-6.aseprite",
+    "frame": { "x": 294, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack01-7.aseprite",
+    "frame": { "x": 343, "y": 70, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-0.aseprite",
+    "frame": { "x": 0, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-1.aseprite",
+    "frame": { "x": 49, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-2.aseprite",
+    "frame": { "x": 98, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-3.aseprite",
+    "frame": { "x": 147, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-4.aseprite",
+    "frame": { "x": 196, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-5.aseprite",
+    "frame": { "x": 245, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-6.aseprite",
+    "frame": { "x": 294, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-7.aseprite",
+    "frame": { "x": 343, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Attack02-8.aseprite",
+    "frame": { "x": 392, "y": 105, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Hurt-0.aseprite",
+    "frame": { "x": 0, "y": 140, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Hurt-1.aseprite",
+    "frame": { "x": 49, "y": 140, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Hurt-2.aseprite",
+    "frame": { "x": 98, "y": 140, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Hurt-3.aseprite",
+    "frame": { "x": 147, "y": 140, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Death-0.aseprite",
+    "frame": { "x": 0, "y": 175, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Death-1.aseprite",
+    "frame": { "x": 49, "y": 175, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Death-2.aseprite",
+    "frame": { "x": 98, "y": 175, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Armored Skeleton-Death-3.aseprite",
+    "frame": { "x": 147, "y": 175, "w": 49, "h": 35 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 32, "w": 49, "h": 35 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 600
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.32-x64",
+  "image": "armored-skeleton.png",
+  "format": "RGBA8888",
+  "size": { "w": 441, "h": 210 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "Walk", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "Attack01", "from": 14, "to": 21, "direction": "forward" },
+   { "name": "Attack02", "from": 22, "to": 30, "direction": "forward" },
+   { "name": "Hurt", "from": 31, "to": 34, "direction": "forward" },
+   { "name": "Death", "from": 35, "to": 38, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "main", "opacity": 255, "blendMode": "normal" },
+   { "name": "effect", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

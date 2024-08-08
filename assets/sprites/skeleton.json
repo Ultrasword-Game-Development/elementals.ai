@@ -1,0 +1,378 @@
+{ "frames": [
+   {
+    "filename": "Skeleton-Idle-0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Idle-1.aseprite",
+    "frame": { "x": 42, "y": 0, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Idle-2.aseprite",
+    "frame": { "x": 84, "y": 0, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Idle-3.aseprite",
+    "frame": { "x": 126, "y": 0, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Idle-4.aseprite",
+    "frame": { "x": 168, "y": 0, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Idle-5.aseprite",
+    "frame": { "x": 210, "y": 0, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-0.aseprite",
+    "frame": { "x": 0, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-1.aseprite",
+    "frame": { "x": 42, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-2.aseprite",
+    "frame": { "x": 84, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-3.aseprite",
+    "frame": { "x": 126, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-4.aseprite",
+    "frame": { "x": 168, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-5.aseprite",
+    "frame": { "x": 210, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-6.aseprite",
+    "frame": { "x": 252, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Walk-7.aseprite",
+    "frame": { "x": 294, "y": 27, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack01-0.aseprite",
+    "frame": { "x": 0, "y": 54, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack01-1.aseprite",
+    "frame": { "x": 42, "y": 54, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack01-2.aseprite",
+    "frame": { "x": 84, "y": 54, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack01-3.aseprite",
+    "frame": { "x": 126, "y": 54, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack01-4.aseprite",
+    "frame": { "x": 168, "y": 54, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack01-5.aseprite",
+    "frame": { "x": 210, "y": 54, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-0.aseprite",
+    "frame": { "x": 0, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-1.aseprite",
+    "frame": { "x": 42, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-2.aseprite",
+    "frame": { "x": 84, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-3.aseprite",
+    "frame": { "x": 126, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-4.aseprite",
+    "frame": { "x": 168, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-5.aseprite",
+    "frame": { "x": 210, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Attack02-6.aseprite",
+    "frame": { "x": 252, "y": 81, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Block-0.aseprite",
+    "frame": { "x": 0, "y": 108, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Block-1.aseprite",
+    "frame": { "x": 42, "y": 108, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Block-2.aseprite",
+    "frame": { "x": 84, "y": 108, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Block-3.aseprite",
+    "frame": { "x": 126, "y": 108, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Hurt-0.aseprite",
+    "frame": { "x": 0, "y": 135, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Hurt-1.aseprite",
+    "frame": { "x": 42, "y": 135, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Hurt-2.aseprite",
+    "frame": { "x": 84, "y": 135, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Hurt-3.aseprite",
+    "frame": { "x": 126, "y": 135, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Death-0.aseprite",
+    "frame": { "x": 0, "y": 162, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Death-1.aseprite",
+    "frame": { "x": 42, "y": 162, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Death-2.aseprite",
+    "frame": { "x": 84, "y": 162, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Skeleton-Death-3.aseprite",
+    "frame": { "x": 126, "y": 162, "w": 42, "h": 27 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 33, "w": 42, "h": 27 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 600
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.32-x64",
+  "image": "skeleton.png",
+  "format": "RGBA8888",
+  "size": { "w": 336, "h": 189 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "Walk", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "Attack01", "from": 14, "to": 19, "direction": "forward" },
+   { "name": "Attack02", "from": 20, "to": 26, "direction": "forward" },
+   { "name": "Block", "from": 27, "to": 30, "direction": "forward" },
+   { "name": "Hurt", "from": 31, "to": 34, "direction": "forward" },
+   { "name": "Death", "from": 35, "to": 38, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "main", "opacity": 255, "blendMode": "normal" },
+   { "name": "effect", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

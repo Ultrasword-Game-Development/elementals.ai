@@ -1,0 +1,569 @@
+{ "frames": [
+   {
+    "filename": "Knight Templar-Idle-0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Idle-1.aseprite",
+    "frame": { "x": 41, "y": 0, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Idle-2.aseprite",
+    "frame": { "x": 82, "y": 0, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Idle-3.aseprite",
+    "frame": { "x": 123, "y": 0, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Idle-4.aseprite",
+    "frame": { "x": 164, "y": 0, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Idle-5.aseprite",
+    "frame": { "x": 205, "y": 0, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-0.aseprite",
+    "frame": { "x": 0, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-1.aseprite",
+    "frame": { "x": 41, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-2.aseprite",
+    "frame": { "x": 82, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-3.aseprite",
+    "frame": { "x": 123, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-4.aseprite",
+    "frame": { "x": 164, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-5.aseprite",
+    "frame": { "x": 205, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-6.aseprite",
+    "frame": { "x": 246, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk01-7.aseprite",
+    "frame": { "x": 287, "y": 31, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-0.aseprite",
+    "frame": { "x": 0, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-1.aseprite",
+    "frame": { "x": 41, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-2.aseprite",
+    "frame": { "x": 82, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-3.aseprite",
+    "frame": { "x": 123, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-4.aseprite",
+    "frame": { "x": 164, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-5.aseprite",
+    "frame": { "x": 205, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-6.aseprite",
+    "frame": { "x": 246, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Walk02-7.aseprite",
+    "frame": { "x": 287, "y": 62, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-0.aseprite",
+    "frame": { "x": 0, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-1.aseprite",
+    "frame": { "x": 41, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-2.aseprite",
+    "frame": { "x": 82, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-3.aseprite",
+    "frame": { "x": 123, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-4.aseprite",
+    "frame": { "x": 164, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-5.aseprite",
+    "frame": { "x": 205, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack01-6.aseprite",
+    "frame": { "x": 246, "y": 93, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-0.aseprite",
+    "frame": { "x": 0, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-1.aseprite",
+    "frame": { "x": 41, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-2.aseprite",
+    "frame": { "x": 82, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-3.aseprite",
+    "frame": { "x": 123, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-4.aseprite",
+    "frame": { "x": 164, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-5.aseprite",
+    "frame": { "x": 205, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-6.aseprite",
+    "frame": { "x": 246, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack02-7.aseprite",
+    "frame": { "x": 287, "y": 124, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-0.aseprite",
+    "frame": { "x": 0, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-1.aseprite",
+    "frame": { "x": 41, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-2.aseprite",
+    "frame": { "x": 82, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-3.aseprite",
+    "frame": { "x": 123, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-4.aseprite",
+    "frame": { "x": 164, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-5.aseprite",
+    "frame": { "x": 205, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-6.aseprite",
+    "frame": { "x": 246, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-7.aseprite",
+    "frame": { "x": 287, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-8.aseprite",
+    "frame": { "x": 328, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-9.aseprite",
+    "frame": { "x": 369, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Attack03-10.aseprite",
+    "frame": { "x": 410, "y": 155, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Block-0.aseprite",
+    "frame": { "x": 0, "y": 186, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Block-1.aseprite",
+    "frame": { "x": 41, "y": 186, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Block-2.aseprite",
+    "frame": { "x": 82, "y": 186, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Block-3.aseprite",
+    "frame": { "x": 123, "y": 186, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Hurt-0.aseprite",
+    "frame": { "x": 0, "y": 217, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Hurt-1.aseprite",
+    "frame": { "x": 41, "y": 217, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Hurt-2.aseprite",
+    "frame": { "x": 82, "y": 217, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Hurt-3.aseprite",
+    "frame": { "x": 123, "y": 217, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Death-0.aseprite",
+    "frame": { "x": 0, "y": 248, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Death-1.aseprite",
+    "frame": { "x": 41, "y": 248, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Death-2.aseprite",
+    "frame": { "x": 82, "y": 248, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Knight Templar-Death-3.aseprite",
+    "frame": { "x": 123, "y": 248, "w": 41, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 38, "y": 32, "w": 41, "h": 31 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 600
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.32-x64",
+  "image": "knight-templar.png",
+  "format": "RGBA8888",
+  "size": { "w": 451, "h": 279 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "Walk01", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "Walk02", "from": 14, "to": 21, "direction": "forward" },
+   { "name": "Attack01", "from": 22, "to": 28, "direction": "forward" },
+   { "name": "Attack02", "from": 29, "to": 36, "direction": "forward" },
+   { "name": "Attack03", "from": 37, "to": 47, "direction": "forward" },
+   { "name": "Block", "from": 48, "to": 51, "direction": "forward" },
+   { "name": "Hurt", "from": 52, "to": 55, "direction": "forward" },
+   { "name": "Death", "from": 56, "to": 59, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "main", "opacity": 255, "blendMode": "normal" },
+   { "name": "effect", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

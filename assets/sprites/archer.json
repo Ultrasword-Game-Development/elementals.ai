@@ -1,0 +1,413 @@
+{ "frames": [
+   {
+    "filename": "Archer-Idle-0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Idle-1.aseprite",
+    "frame": { "x": 65, "y": 0, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Idle-2.aseprite",
+    "frame": { "x": 130, "y": 0, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Idle-3.aseprite",
+    "frame": { "x": 195, "y": 0, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Idle-4.aseprite",
+    "frame": { "x": 260, "y": 0, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Idle-5.aseprite",
+    "frame": { "x": 325, "y": 0, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-0.aseprite",
+    "frame": { "x": 0, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-1.aseprite",
+    "frame": { "x": 65, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-2.aseprite",
+    "frame": { "x": 130, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-3.aseprite",
+    "frame": { "x": 195, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-4.aseprite",
+    "frame": { "x": 260, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-5.aseprite",
+    "frame": { "x": 325, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-6.aseprite",
+    "frame": { "x": 390, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Walk-7.aseprite",
+    "frame": { "x": 455, "y": 38, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-0.aseprite",
+    "frame": { "x": 0, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-1.aseprite",
+    "frame": { "x": 65, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-2.aseprite",
+    "frame": { "x": 130, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-3.aseprite",
+    "frame": { "x": 195, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-4.aseprite",
+    "frame": { "x": 260, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-5.aseprite",
+    "frame": { "x": 325, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-6.aseprite",
+    "frame": { "x": 390, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-7.aseprite",
+    "frame": { "x": 455, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack01-8.aseprite",
+    "frame": { "x": 520, "y": 76, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-0.aseprite",
+    "frame": { "x": 0, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-1.aseprite",
+    "frame": { "x": 65, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-2.aseprite",
+    "frame": { "x": 130, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-3.aseprite",
+    "frame": { "x": 195, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-4.aseprite",
+    "frame": { "x": 260, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-5.aseprite",
+    "frame": { "x": 325, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-6.aseprite",
+    "frame": { "x": 390, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-7.aseprite",
+    "frame": { "x": 455, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-8.aseprite",
+    "frame": { "x": 520, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-9.aseprite",
+    "frame": { "x": 585, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-10.aseprite",
+    "frame": { "x": 650, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Attack02-11.aseprite",
+    "frame": { "x": 715, "y": 114, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Hurt-0.aseprite",
+    "frame": { "x": 0, "y": 152, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Hurt-1.aseprite",
+    "frame": { "x": 65, "y": 152, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Hurt-2.aseprite",
+    "frame": { "x": 130, "y": 152, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Hurt-3.aseprite",
+    "frame": { "x": 195, "y": 152, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Death-0.aseprite",
+    "frame": { "x": 0, "y": 190, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Death-1.aseprite",
+    "frame": { "x": 65, "y": 190, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Death-2.aseprite",
+    "frame": { "x": 130, "y": 190, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Archer-Death-3.aseprite",
+    "frame": { "x": 195, "y": 190, "w": 65, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 35, "y": 32, "w": 65, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 600
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.32-x64",
+  "image": "archer.png",
+  "format": "RGBA8888",
+  "size": { "w": 780, "h": 228 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "Walk", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "Attack01", "from": 14, "to": 22, "direction": "forward" },
+   { "name": "Attack02", "from": 23, "to": 34, "direction": "forward" },
+   { "name": "Hurt", "from": 35, "to": 38, "direction": "forward" },
+   { "name": "Death", "from": 39, "to": 42, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "main", "opacity": 255, "blendMode": "normal" },
+   { "name": "effect", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

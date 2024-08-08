@@ -1,0 +1,579 @@
+{ "frames": [
+   {
+    "filename": "Priest-Idle-0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Idle-1.aseprite",
+    "frame": { "x": 61, "y": 0, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Idle-2.aseprite",
+    "frame": { "x": 122, "y": 0, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Idle-3.aseprite",
+    "frame": { "x": 183, "y": 0, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Idle-4.aseprite",
+    "frame": { "x": 244, "y": 0, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Idle-5.aseprite",
+    "frame": { "x": 305, "y": 0, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-0.aseprite",
+    "frame": { "x": 0, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-1.aseprite",
+    "frame": { "x": 61, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-2.aseprite",
+    "frame": { "x": 122, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-3.aseprite",
+    "frame": { "x": 183, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-4.aseprite",
+    "frame": { "x": 244, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-5.aseprite",
+    "frame": { "x": 305, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-6.aseprite",
+    "frame": { "x": 366, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Walk-7.aseprite",
+    "frame": { "x": 427, "y": 38, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-0.aseprite",
+    "frame": { "x": 0, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-1.aseprite",
+    "frame": { "x": 61, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-2.aseprite",
+    "frame": { "x": 122, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-3.aseprite",
+    "frame": { "x": 183, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-4.aseprite",
+    "frame": { "x": 244, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-5.aseprite",
+    "frame": { "x": 305, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-6.aseprite",
+    "frame": { "x": 366, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-7.aseprite",
+    "frame": { "x": 427, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_with effect-8.aseprite",
+    "frame": { "x": 488, "y": 76, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-0.aseprite",
+    "frame": { "x": 0, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-1.aseprite",
+    "frame": { "x": 61, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-2.aseprite",
+    "frame": { "x": 122, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-3.aseprite",
+    "frame": { "x": 183, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-4.aseprite",
+    "frame": { "x": 244, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-5.aseprite",
+    "frame": { "x": 305, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-6.aseprite",
+    "frame": { "x": 366, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-7.aseprite",
+    "frame": { "x": 427, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack-8.aseprite",
+    "frame": { "x": 488, "y": 114, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_effect-0.aseprite",
+    "frame": { "x": 0, "y": 152, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_effect-1.aseprite",
+    "frame": { "x": 61, "y": 152, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_effect-2.aseprite",
+    "frame": { "x": 122, "y": 152, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_effect-3.aseprite",
+    "frame": { "x": 183, "y": 152, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Attack_effect-4.aseprite",
+    "frame": { "x": 244, "y": 152, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_with effect-0.aseprite",
+    "frame": { "x": 0, "y": 190, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_with effect-1.aseprite",
+    "frame": { "x": 61, "y": 190, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_with effect-2.aseprite",
+    "frame": { "x": 122, "y": 190, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_with effect-3.aseprite",
+    "frame": { "x": 183, "y": 190, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_with effect-4.aseprite",
+    "frame": { "x": 244, "y": 190, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_with effect-5.aseprite",
+    "frame": { "x": 305, "y": 190, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal-0.aseprite",
+    "frame": { "x": 0, "y": 228, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal-1.aseprite",
+    "frame": { "x": 61, "y": 228, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal-2.aseprite",
+    "frame": { "x": 122, "y": 228, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal-3.aseprite",
+    "frame": { "x": 183, "y": 228, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal-4.aseprite",
+    "frame": { "x": 244, "y": 228, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal-5.aseprite",
+    "frame": { "x": 305, "y": 228, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_effect-0.aseprite",
+    "frame": { "x": 0, "y": 266, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_effect-1.aseprite",
+    "frame": { "x": 61, "y": 266, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_effect-2.aseprite",
+    "frame": { "x": 122, "y": 266, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Heal_effect-3.aseprite",
+    "frame": { "x": 183, "y": 266, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Hurt-0.aseprite",
+    "frame": { "x": 0, "y": 304, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Hurt-1.aseprite",
+    "frame": { "x": 61, "y": 304, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Hurt-2.aseprite",
+    "frame": { "x": 122, "y": 304, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Hurt-3.aseprite",
+    "frame": { "x": 183, "y": 304, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Death-0.aseprite",
+    "frame": { "x": 0, "y": 342, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Death-1.aseprite",
+    "frame": { "x": 61, "y": 342, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Death-2.aseprite",
+    "frame": { "x": 122, "y": 342, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Priest-Death-3.aseprite",
+    "frame": { "x": 183, "y": 342, "w": 61, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 24, "w": 61, "h": 38 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 600
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.32-x64",
+  "image": "priest.png",
+  "format": "RGBA8888",
+  "size": { "w": 549, "h": 380 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "Walk", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "Attack_with effect", "from": 14, "to": 22, "direction": "forward" },
+   { "name": "Attack", "from": 23, "to": 31, "direction": "forward" },
+   { "name": "Attack_effect", "from": 32, "to": 36, "direction": "forward" },
+   { "name": "Heal_with effect", "from": 37, "to": 42, "direction": "forward" },
+   { "name": "Heal", "from": 43, "to": 48, "direction": "forward" },
+   { "name": "Heal_effect", "from": 49, "to": 52, "direction": "forward" },
+   { "name": "Hurt", "from": 53, "to": 56, "direction": "forward" },
+   { "name": "Death", "from": 57, "to": 60, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "main", "opacity": 255, "blendMode": "normal" },
+   { "name": "effect", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

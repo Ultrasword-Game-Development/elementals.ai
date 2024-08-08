@@ -1,0 +1,732 @@
+{ "frames": [
+   {
+    "filename": "Wizard-Idle-0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Idle-1.aseprite",
+    "frame": { "x": 75, "y": 0, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Idle-2.aseprite",
+    "frame": { "x": 150, "y": 0, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Idle-3.aseprite",
+    "frame": { "x": 225, "y": 0, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Idle-4.aseprite",
+    "frame": { "x": 300, "y": 0, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Idle-5.aseprite",
+    "frame": { "x": 375, "y": 0, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-0.aseprite",
+    "frame": { "x": 0, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-1.aseprite",
+    "frame": { "x": 75, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-2.aseprite",
+    "frame": { "x": 150, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-3.aseprite",
+    "frame": { "x": 225, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-4.aseprite",
+    "frame": { "x": 300, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-5.aseprite",
+    "frame": { "x": 375, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-6.aseprite",
+    "frame": { "x": 450, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Walk-7.aseprite",
+    "frame": { "x": 525, "y": 73, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-0.aseprite",
+    "frame": { "x": 0, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-1.aseprite",
+    "frame": { "x": 75, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-2.aseprite",
+    "frame": { "x": 150, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-3.aseprite",
+    "frame": { "x": 225, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-4.aseprite",
+    "frame": { "x": 300, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-5.aseprite",
+    "frame": { "x": 375, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-6.aseprite",
+    "frame": { "x": 450, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-7.aseprite",
+    "frame": { "x": 525, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-8.aseprite",
+    "frame": { "x": 600, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-9.aseprite",
+    "frame": { "x": 675, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-10.aseprite",
+    "frame": { "x": 750, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-11.aseprite",
+    "frame": { "x": 825, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-12.aseprite",
+    "frame": { "x": 900, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-13.aseprite",
+    "frame": { "x": 975, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_with effect-14.aseprite",
+    "frame": { "x": 1050, "y": 146, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01-0.aseprite",
+    "frame": { "x": 0, "y": 219, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01-1.aseprite",
+    "frame": { "x": 75, "y": 219, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01-2.aseprite",
+    "frame": { "x": 150, "y": 219, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01-3.aseprite",
+    "frame": { "x": 225, "y": 219, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01-4.aseprite",
+    "frame": { "x": 300, "y": 219, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01-5.aseprite",
+    "frame": { "x": 375, "y": 219, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-0.aseprite",
+    "frame": { "x": 0, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-1.aseprite",
+    "frame": { "x": 75, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-2.aseprite",
+    "frame": { "x": 150, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-3.aseprite",
+    "frame": { "x": 225, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-4.aseprite",
+    "frame": { "x": 300, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-5.aseprite",
+    "frame": { "x": 375, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-6.aseprite",
+    "frame": { "x": 450, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-7.aseprite",
+    "frame": { "x": 525, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-8.aseprite",
+    "frame": { "x": 600, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack01_Effect-9.aseprite",
+    "frame": { "x": 675, "y": 292, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-0.aseprite",
+    "frame": { "x": 0, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-1.aseprite",
+    "frame": { "x": 75, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-2.aseprite",
+    "frame": { "x": 150, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-3.aseprite",
+    "frame": { "x": 225, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-4.aseprite",
+    "frame": { "x": 300, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-5.aseprite",
+    "frame": { "x": 375, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-6.aseprite",
+    "frame": { "x": 450, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-7.aseprite",
+    "frame": { "x": 525, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-8.aseprite",
+    "frame": { "x": 600, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-9.aseprite",
+    "frame": { "x": 675, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-10.aseprite",
+    "frame": { "x": 750, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-attack02_with effect-11.aseprite",
+    "frame": { "x": 825, "y": 365, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02-0.aseprite",
+    "frame": { "x": 0, "y": 438, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02-1.aseprite",
+    "frame": { "x": 75, "y": 438, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02-2.aseprite",
+    "frame": { "x": 150, "y": 438, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02-3.aseprite",
+    "frame": { "x": 225, "y": 438, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02-4.aseprite",
+    "frame": { "x": 300, "y": 438, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02-5.aseprite",
+    "frame": { "x": 375, "y": 438, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-0.aseprite",
+    "frame": { "x": 0, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-1.aseprite",
+    "frame": { "x": 75, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-2.aseprite",
+    "frame": { "x": 150, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-3.aseprite",
+    "frame": { "x": 225, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-4.aseprite",
+    "frame": { "x": 300, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-5.aseprite",
+    "frame": { "x": 375, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Attack02_Effect-6.aseprite",
+    "frame": { "x": 450, "y": 511, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Hurt-0.aseprite",
+    "frame": { "x": 0, "y": 584, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Hurt-1.aseprite",
+    "frame": { "x": 75, "y": 584, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Hurt-2.aseprite",
+    "frame": { "x": 150, "y": 584, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-Hurt-3.aseprite",
+    "frame": { "x": 225, "y": 584, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-DEATH-0.aseprite",
+    "frame": { "x": 0, "y": 657, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-DEATH-1.aseprite",
+    "frame": { "x": 75, "y": 657, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-DEATH-2.aseprite",
+    "frame": { "x": 150, "y": 657, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 100
+   },
+   {
+    "filename": "Wizard-DEATH-3.aseprite",
+    "frame": { "x": 225, "y": 657, "w": 75, "h": 73 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 25, "y": 14, "w": 75, "h": 73 },
+    "sourceSize": { "w": 100, "h": 100 },
+    "duration": 600
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.32-x64",
+  "image": "wizard.png",
+  "format": "RGBA8888",
+  "size": { "w": 1125, "h": 730 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "Walk", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "Attack01_with effect", "from": 14, "to": 28, "direction": "forward" },
+   { "name": "Attack01", "from": 29, "to": 34, "direction": "forward" },
+   { "name": "Attack01_Effect", "from": 35, "to": 44, "direction": "forward" },
+   { "name": "attack02_with effect", "from": 45, "to": 56, "direction": "forward" },
+   { "name": "Attack02", "from": 57, "to": 62, "direction": "forward" },
+   { "name": "Attack02_Effect", "from": 63, "to": 69, "direction": "forward" },
+   { "name": "Hurt", "from": 70, "to": 73, "direction": "forward" },
+   { "name": "DEATH", "from": 74, "to": 77, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "main", "opacity": 255, "blendMode": "normal" },
+   { "name": "effect", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
