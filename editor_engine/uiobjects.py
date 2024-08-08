@@ -205,6 +205,12 @@ class SpriteSelect(ui.Frame):
         # include tabs
         self._tabs = {}
         self._selected_tab = None
+        
+        self._selected_tile = None
+        self._selected_grid_pos = [0, 0, 0]
+        
+        self._y_scroll = 0
+        self._y_max_scroll = 0
 
         self._font = pixelfont.load_pixelfont("assets/fonts/small_font.png")
 
@@ -219,42 +225,71 @@ class SpriteSelect(ui.Frame):
         # ui attributes
         self._zoom = 0
         self._grid_size = 3 # -1 for infinite  height
-        self._grid_item_size = [self._area[0] // self._grid_size, 
-                                self._area[0] // self._grid_size]
+        self._grid_item_size = [(self._area[0] - self._grid_size - 2) // self._grid_size, 
+                                (self._area[0] - self._grid_size - 2) // self._grid_size]
+        
+        self._spritecacher = io.SpriteCacher(self._grid_item_size)
         
     # ---------------------------- #
     # logic
 
     def update(self):
         """ Update the object """
-        if not self._selected_tab:
+        if self._selected_tab == None:
             # render empty page
             return
+        if not self.is_hovering():
+            return
         # update all objects for mouse clicks
+        self._selected_grid_pos[0] = self.get_relative_mouse_pos()[0] // (self._grid_item_size[0] + 2)
+        self._selected_grid_pos[1] = self.get_relative_mouse_pos()[1] // (self._grid_item_size[1] + 2)
+        self._selected_grid_pos[2] = self._selected_grid_pos[0] + self._selected_grid_pos[1] * self._grid_size
+
+        self._selected_tile = self._selected_tab._tab_content[self._selected_grid_pos[2]] if self._selected_grid_pos[2] < len(self._selected_tab._tab_content) else None
+        
         # TODO - update for mouse clicking
+        
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
-        super().render(surface)
-        surface.blit(self._empty_text, self._empty_text_rect)
-        # pygame.draw.rect(surface, (255, 255, 255), self._empty_text_rect, 1)
+        self._frame.fill(self._main_color)
         if self._border_flag:
             pygame.draw.rect(surface, self._border_color, self.get_ui_rect(), self._border_width)
         # render selected tab
         if self._selected_tab == None:
-            return
-        self._frame.blit(pygame.transform.scale(io.load_image(self._selected_tab._tab_content[0]._sprite_path), self._grid_item_size), (0, 0))
+            surface.blit(self._empty_text, self._empty_text_rect)
+        else:
+            for i, item in enumerate(self._selected_tab._tab_content):
+                self._frame.blit(
+                    pygame.transform.scale(io.load_image(item._sprite_path), self._grid_item_size),
+                    item["_render_rect"]
+                )
+                # draw a rect 
+                pygame.draw.rect(self._frame, (255, 255, 255), item["_render_rect"], 1)
+            
+            if self._selected_tile:
+                # render the rect
+                pygame.draw.rect(self._frame, (255, 0, 0), self._selected_tile["_render_rect"], 1)
+        # render
+        super().render(surface)
     
     # ---------------------------- #
     # grid functions
     
-    def set_grid_blocks(self, x: int, y: int):
+    def set_grid_size(self, x: int, y: int):
         """ Set the grid blocks """
         self._grid_size = [x, y]
         self._grid_item_size = [self._area[0] // self._grid_size[0], self._area[1] // self._grid_size[1]]
 
     def set_selected_tab(self, new_tab):
         """ Set the new selected tab """
+        for i, item in enumerate(new_tab._tab_content):
+            item["_render_rect"].topleft = (
+                (i % self._grid_size) * self._grid_item_size[0] + (i%self._grid_size), 
+                (i // self._grid_size) * self._grid_item_size[1] + (i//self._grid_size)
+            )
+            item["_render_rect"].size = self._grid_item_size.copy()
+
         if not self._selected_tab:
             self._selected_tab = new_tab
             return
@@ -263,6 +298,10 @@ class SpriteSelect(ui.Frame):
             return
         # set new tab
         self._selected_tab = new_tab
+
+    def set_selected_tile(self, new_tile):
+        """ Set the new selected tile """
+        self._selected_tile = new_tile
 
 # ---------------------------- #
 # tab
@@ -333,8 +372,29 @@ class Tab(ui.Text):
             _sprite_str = _spritesheet.get_sprite_str_id(_coords[1] * _spritesheet._config[spritesheet.HORIZONTAL_TILES] + _coords[0])
             # create defaulttile
             _tile = world.DefaultTile(_position, _sprite_str)
+            # add rect data for the tile - to be rendered into sprite select "_render_rect"
+            _tile["_render_rect"] = pygame.Rect((0, 0), (0, 0))
+            _tile["_file_rect"] = pygame.Rect(item["x"], item["y"], item["w"], item["h"])
             # save data
             self._tab_content.append(_tile)
+    
+    def save_tab_data(self):
+        """ Save the tab data """
+        tabs = []
+        result = {"tabs": tabs}
+        for tab in self._tab_content:
+            for item in tab._tab_content:
+                _file_rect = item["_file_rect"]
+                obj = {
+                    "file": item._sprite_path,
+                    "x": _file_rect.x,
+                    "y": _file_rect.y,
+                    "w": _file_rect.w,
+                    "h": _file_rect.h
+                }
+        
+        
+    
             
 
 class TabsManager(ui.Frame):

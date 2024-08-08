@@ -160,14 +160,15 @@ def get_framebuffer_mouse_pos():
 # sprite cacher (glorified dictionary)
 
 class SpriteCacher:
-    def __init__(self) -> None:
+    def __init__(self, size: pygame.Rect) -> None:
         """ Initialize the sprite cacher """
         self._cached_sprites = {}
+        self._size = size
         
     # ---------------------------- #
     # caching functions
     
-    def load_sprite(self, path: str, size_rect: pygame.Rect, cut_rect: pygame.Rect = None) -> pygame.Surface:
+    def load_sprite(self, path: str, cut_rect: pygame.Rect = None) -> pygame.Surface:
         """ Load a sprite and cache it """
         if path in self._cached_sprites:
             return self._cached_sprites[path]
@@ -176,7 +177,7 @@ class SpriteCacher:
         if cut_rect:
             sprite = sprite.subsurface(cut_rect) 
         # TODO - consider simply using opengl to just render the images instead of caching them
-        self[path] = pygame.transform.scale(sprite, (size_rect.width, size_rect.height))
+        self[path] = pygame.transform.scale(sprite, self._size)
         return sprite
         
     # ---------------------------- #

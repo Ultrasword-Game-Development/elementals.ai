@@ -162,7 +162,7 @@ class Chunk:
 
         # all images need to resized / set to the right dimensions (to the dimension of the tile)
         # this script will cache the loaded sprites for faster access
-        self._sprite_cacher = io.SpriteCacher()
+        self._sprite_cacher = io.SpriteCacher(self._tile_pixel_area)
     
     # ---------------------------- #
     # logic
@@ -204,7 +204,7 @@ class Chunk:
             self._tile_pixel_area[1] * position[1],
         )
         # cache sprite
-        self._sprite_cacher.load_sprite(tile._sprite_path, tile[CHUNK_TILE_RECT])
+        self._sprite_cacher.load_sprite(tile._sprite_path)
         
         # set parent definition into tile
         tile[CHUNK_TILE_PARENT_POSITION_KEY] = self.get_chunk_hash_str(self._chunk_position)
@@ -267,7 +267,7 @@ class Chunk:
         # recreate the hash str
         self.__dict__.update(state)
         # create a new sprite cacher
-        self._sprite_cacher = io.SpriteCacher()
+        self._sprite_cacher = io.SpriteCacher(self._tile_pixel_area)
         # load up the chunk save file
         _filename = self._chunk_hash_str
         with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'rb') as f:
