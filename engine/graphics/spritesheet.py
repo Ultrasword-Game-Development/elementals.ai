@@ -102,6 +102,9 @@ class SpriteSheet:
             left = padx
         self.sprites = images     
         
+        print(self._json)
+        print(self._config)
+        
         # set other variables
         self._config[HORIZONTAL_TILES] = (self.image.get_size()[0] - self._config[SPACINGX]) // (self._config[WIDTH] + self._config[SPACINGX])
         self._config[VERTICAL_TILES] = (self.image.get_size()[1] - self._config[SPACINGY]) // (self._config[HEIGHT] + self._config[SPACINGY])
@@ -182,7 +185,7 @@ def generate_config_from_json(json_path: str):
 
 def load_spritesheet(image_path: str, config: dict = DEFAULT_CONFIG):
     """ Load a spritesheet """
-        # check if its a json
+    # check if its a json
     _json_path = None
     if image_path.endswith('.json'):
         # load the json + find the image path
@@ -198,7 +201,7 @@ def load_spritesheet(image_path: str, config: dict = DEFAULT_CONFIG):
 
     # create new spritesheet + cache it
     result = SpriteSheet(_json_path if _json_path else image_path, config)
-    SPRITESHEET_CACHE[hash(result)] = result
+    SPRITESHEET_CACHE[hash(result)] = result    
     return result
 
 def cache_spritesheet(sheet: SpriteSheet):

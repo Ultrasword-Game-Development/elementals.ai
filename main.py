@@ -53,42 +53,51 @@ gl.GLContext.create_context()
 world_save = "assets/level/world.elal"
 # world_save = "assets/level/test_world.elal"
 
-w = world.World.load_world(world_save)
+# w = world.World.load_world(world_save)
 
 # audio
-
 pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
 pygame.mixer.music.play(-1)
 
-# w = world.World()
-# w.t_signal = signal.Signal("Test Signal")
-# w.t_emitter = w.t_signal.get_unique_emitter()
-# w.t_signal.add_emitter_handling_function("_test_signal", lambda data: print(data))
+w = world.World()
+w.t_signal = signal.Signal("Test Signal")
+w.t_emitter = w.t_signal.get_unique_emitter()
+w.t_signal.add_emitter_handling_function("_test_signal", lambda data: print(data))
 
-# w.get_layer_at(0).set_chunk_at(world.Chunk(
-#     (w.get_camera_chunk())
-# ))
+w.get_layer_at(0).set_chunk_at(world.Chunk(
+    w.get_camera_chunk()
+))
+w.get_layer_at(0).set_chunk_at(world.Chunk(
+    (-1, -1)
+))
 
-# _c = w.get_layer_at(0).get_chunk_at(w.get_camera_chunk())
-# _spritesheet = spritesheet.load_spritesheet("assets/sprites/player.json")
+_c = w.get_layer_at(0).get_chunk_at(w.get_camera_chunk())
+_spritesheet = spritesheet.load_spritesheet("assets/sprites/player.json")
 
-# # temp load a chunk up with a tile
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     for j in range(2):
-#         _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
+# temp load a chunk up with a tile
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    for j in range(2):
+        _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
 
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
-# # add an animated sprite at location - (0, 0)
-# _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
-# _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
-# _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/player.json", offset=2))
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
+# add an animated sprite at location - (0, 0)
+_c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
+_c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
+_c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/player.json", offset=2))
 
-# w.ssheet = spritesheet.load_spritesheet("assets/sprites/mage.json")
-# w.t_ani = animation.load_animation_from_json("assets/sprites/mage.json")
-# w.t_ani_reg = w.t_ani.get_registry()
-# w.p_ani = animation.load_animation_from_json('assets/sprites/player.json')
-# w.p_ani_reg = w.p_ani.get_registry()
+w.ssheet = spritesheet.load_spritesheet("assets/sprites/mage.json")
+w.t_ani = animation.load_animation_from_json("assets/sprites/mage.json")
+w.t_ani_reg = w.t_ani.get_registry()
+w.p_ani = animation.load_animation_from_json('assets/sprites/player.json')
+w.p_ani_reg = w.p_ani.get_registry()
+
+# load other animations
+_c = w.get_layer_at(0).get_chunk_at((-1, -1))
+_c.set_tile_at(
+    (6, 6), tiles.SemiAnimatedTile((0, 0), "assets/sprites/wizard.json")
+)
+
 
 # singleton.save_world(world_save, w)
 
