@@ -115,6 +115,10 @@ GLOBAL_FRAME_SIGNAL_KEY = "global_frame_signal"
 GLOBAL_FILE_DROP_SIGNAL_EMITTER = None
 GLOBAL_FILE_DROP_SIGNAL_KEY = "global_file_drop_signal"
 
+# keyboard press signal
+GLOBAL_KEYBOARD_PRESS_SIGNAL_EMITTER = None
+GLOBAL_KEYBOARD_PRESS_SIGNAL_KEY = "global_keyboard_press_signal"
+
 # ---------------------------- #
 # misc functions
 
@@ -154,6 +158,7 @@ def system_update_function():
         elif e.type == pygame.KEYDOWN:
             io.KEY_CLICKED.add(e.key)
             io.KEY_HELD.add(e.key)
+            GLOBAL_KEYBOARD_PRESS_SIGNAL_EMITTER.emit({"event": e})
         elif e.type == pygame.KEYUP:
             io.KEY_HELD.remove(e.key)
         # TODO - handle mouse scrolling

@@ -81,6 +81,7 @@ class GLContext:
         # create signal
         singleton.GLOBAL_FRAME_SIGNAL_EMITTER = signal.Signal(singleton.GLOBAL_FRAME_SIGNAL_KEY).get_unique_emitter()
         singleton.GLOBAL_FILE_DROP_SIGNAL_EMITTER = signal.Signal(singleton.GLOBAL_FILE_DROP_SIGNAL_KEY).get_unique_emitter()
+        singleton.GLOBAL_KEYBOARD_PRESS_SIGNAL_EMITTER = signal.Signal(singleton.GLOBAL_KEYBOARD_PRESS_SIGNAL_KEY).get_unique_emitter()
 
         # empty the surfaces
         singleton.FRAMEBUFFER.fill((0, 0, 0, 0))

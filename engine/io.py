@@ -71,7 +71,6 @@ def json_to_dict(path: str):
     with open(path, 'r') as f:
         return json.load(f)
 
-
 # ---------------------------- #
 # keyboard
 

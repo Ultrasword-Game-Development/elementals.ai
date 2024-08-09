@@ -55,8 +55,10 @@ class DefaultTile:
     _sprite_path: str
     _data: dict
     
-    def __init__(self, position: tuple, sprite: str, width: int = singleton.DEFAULT_TILE_WIDTH, height: int = singleton.DEFAULT_TILE_HEIGHT) -> None:
+    def __init__(self, position: tuple, sprite: str) -> None:
         """ Initialize the default tile """
+        if not "__parent_class__" in self.__dict__:
+            self.__parent_class__ = DefaultTile
         self._tile_id = generate_id()
         
         self._index_position = position
@@ -80,6 +82,12 @@ class DefaultTile:
         """ Render the tile """
         pass
     
+    def copy(self) -> "Tile Type Class":
+        """ Create a copy """
+        print(self._data)
+        return self.__parent_class__(self._index_position, self._sprite_path)
+
+
     # ---------------------------- #
     # utils
 
@@ -195,6 +203,10 @@ class Chunk:
     
     def set_tile_at(self, position: tuple, tile: DefaultTile):
         """ Set the tile at the position """
+        # check if need to just REMOVE the tile
+        if not tile:
+            self._tiles[position[1]][position[0]] = None
+            return
         self._tiles[position[1]][position[0]] = tile
         # define the collision rect of the tile
         tile[CHUNK_TILE_RECT] = pygame.Rect(0, 0, self._tile_pixel_area[0], self._tile_pixel_area[1])
@@ -358,6 +370,39 @@ class Layer:
     def get_chunk_at(self, position: tuple) -> Chunk:
         """ Get the chunk at the position """
         return self._chunks.get(Chunk.get_chunk_hash(position))
+
+    def get_tile_at(self, global_tile_position: tuple) -> DefaultTile:
+        """ Get the tile at the global position """
+        chunk_pos = (
+            global_tile_position[0] // singleton.DEFAULT_CHUNK_WIDTH,
+            global_tile_position[1] // singleton.DEFAULT
+        )
+        chunk = self.get_chunk_at(chunk_pos)
+        if not chunk:
+            return None
+        return chunk.get_tile_at(
+            (
+                global_tile_position[0] % singleton.DEFAULT_CHUNK_WIDTH,
+                global_tile_position[1] % singleton.DEFAULT_CHUNK_HEIGHT
+            )
+        )
+    
+    def set_tile_at(self, global_tile_position: tuple, tile: DefaultTile = None):
+        """ Set the tile at the global position """
+        chunk_pos = (
+            global_tile_position[0] // singleton.DEFAULT_CHUNK_WIDTH,
+            global_tile_position[1] // singleton.DEFAULT_CHUNK_HEIGHT
+        )
+        chunk = self.get_chunk_at(chunk_pos)
+        if not chunk:
+            chunk = self.create_default_chunk(chunk_pos)
+        chunk.set_tile_at(
+            (
+                global_tile_position[0] % singleton.DEFAULT_CHUNK_WIDTH,
+                global_tile_position[1] % singleton.DEFAULT_CHUNK_HEIGHT
+            ),
+            tile
+        )
 
     def create_default_chunk(self, position: tuple):
         """ Create a default chunk """
@@ -536,7 +581,7 @@ def generate_id() -> str:
     """ Generate a unique id """
     return uuid.uuid4().hex
 
-def get_chunk_from_position(pos: tuple):
+def get_chunk_from_pixel_position(pos: tuple):
     """ Get the chunk from the position """
     return (
         int(pos[0] // singleton.DEFAULT_CHUNK_PIXEL_WIDTH),

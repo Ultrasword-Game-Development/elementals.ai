@@ -19,8 +19,8 @@ SYNCED_TILE_ANIMATION = "_synced_tile_animation"
 # animated - semi-dynamic tiles (across the entire world)
 
 class SemiAnimatedTile(world.DefaultTile):
-    def __init__(self, position: tuple, sprite: str, width: int = singleton.DEFAULT_TILE_WIDTH, height: int = singleton.DEFAULT_TILE_HEIGHT) -> None:
-        super().__init__(position, sprite, width, height)
+    def __init__(self, position: tuple, sprite: str) -> None:
+        super().__init__(position, sprite)
         self._animation_json_path = sprite
         self._animation_registry = None
         self._signal_function_registry_key = sprite + "||" + SYNCED_TILE_ANIMATION
@@ -80,8 +80,8 @@ def update_synced_sprite_animations(data: dict, **kwargs):
 # animated - dynamic tiles
 
 class AnimatedTile(world.DefaultTile):
-    def __init__(self, position: tuple, sprite: str, width: int = singleton.DEFAULT_TILE_WIDTH, height: int = singleton.DEFAULT_TILE_HEIGHT, offset: int = 0) -> None:
-        super().__init__(position, sprite, width, height)
+    def __init__(self, position: tuple, sprite: str, offset: int = 0) -> None:
+        super().__init__(position, sprite)
         self._animation_json_path = sprite
         self._animation_registry = None
         

@@ -14,6 +14,9 @@ TABSMANAGER_ELEMENT = None
 SPRITESELECT_ELEMENT = None
 WORLD_NAME_TITLE_ELEMENT = None
 
-CURRENT_EDITING_WORLD = None
+# ---------------------------- #
+# world
 
+CURRENT_EDITING_WORLD = None
+CURRENT_WORLD_SAVE_KEY = "assets/level/world.elal"
 

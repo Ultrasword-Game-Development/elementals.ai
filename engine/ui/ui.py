@@ -1,3 +1,4 @@
+import math
 import pygame
 
 import dataclasses
@@ -11,6 +12,8 @@ from engine.ui import pixelfont
 from engine.handler import signal
 
 from engine.physics import entity
+
+from editor_engine import editor_singleton
 
 # ---------------------------- #
 # util objects
@@ -393,6 +396,79 @@ class Text(UIObject):
             self._font = io.load_font(font_path, 22)
         self.update_text()
 
+class EditableText(Text):
+    _MAX_STRING_LENGTH = 25
+
+    def __post_init__(self):
+        super().__post_init__()
+
+        self._is_editing = False
+        self._is_editing_surface = None
+        self._is_editing_line_rect = pygame.Rect(0, 0, 2, 0)
+
+        # register signal handler
+        signal.get_signal(singleton.GLOBAL_KEYBOARD_PRESS_SIGNAL_KEY).add_emitter_handling_function("_edit_text_key", self._receive_keyboard_input)
+
+    def update(self):
+        """ Update the object """
+        if self._is_editing:
+            # check if clicks outside of box or presses escape button
+            if not self.is_hovering() and io.is_left_clicked():
+                self._is_editing = False
+            elif io.get_key_pressed(pygame.K_ESCAPE):
+                self._is_editing = False
+
+        if self.is_hovering():
+            self._background_color = self._secondary_color
+        else:
+            self._background_color = self._main_color
+        
+        # check if clicked
+        if self.is_left_clicked():
+            self._is_editing = not self._is_editing
+        
+        # check if editing
+        if self._is_editing:
+            # render the text editing line
+            self._is_editing_line_rect.topleft = self._rendered_text_rect.topright
+            self._is_editing_line_rect.height = self._rendered_text_rect.height
+            if not self._is_editing_surface:
+                self._is_editing_surface = pygame.Surface(self._is_editing_line_rect.size, 0, 16).convert_alpha()
+                self._is_editing_surface.fill((255, 255, 255))
+
+    def render(self, surface: pygame.Surface):
+        """ Render the object """
+        super().render(surface)
+        if self._is_editing and self._is_editing_surface:
+            self._is_editing_surface.set_alpha(int(126 + 126 * math.sin(singleton.ACTIVE_TIME * 6)))
+            surface.blit(self._is_editing_surface, self._is_editing_line_rect.topleft)
+        
+    # ---------------------------- #
+    # text
+
+    def _receive_keyboard_input(self, data: dict):
+        """ Receive keyboard input """
+        e = data["event"]
+        if e.unicode == '':
+            return
+        # check if backspace
+        if io.get_key_pressed(pygame.K_BACKSPACE) or io.get_key_pressed(pygame.K_DELETE):
+            self.set_text(self._text[:-1])
+            return
+        # check if length of text is too long
+        if len(self._text) > self._MAX_STRING_LENGTH:
+            print("Title is too long (more than): ", self._MAX_STRING_LENGTH, " characaters.")
+            return
+        # check if shifting
+        _shifting = io.get_key_pressed(pygame.K_LSHIFT) or io.get_key_pressed(pygame.K_RSHIFT)
+        # check if alphanumeric
+        if e.unicode.isalnum():
+            result = e.unicode if not _shifting else (e.unicode.lower() if e.unicode.isupper() else e.unicode.upper())
+            self.set_text(self._text + result)
+        
+        # update world title
+        if self._text:
+            editor_singleton.CURRENT_EDITING_WORLD._world_storage_key = self._text
 
 # ---------------------------- #
 # button

@@ -52,6 +52,8 @@ class Editor(ui.Frame):
         self._selected_tile_overlay_surface = pygame.Surface((singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT), 0, 16).convert_alpha()
         self._selected_tile_overlay_surface.fill((255, 0, 0, 100))
         self._move_vec = pygame.math.Vector2(0, 0)
+
+        self._layer_number = 0
         
         # camera move speed
         self._camera_move_speed = 50
@@ -59,7 +61,6 @@ class Editor(ui.Frame):
         # signal
         signal.get_signal(singleton.GLOBAL_FILE_DROP_SIGNAL_KEY).add_emitter_handling_function("editor_file_drop", self.load_config_file)
 
-        
     # ---------------------------- #
     # logic
 
@@ -103,8 +104,6 @@ class Editor(ui.Frame):
             self._move_vec += (0, self._camera_move_speed * singleton.DELTA_TIME)
         if io.get_key_pressed(pygame.K_DOWN):
             self._move_vec += (0, -self._camera_move_speed * singleton.DELTA_TIME)
-        if io.get_key_pressed(pygame.K_LSHIFT):
-            self._move_vec *= 1.4
         self._camera += self._move_vec
 
         if self.is_hovering():
@@ -114,7 +113,17 @@ class Editor(ui.Frame):
             # use scrolling to move
             self._move_vec += pygame.math.Vector2(io.get_scroll_rel()) * 50 * singleton.DELTA_TIME
             # check for left clicking
-            if io.is_left_clicked() and self.is_hovering():
+            if io.is_left_pressed() and self.is_hovering():
+                # check if deleting a tile
+                if io.get_key_pressed(pygame.K_LSHIFT):
+                    _layer = editor_singleton.CURRENT_EDITING_WORLD.get_layer_at(self._layer_number)
+                    _layer.set_tile_at(self._buffer_tile_pos, None)
+                # place tile
+                elif editor_singleton.SPRITESELECT_ELEMENT._selected_tile:
+                    _layer = editor_singleton.CURRENT_EDITING_WORLD.get_layer_at(self._layer_number)
+                    _layer.set_tile_at(self._buffer_tile_pos, editor_singleton.SPRITESELECT_ELEMENT._selected_tile.copy())
+                    # editor_singleton.CURRENT_EDITING_WORLD.set_tile_at_position(self._buffer_tile_pos, editor_singleton.SPRITESELECT_ELEMENT._selected_tile.copy())
+                    # print(editor_singleton.SPRITESELECT_ELEMENT._selected_tile.copy())
                 print('Note: Left clicked at', self._buffer_tile_pos, " | and chunk pos: ", self._buffer_chunk_pos, " | and chunk tile pos: ", self._buffer_chunk_tile_pos)
 
     def render(self, surface: pygame.Surface):
@@ -123,7 +132,6 @@ class Editor(ui.Frame):
         editor_singleton.CURRENT_EDITING_WORLD.update_and_render(self._frame)
 
         # TODO - scaling the image???
-
         if singleton.EDITOR_DEBUG:
             # render all rects in chunks to the screen lol
             for active_chunk in editor_singleton.CURRENT_EDITING_WORLD.iterate_renderable_chunk_positions():
@@ -135,10 +143,15 @@ class Editor(ui.Frame):
         pygame.draw.circle(self._frame, (255, 0, 0, 255), self._raw_buffer_pos - self._camera.position, 2)
         # draw an overlay rect
         self._frame.blit(self._selected_tile_overlay_surface, self._selected_tile_overlay_rect.topleft)
-
+        # draw the tile overlay
+        if editor_singleton.SPRITESELECT_ELEMENT._selected_tile:
+            _tmp = pygame.transform.scale(io.load_image(editor_singleton.SPRITESELECT_ELEMENT._selected_tile._sprite_path), (singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT))
+            _tmp.set_alpha(100)
+            self._frame.blit(
+                _tmp,
+                self._selected_tile_overlay_rect.topleft
+            )
         surface.blit(pygame.transform.scale(self._frame, self._area), self.get_ui_rect())
-        # print(self.get_ui_rect())
-        # super().render(surface)
     
     def resize_screen(self, new_size: tuple):
         """ Resize the screen """
@@ -206,8 +219,10 @@ class SpriteSelect(ui.Frame):
         self._tabs = {}
         self._selected_tab = None
         
+        self._hovering_tile = None
         self._selected_tile = None
-        self._selected_grid_pos = [0, 0, 0]
+        self._hovering_grid_pos = [0, 0, 0]
+        self._selected_grid_pos = -1
         
         self._y_scroll = 0
         self._y_max_scroll = 0
@@ -241,14 +256,21 @@ class SpriteSelect(ui.Frame):
         if not self.is_hovering():
             return
         # update all objects for mouse clicks
-        self._selected_grid_pos[0] = self.get_relative_mouse_pos()[0] // (self._grid_item_size[0] + 2)
-        self._selected_grid_pos[1] = self.get_relative_mouse_pos()[1] // (self._grid_item_size[1] + 2)
-        self._selected_grid_pos[2] = self._selected_grid_pos[0] + self._selected_grid_pos[1] * self._grid_size
+        self._hovering_grid_pos[0] = self.get_relative_mouse_pos()[0] // (self._grid_item_size[0] + 2)
+        self._hovering_grid_pos[1] = self.get_relative_mouse_pos()[1] // (self._grid_item_size[1] + 2)
+        self._hovering_grid_pos[2] = self._hovering_grid_pos[0] + self._hovering_grid_pos[1] * self._grid_size
 
-        self._selected_tile = self._selected_tab._tab_content[self._selected_grid_pos[2]] if self._selected_grid_pos[2] < len(self._selected_tab._tab_content) else None
-        
+        self._hovering_tile = self._selected_tab._tab_content[self._hovering_grid_pos[2]] if self._hovering_grid_pos[2] < len(self._selected_tab._tab_content) else None
+
+        if self.is_left_clicked() and self._hovering_tile:
+            if self._hovering_grid_pos[2] == self._selected_grid_pos:
+                self._selected_grid_pos = -1
+                self._selected_tile = None
+            else:
+                self._selected_grid_pos = self._hovering_grid_pos[2]
+                self._selected_tile = self._selected_tab._tab_content[self._selected_grid_pos]
+                    
         # TODO - update for mouse clicking
-        
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
@@ -263,13 +285,13 @@ class SpriteSelect(ui.Frame):
                 self._frame.blit(
                     pygame.transform.scale(io.load_image(item._sprite_path), self._grid_item_size),
                     item["_render_rect"]
-                )
-                # draw a rect 
-                pygame.draw.rect(self._frame, (255, 255, 255), item["_render_rect"], 1)
-            
-            if self._selected_tile:
+                )            
+            if self._hovering_tile:
                 # render the rect
-                pygame.draw.rect(self._frame, (255, 0, 0), self._selected_tile["_render_rect"], 1)
+                pygame.draw.rect(self._frame, (255, 0, 0), self._hovering_tile["_render_rect"], 2)
+            if self._selected_grid_pos > -1:
+                # render an overlay
+                pygame.draw.rect(self._frame, (0, 255, 0), self._selected_tile["_render_rect"], 5)
         # render
         super().render(surface)
     
@@ -289,6 +311,12 @@ class SpriteSelect(ui.Frame):
                 (i // self._grid_size) * self._grid_item_size[1] + (i//self._grid_size)
             )
             item["_render_rect"].size = self._grid_item_size.copy()
+        # reset items
+        self._hovering_grid_pos = [0, 0, 0]
+        self._selected_grid_pos = -1
+        self._selected_tile = None
+        self._hovering_tile = None
+
 
         if not self._selected_tab:
             self._selected_tab = new_tab
@@ -392,10 +420,7 @@ class Tab(ui.Text):
                     "w": _file_rect.w,
                     "h": _file_rect.h
                 }
-        
-        
-    
-            
+                
 
 class TabsManager(ui.Frame):
 
@@ -513,8 +538,12 @@ class SaveButton(ui.Button):
     
     def save_world(self, data: dict):
         """ Save the world """
-        print('Note: Saving the world (but not for real)')
-        print(editor_singleton.CURRENT_EDITING_WORLD)
+        print('Note: Saving the world (FOR real)')
+        print("Saved at: ", editor_singleton.CURRENT_EDITING_WORLD._world_storage_key)
+        singleton.save_world(
+            editor_singleton.CURRENT_WORLD_SAVE_KEY, 
+            editor_singleton.CURRENT_EDITING_WORLD
+        )
 
 # ---------------------------- #
 # new world button
@@ -537,6 +566,38 @@ class NewWorldButton(ui.Button):
 
 # -------------------------------------------------- #
 # editor objects
+
+class ToolBar(ui.Frame):
+    def __post_init__(self):
+        """ Post init function """
+        super().__post_init__()
+        self._tools = []
+        self._selected_tool = None
+
+
+class Tool(ui.UIObject):
+    def __init__(self, name: str, parent: ui.UIObject = None):
+        """ Post init function """
+        super().__init__(0, 0, w=None, h=1.0, padding=1, parent=parent)
+        self._name = name
+    
+    # ---------------------------- #
+    # logic
+
+    def update(self):
+        """ Update the object """
+        pass
+
+    def render(self, surface: pygame.Surface):
+        """ Render the object """
+        pass
+    
+
+
+# ---------------------------- #
+
+
+
 
 # ---------------------------- #
 # color picker / selector

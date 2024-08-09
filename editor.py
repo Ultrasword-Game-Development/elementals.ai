@@ -59,7 +59,7 @@ gl.GLContext.create_context()
 
 # Note: must load world + start ui
 ui.start_ui()
-editor_singleton.CURRENT_EDITING_WORLD = (w:=singleton.load_world("assets/level/test_world.elal"))
+editor_singleton.CURRENT_EDITING_WORLD = (w:=singleton.load_world("assets/level/world.elal"))
 
 base_window = ui.UIObject(0, 0, padding=2)
 base_window.set_background_color(utils.hex_to_rgb('00233A'))
@@ -73,7 +73,7 @@ right_side_hub = ui.UIObject(0.8, 0, w = 0.2, h=1.0, padding=[0, 1, 1, 1], paren
 right_side_hub.set_background_color(utils.hex_to_rgb('1F618D'))
 
 # = title
-editing_world_name = ui.Text(0.0, 0.0, w=1.0, h=0.05, padding=1, parent=right_side_hub)
+editing_world_name = ui.EditableText(0.0, 0.0, w=1.0, h=0.05, padding=1, parent=right_side_hub)
 editing_world_name.set_background_color(utils.hex_to_rgb('#00082f'))
 editing_world_name.set_font("assets/fonts/Roboto-Medium.ttf")
 editing_world_name.set_text(editor_singleton.CURRENT_EDITING_WORLD._world_storage_key)
@@ -96,14 +96,13 @@ tab_selector = uiobjects.TabsManager(0.0, 0.11, w=1.0, h=0.04, padding=1, parent
 tab_selector.set_background_color(utils.hex_to_rgb('#001B6A'))
 
 # = sprite selection window
-sprite_select_window = uiobjects.SpriteSelect(0.0, 0.15, padding=1, parent=right_side_hub)
+sprite_select_window = uiobjects.SpriteSelect(0.0, 0.15, h=0.8, padding=1, parent=right_side_hub)
 sprite_select_window.set_background_color(utils.hex_to_rgb('#010e29'))
 sprite_select_window.set_border(utils.hex_to_rgb('#ffffff'), 2)
 
 ui.add_ui_object(base_window, editor_window, sprite_select_window, right_side_hub, save_button, new_world_button)
 ui.add_ui_object(tab_selector, editing_world_name)
 
-editor_window.load_config_file("assets/editor/config/tab-example.json")
 
 
 # editor_window.resize_screen(w.camera.area * 2)
