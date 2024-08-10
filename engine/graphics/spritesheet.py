@@ -113,7 +113,7 @@ class SpriteSheet:
     
     def get_sprite_str_id(self, index: int):
         """ Get the sprite uuid """
-        return self._json + "||" + str(index)
+        return (self._json if self._json else self._path) + "||" + str(index)
 
     # ---------------------------- #
     # utils

@@ -74,7 +74,7 @@ pygame.mixer.music.play(-1)
 # ))
 
 # _c = w.get_layer_at(0).get_chunk_at(w.get_camera_chunk())
-# _spritesheet = spritesheet.load_spritesheet("assets/sprites/player.json")
+# _spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
 
 # # temp load a chunk up with a tile
 # for i in range(singleton.DEFAULT_CHUNK_WIDTH):
@@ -84,14 +84,14 @@ pygame.mixer.music.play(-1)
 # for i in range(singleton.DEFAULT_CHUNK_WIDTH):
 #     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
 # # add an animated sprite at location - (0, 0)
-# _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
-# _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
-# _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/player.json", offset=2))
+# _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
+# _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
+# _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/entities/player.json", offset=2))
 
-# w.ssheet = spritesheet.load_spritesheet("assets/sprites/mage.json")
-# w.t_ani = animation.load_animation_from_json("assets/sprites/mage.json")
+# w.ssheet = spritesheet.load_spritesheet("assets/sprites/entities/mage.json")
+# w.t_ani = animation.load_animation_from_json("assets/sprites/entities/mage.json")
 # w.t_ani_reg = w.t_ani.get_registry()
-# w.p_ani = animation.load_animation_from_json('assets/sprites/player.json')
+# w.p_ani = animation.load_animation_from_json('assets/sprites/entities/player.json')
 # w.p_ani_reg = w.p_ani.get_registry()
 
 # singleton.save_world(world_save, w)

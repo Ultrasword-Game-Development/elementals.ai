@@ -50,6 +50,7 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
 singleton.DEBUG = True
+singleton.set_framebuffer_size_factor(4)
 singleton.update_default_chunk_tile_config(8, 8, 16, 16)
 
 # ---------------------------- #
@@ -103,8 +104,8 @@ while singleton.RUNNING:
 
     _w.update_and_render(singleton.FRAMEBUFFER)
 
-    singleton.SCREENBUFFER.blit(_spritesheet.image, (100, 100))
-    singleton.SCREENBUFFER.blit(_mask.to_surface(), (200, 100))
+    # singleton.SCREENBUFFER.blit(_spritesheet.image, (100, 100))
+    # singleton.SCREENBUFFER.blit(_mask.to_surface(), (200, 100))
         
     # ---------------------------- #
     # render screen items

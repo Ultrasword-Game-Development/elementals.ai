@@ -199,3 +199,9 @@ def load_world(path: str):
     """ Load a world from a file """
     with open(path, "rb") as f:
         return dill.load(f)
+
+def set_framebuffer_size_factor(factor: int):
+    """ Set the framebuffer size factor """
+    global FB_FACTOR, FB_SIZE
+    FB_FACTOR = factor
+    FB_SIZE = [WIN_SIZE[0] // FB_FACTOR, WIN_SIZE[1] // FB_FACTOR]

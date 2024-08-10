@@ -52,6 +52,9 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PRO
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
+singleton.update_default_chunk_tile_config(12, 12, 8, 8)
+
+
 
 # ---------------------------- #
 # editor UI loadup
@@ -115,7 +118,8 @@ ui.add_ui_object(tab_selector, editing_world_name)
 
 # ---------------------------- #
 
-editor_window.load_config_file("assets/editor/config/tab-example.json")
+# editor_window.load_config_file("assets/editor/config/tab-example.json")
+editor_window.load_config_file("assets/editor/config/sample.json")
 
 # ---------------------------- #
 
