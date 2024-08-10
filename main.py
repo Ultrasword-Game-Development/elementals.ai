@@ -95,6 +95,9 @@ pygame.mixer.music.play(-1)
 # singleton.save_world(world_save, w)
 
 
+# phandler.collide_rect_to_bitmask(pygame.Rect(0, 0, 10, 10), pygame.Surface((10, 10)).get_mas, pygame.Rect(0, 0, 10, 10))
+
+
 
 # ---------------------------- #
 

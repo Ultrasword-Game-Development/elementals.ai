@@ -9,24 +9,28 @@ from engine.handler import signal
 DEATH_SIGNAL_NAME = "_physics_death_signal"
 DEATH_SIGNAL_ID = "_physics_death_signal_id"
 
+
 # ---------------------------- #
 # physics / entity handler
 
 class PhysicsHandler:
-    def __init__(self) -> None:
+    def __init__(self, _world: "World") -> None:
         """ Initialize the physics handler """
+        self._world = _world
         self._entities = {}
-        
+
         # death signal
         self._death_signal = signal.Signal(DEATH_SIGNAL_NAME)
         self._death_signal.add_emitter_handling_function(DEATH_SIGNAL_ID, self.handle_death_signal)
     
-    def update_and_render(self, surface: pygame.Surface, offset: tuple):
+    # ---------------------------- #
+    # logic
+
+    def update(self):
         """ Update the physics handler """
         for entity in self._entities.values():
             entity.update()
-            # render
-            entity.render(surface, offset)
+            self._world.get_layer_at(entity.zlayer)._entity_rendering_queue.add(entity)
             
     def add_entity(self, entity):
         """ Add an entity to the physics handler """
@@ -34,7 +38,6 @@ class PhysicsHandler:
         # add death signal
         entity._death_emitter = self._death_signal.get_unique_emitter()
     
-    # TODO - killing/removing entities
     def handle_death_signal(self, data: dict):
         """ 
         Handle the death signal 
@@ -49,11 +52,35 @@ class PhysicsHandler:
         self._entities[data['id']].handle_death_signal(data)
         # remove the entity
         del self._entities[data['id']]
-        
-        
-        
     
+    # ---------------------------- #
+    # movement + collision
+
+    def move_entity(self, entity: "Entity", world: "World"):
+        """ Move the entity """
+        pass
         
-            
+# ---------------------------- #
+# utils
+
+def collide_rect_to_rect(self, rect1: pygame.Rect, rect2: pygame.Rect):
+    """ Check if two rects collide """
+    return rect1.colliderect(rect2)
+
+def collide_rect_to_bitmask(self, rect: pygame.Rect, bitmask: pygame.Surface, bitmask_rect: pygame.Rect):
+    """ Check if a rect collides with a bitmask """
+    if not rect.colliderect(bitmask_rect):
+        return False
+    # get the overlap
+    # TODO - rect + bitmask collision
+
+def collide_bitmask_to_bitmask(self, bitmask1: pygame.Surface, bitmask1_rect: pygame.Rect, bitmask2: pygame.Surface, bitmask2_rect: pygame.Rect):
+    """ Check if two bitmasks collide """
+    if not bitmask1_rect.colliderect(bitmask2_rect):
+        return False
+    # get the overlap
+    # TODO - bitmask + bitmask collision
+
+
             
             

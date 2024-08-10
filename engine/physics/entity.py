@@ -13,10 +13,13 @@ class Entity:
         """ Create a new entity """
         self._id = create_entity_id()
         self.position = pygame.math.Vector2()
+        self.zlayer = 0
         self.velocity = pygame.math.Vector2()
         self.rect = pygame.Rect(0, 0, 0, 0)
         self.sprite = None
         self.bitmask = None
+        # bit collision mask
+        self.layer_mask = 0b00000000
         
         # for the physics/entity handler
         self._alive = True

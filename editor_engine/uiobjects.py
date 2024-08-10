@@ -38,6 +38,7 @@ class Editor(ui.Frame):
         self._camera_scale_ratio = 0.25
         self._camera_scale_ratio_increment = 0.05
         self._camera = camera.PseudoCamera((0, 0), pygame.math.Vector2(self.area) * self._camera_scale * self._camera_scale_ratio)
+        
         self._frame = pygame.Surface(self._camera.area, 0, 16).convert_alpha()
         self._frame.fill((0, 0, 0, 0))
         # set new value
@@ -60,6 +61,9 @@ class Editor(ui.Frame):
 
         # signal
         signal.get_signal(singleton.GLOBAL_FILE_DROP_SIGNAL_KEY).add_emitter_handling_function("editor_file_drop", self.load_config_file)
+
+        # set editor object
+        editor_singleton.EDITOR_ELEMENT = self
 
     # ---------------------------- #
     # logic
@@ -540,10 +544,17 @@ class SaveButton(ui.Button):
         """ Save the world """
         print('Note: Saving the world (FOR real)')
         print("Saved at: ", editor_singleton.CURRENT_EDITING_WORLD._world_storage_key)
+        # change camera back
+        old_cam = editor_singleton.CURRENT_EDITING_WORLD._camera
+        editor_singleton.CURRENT_EDITING_WORLD._camera = editor_singleton.EDITOR_ELEMENT._world_camera
+        editor_singleton.CURRENT_EDITING_WORLD.camera = editor_singleton.EDITOR_ELEMENT._world_camera
         singleton.save_world(
             editor_singleton.CURRENT_WORLD_SAVE_KEY, 
             editor_singleton.CURRENT_EDITING_WORLD
         )
+        # bring old camera back
+        editor_singleton.CURRENT_EDITING_WORLD._camera = old_cam
+        editor_singleton.CURRENT_EDITING_WORLD.camera = old_cam
 
 # ---------------------------- #
 # new world button

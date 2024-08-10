@@ -299,12 +299,13 @@ class Layer:
     def __init__(self, layer_num: int) -> None:
         """ Initialize the layer """
         self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
+        self._layer_buffer.fill((0, 0, 0, 0))
         self._layer_id = layer_num
-        self._physics_handler = phandler.PhysicsHandler()
 
         # chunk handler
         self._chunks = {}
         self._world = None
+        self._entity_rendering_queue = set()
 
         # data
         self._data = {}
@@ -314,14 +315,20 @@ class Layer:
 
     def update_and_render(self, surface: pygame.Surface, camera: camera.PseudoCamera):
         """ Update and render the layer """
+        self._layer_buffer.fill((0, 0, 0, 0))
         # update the chunks
         for chunk_hash_str in self._world._renderable_chunks_hash_strs:
             if chunk_hash_str not in self._chunks:
                 continue
-            self._chunks[chunk_hash_str].update_and_render(surface, camera)
+            self._chunks[chunk_hash_str].update_and_render(self._layer_buffer, camera)
+        
+        # render the entities
+        for entity in self._entity_rendering_queue:
+            entity.render(self._layer_buffer, camera.position)
+        self._entity_rendering_queue.clear()
 
-        # render the physics
-        self._physics_handler.update_and_render(self._layer_buffer, camera)
+        # render the layer buffer
+        surface.blit(self._layer_buffer, (0, 0))
 
     # ---------------------------- #
     # signal logic
@@ -427,6 +434,7 @@ class Layer:
         self.__dict__.update(state)
         # load unserializable data
         self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
+        self._layer_buffer.fill((0, 0, 0, 0))
 
 # ---------------------------- #
 # world
@@ -442,6 +450,9 @@ class World:
         # background color
         self._background_color = singleton.WIN_BACKGROUND
         
+        # physics handler
+        self._physics_handler = phandler.PhysicsHandler(self)
+
         # camera data
         self._camera = camera.PseudoCamera((0, 0), singleton.FB_SIZE)
         self.camera = self._camera
@@ -491,7 +502,10 @@ class World:
         # update layers
         for layer in self._layers:
             layer.update_and_render(surface, self._camera)
-    
+        # render the physics + all entities
+        self._physics_handler.update()
+
+
     def get_layer_at(self, layer: int):
         """ Get the layer at the index """
         return self._layers[layer]

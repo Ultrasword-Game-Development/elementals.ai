@@ -76,13 +76,15 @@ _c = _w.get_layer_at(0).get_chunk_at(_w.get_camera_chunk())
 # # add an animated sprite at location - (0, 0)
 # _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
 # _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/player.json"))
-# _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/player.json", offset=2))
+_c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/player.json", offset=2))
 
 _spritesheet = spritesheet.load_spritesheet("assets/sprites/wizard.json")
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 4), tiles.AnimatedTile((i, 4), "assets/sprites/wizard.json", offset=0))
 
 
+_img = _spritesheet.image
+_mask = pygame.mask.from_surface(_img)
 
 # ---------------------------- #
 
@@ -102,6 +104,7 @@ while singleton.RUNNING:
     _w.update_and_render(singleton.FRAMEBUFFER)
 
     singleton.SCREENBUFFER.blit(_spritesheet.image, (100, 100))
+    singleton.SCREENBUFFER.blit(_mask.to_surface(), (200, 100))
         
     # ---------------------------- #
     # render screen items

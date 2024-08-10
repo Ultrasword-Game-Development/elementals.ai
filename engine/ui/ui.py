@@ -330,7 +330,7 @@ class Frame(UIObject):
     
     def render(self, surface: pygame.Surface):
         """ Render the object """
-        surface.blit(self._frame, self.get_ui_rect().topleft)
+        surface.blit(self._frame, self.get_ui_rect())
     
     # ---------------------------- #
     # misc

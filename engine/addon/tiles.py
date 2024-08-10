@@ -70,7 +70,6 @@ class SemiAnimatedTile(world.DefaultTile):
         """ Set state """
         super().__setstate__(state)
 
-
 def update_synced_sprite_animations(data: dict, **kwargs):
     """ Update the synced sprite animations """
     kwargs['registry'].update()
@@ -92,6 +91,19 @@ class AnimatedTile(world.DefaultTile):
         
         # set offset frame
         self._animation_registry._frame += offset
+    
+    # ---------------------------- #
+    # logic
+
+    def __post_init__(self, chunk: "world.Chunk"):
+        """ Post init """
+        # cache all animation registry sprites
+        for _a_type in self._animation_registry._parent._animation_types:
+            for _sid, _ in self._animation_registry._parent[_a_type]:
+                chunk._sprite_cacher.load_sprite(
+                    _sid,
+                    pygame.Rect(0, 0, singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT)
+                )
 
     def update(self):
         """ Update the tile """
