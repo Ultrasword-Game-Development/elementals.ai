@@ -17,6 +17,8 @@ from engine.graphics import camera
 
 from engine.physics import phandler
 
+from engine.addon import spritecacher
+
 # ---------------------------- #
 # constants
 
@@ -125,6 +127,8 @@ class DefaultTile:
         """ Set the state of the tile """
         self.__dict__.update(state)
         self._data = {}
+        # check if sprite is loaded in global
+        
 
 # ---------------------------- #
 # chunk
@@ -152,6 +156,7 @@ class Chunk:
             self._chunk_position[1] * self._chunk_tile_dimensions[1] * singleton.DEFAULT_TILE_HEIGHT
         )
         
+        self.__tile_pixel_area = (tile_dimensions[0], tile_dimensions[1])
         self._tile_pixel_area = (
             singleton.DEFAULT_TILE_WIDTH if not tile_dimensions[0] else tile_dimensions[0],
             singleton.DEFAULT_TILE_HEIGHT if not tile_dimensions[1] else tile_dimensions[1]
@@ -170,7 +175,7 @@ class Chunk:
 
         # all images need to resized / set to the right dimensions (to the dimension of the tile)
         # this script will cache the loaded sprites for faster access
-        self._sprite_cacher = io.SpriteCacher(self._tile_pixel_area)
+        self._sprite_cacher = spritecacher.SpriteCacher(self._tile_pixel_area)
     
     # ---------------------------- #
     # logic
@@ -278,8 +283,13 @@ class Chunk:
         """ Set the state of the chunk """
         # recreate the hash str
         self.__dict__.update(state)
+        # update size
+        self._tile_pixel_area = (
+            singleton.DEFAULT_TILE_WIDTH if not self.__tile_pixel_area[0] else self.__tile_pixel_area[0],
+            singleton.DEFAULT_TILE_HEIGHT if not self.__tile_pixel_area[1] else self.__tile_pixel_area[1]
+        )
         # create a new sprite cacher
-        self._sprite_cacher = io.SpriteCacher(self._tile_pixel_area)
+        self._sprite_cacher = spritecacher.SpriteCacher(self._tile_pixel_area)
         # load up the chunk save file
         _filename = self._chunk_hash_str
         with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'rb') as f:
@@ -550,7 +560,7 @@ class World:
         """ Get the state of the world """
         state = self.__dict__.copy()
         
-        # check if actually saving
+        # check if actually saving (officially)
         if not singleton.SAVING_WORLD_FLAG:
             return state
         
@@ -560,6 +570,10 @@ class World:
         if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER):
             os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER)
         return state
+    
+    def __setstate__(self, state):
+        """ Set the state of the world """
+        self.__dict__.update(state)
     
     # ---------------------------- #
     # caching

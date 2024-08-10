@@ -17,6 +17,8 @@ SPACINGY = "spacingy"
 HORIZONTAL_TILES = "horizontal_tiles"
 VERTICAL_TILES = "vertical_tiles"
 
+SPRITESHEET_PADDING = "||"
+
 DEFAULT_CONFIG = {
     'w': 18,
     'h': 18,
@@ -102,8 +104,8 @@ class SpriteSheet:
             left = padx
         self.sprites = images     
         
-        print(self._json)
-        print(self._config)
+        # print(self._json, self._path)
+        # print(self._config)
         
         # set other variables
         self._config[HORIZONTAL_TILES] = (self.image.get_size()[0] - self._config[SPACINGX]) // (self._config[WIDTH] + self._config[SPACINGX])
@@ -111,7 +113,7 @@ class SpriteSheet:
     
     def get_sprite_str_id(self, index: int):
         """ Get the sprite uuid """
-        return self._path + "||" + str(index)
+        return self._json + "||" + str(index)
 
     # ---------------------------- #
     # utils
@@ -132,6 +134,10 @@ class SpriteSheet:
         """ Hash the spritesheet """
         hashable = tuple([self._path] + list(flatten_config_values(self._config)))
         return hash(hashable)
+
+    def get_config(self):
+        """ Get the config """
+        return self._config
 
     # ---------------------------- #
     # pickle

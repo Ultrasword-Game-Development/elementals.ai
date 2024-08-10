@@ -20,6 +20,8 @@ from engine.graphics import spritesheet
 
 from editor_engine import editor_singleton
 
+from engine.addon import spritecacher
+
 # ---------------------------- #
 # constants
 
@@ -247,7 +249,7 @@ class SpriteSelect(ui.Frame):
         self._grid_item_size = [(self._area[0] - self._grid_size - 2) // self._grid_size, 
                                 (self._area[0] - self._grid_size - 2) // self._grid_size]
         
-        self._spritecacher = io.SpriteCacher(self._grid_item_size)
+        self._spritecacher = spritecacher.SpriteCacher(self._grid_item_size)
         
     # ---------------------------- #
     # logic

@@ -48,10 +48,12 @@ class SemiAnimatedTile(world.DefaultTile):
         # cache all animation registry sprites
         for _a_type in self._animation_registry._parent._animation_types:
             for _sid, _ in self._animation_registry._parent[_a_type]:
+                _config = self._animation_registry._parent._spritesheet.get_config()
                 chunk._sprite_cacher.load_sprite(
                     _sid,
-                    pygame.Rect(0, 0, singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT)
+                    pygame.Rect(0, 0, _config[spritesheet.WIDTH], _config[spritesheet.HEIGHT])
                 )
+
                 
     def update(self):
         """ Update the tile """
@@ -100,14 +102,29 @@ class AnimatedTile(world.DefaultTile):
         # cache all animation registry sprites
         for _a_type in self._animation_registry._parent._animation_types:
             for _sid, _ in self._animation_registry._parent[_a_type]:
+                _config = self._animation_registry._parent._spritesheet.get_config()
                 chunk._sprite_cacher.load_sprite(
                     _sid,
-                    pygame.Rect(0, 0, singleton.DEFAULT_TILE_WIDTH, singleton.DEFAULT_TILE_HEIGHT)
+                    pygame.Rect(0, 0, _config[spritesheet.WIDTH], _config[spritesheet.HEIGHT])
                 )
 
     def update(self):
         """ Update the tile """
         self._animation_registry.update()
         self._sprite_path = self._animation_registry.sprite_path
+    
+    # ---------------------------- #
+    # serialization
+    
+    def __getstate__(self):
+        """ Get state """
+        state = super().__getstate__()
+        return state
+    
+    def __setstate__(self, state):
+        """ Set state """
+        super().__setstate__(state)
+        # update all sprites
+        
     
 
