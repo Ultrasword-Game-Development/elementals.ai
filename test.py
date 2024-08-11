@@ -60,35 +60,35 @@ singleton.update_default_chunk_tile_config(8, 8, 16, 16)
 
 _world_path = "test_world"
 
-_w = world.World.load_world(_world_path)
+# _w = world.World.load_world(_world_path)
 
-# _w = world.World(_world_path)
-# _w.get_layer_at(0).set_chunk_at(world.Chunk(
-#     (_w.get_camera_chunk())
-# ))
+_w = world.World(_world_path)
+_w.get_layer_at(0).set_chunk_at(world.Chunk(
+    (_w.get_camera_chunk())
+))
 
-# _c = _w.get_layer_at(0).get_chunk_at(_w.get_camera_chunk())
+_c = _w.get_layer_at(0).get_chunk_at(_w.get_camera_chunk())
 
-# _spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
+_spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
 
-# # temp load a chunk up with a tile
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     for j in range(2):
-#         _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
+# temp load a chunk up with a tile
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    for j in range(2):
+        _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
 
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
 
-# # add an animated sprite at location - (0, 0)
-# _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
-# _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
-# _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/entities/player.json", offset=2))
+# add an animated sprite at location - (0, 0)
+_c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
+_c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
+_c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/entities/player.json", offset=2))
 
-# _spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/wizard.json")
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     _c.set_tile_at((i, 4), tiles.AnimatedTile((i, 4), "assets/sprites/entities/wizard.json", offset=0))
+_spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/wizard.json")
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 4), tiles.AnimatedTile((i, 4), "assets/sprites/entities/wizard.json", offset=0))
 
-# singleton.save_world(_w)
+singleton.save_world(_w)
 
 
 # _img = _spritesheet.image

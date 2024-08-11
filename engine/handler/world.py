@@ -14,6 +14,7 @@ from engine import singleton
 from engine.handler import signal
 
 from engine.graphics import camera
+from engine.graphics import spritesheet
 
 from engine.physics import phandler
 
@@ -264,7 +265,7 @@ class Chunk:
         """ Get the state of the chunk """
         state = self.__dict__.copy()
         # load all chunks into a chunk save file
-        _filename = self._chunk_hash_str
+        _filename = self._chunk_hash_str + "==" + str(self._layer._layer_id)
         
         if not singleton.SAVING_WORLD_FLAG:
             del state["_tiles"]
@@ -274,6 +275,7 @@ class Chunk:
         # the chunk save folder should already exist
         # we save the chunkdata into the file to isolate chunk data and world data (transferrable terrain) 
         with open(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER + _filename, 'wb') as f:
+            print("Saving Chunk: ", self._chunk_hash_str, " | to file: ", WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER + _filename)
             f.write(pickle.dumps(self._tiles))
         del state["_tiles"]
         del state["_sprite_cacher"]
@@ -291,8 +293,11 @@ class Chunk:
         )
         # create a new sprite cacher
         self._sprite_cacher = spritecacher.SpriteCacher(self._tile_pixel_area)
+
+    def load_chunk_data(self):
+        """ Load the chunk data """
         # load up the chunk save file
-        _filename = self._chunk_hash_str
+        _filename = self._chunk_hash_str + "==" + str(self._layer._layer_id)
         with open(WORLD_LEVEL_FOLDER + "/" + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER + _filename, 'rb') as f:
             _tiles = dill.load(f)
         self._tiles = [ [ None for x in range(len(_tiles[y])) ] for y in range(len(_tiles)) ]
@@ -300,7 +305,7 @@ class Chunk:
         for y in range(len(_tiles)):
             for x in range(len(_tiles[y])):
                 if _tiles[y][x]:
-                    self.set_tile_at((x, y), _tiles[y][x])
+                    self.set_tile_at((x, y), _tiles[y][x])        
     
         
 # ---------------------------- #
@@ -446,7 +451,11 @@ class Layer:
         # load unserializable data
         self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
         self._layer_buffer.fill((0, 0, 0, 0))
-
+    
+    def load_layer_data(self):
+        """ Load the layer data """
+        for _chunk in self._chunks.values():
+            _chunk.load_chunk_data()
 # ---------------------------- #
 # world
 
@@ -494,6 +503,11 @@ class World:
         for layer in self._layers:
             layer._signal_emitter = self._layer_signals.get_unique_emitter()
             layer._world = self
+        
+        # special data object
+        self._data = {
+            "EDITOR_TAB_SPRITESHEETS": {}
+        }
     
         self.__post_init__()
 
@@ -580,7 +594,15 @@ class World:
     
     def __setstate__(self, state):
         """ Set the state of the world """
+        # update the editor injected tab spritesheet data
+        for _path, _data in state["_data"]["EDITOR_TAB_SPRITESHEETS"].items():
+            spritesheet.load_spritesheet(_path, framedata=_data)
+            
         self.__dict__.update(state)
+        
+        # load world data
+        for layer in self._layers:
+            layer.load_layer_data()
     
     def get_world_saving_main_file(self):
         """ Get the world saving folder """

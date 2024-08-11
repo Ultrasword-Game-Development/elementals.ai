@@ -396,23 +396,44 @@ class Tab(ui.Text):
     
     def _load_tab_data(self):
         """ Load the tab data """
+        _spritesheet_data = {}
+        
         # load the spritesheet
         for item in self._tab_data:
             _file = item["file"]
-            _position = (item["x"], item["y"])
+            _filename = _file.split('.')[0]
             # load the spritesheets
-            # TODO - fix this problem
-            _spritesheet = spritesheet.load_spritesheet(_file)
-            _areas = (_spritesheet._config[spritesheet.WIDTH], _spritesheet._config[spritesheet.HEIGHT])
-            _coords = (_position[0] // _areas[0], _position[1] // _areas[1])
-            _sprite_str = _spritesheet.get_sprite_str_id(_coords[1] * _spritesheet._config[spritesheet.HORIZONTAL_TILES] + _coords[0])
-            # create defaulttile
-            _tile = world.DefaultTile(_position, _sprite_str)
-            # add rect data for the tile - to be rendered into sprite select "_render_rect"
-            _tile["_render_rect"] = pygame.Rect((0, 0), (0, 0))
-            _tile["_file_rect"] = pygame.Rect(item["x"], item["y"], item["w"], item["h"])
-            # save data
-            self._tab_content.append(_tile)
+            if _file not in _spritesheet_data:
+                _spritesheet_data[_file] = []
+            _spritesheet_data[_file].append(
+                (
+                    item["x"], 
+                    item["y"], 
+                    item["w"], 
+                    item["h"], 
+                    f"{_filename}-{len(_spritesheet_data[_file])}.elemg")
+                )
+        
+        # TODO - should I store _spritesheet_data?
+        
+        # load spritesheets
+        _spritesheets = []
+        for _path, _data in _spritesheet_data.items():
+            # sort by y, then x
+            _data.sort(key=lambda x: (x[1], x[0]))
+            _spritesheets.append(spritesheet.load_spritesheet(_path, framedata=_data))
+            
+            # inject data into world
+            editor_singleton.CURRENT_EDITING_WORLD._data["EDITOR_TAB_SPRITESHEETS"][_path] = _data
+
+            # create tiles
+            for _tiledata in _data:
+                _tile = world.DefaultTile((0, 0), _tiledata[4])
+                # add rect to the tile
+                _tile["_render_rect"] = pygame.Rect((0, 0), (0, 0))
+                _tile["_file_rect"] = pygame.Rect(_tiledata[0], _tiledata[1], _tiledata[2], _tiledata[3])
+                # save data
+                self._tab_content.append(_tile)
     
     def save_tab_data(self):
         """ Save the tab data """
@@ -552,6 +573,7 @@ class SaveButton(ui.Button):
         old_cam = editor_singleton.CURRENT_EDITING_WORLD._camera
         editor_singleton.CURRENT_EDITING_WORLD._camera = editor_singleton.EDITOR_ELEMENT._world_camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = editor_singleton.EDITOR_ELEMENT._world_camera
+        # save the world
         singleton.save_world(
             editor_singleton.CURRENT_EDITING_WORLD
         )

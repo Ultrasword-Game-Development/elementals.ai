@@ -193,9 +193,11 @@ def save_world(world):
     SAVING_WORLD_FLAG = True
     # create folder
     if not os.path.exists(world.get_world_saving_folder()):
+        print("Folder at: ", world.get_world_saving_folder(), " does not exist. Creating it."),
         os.makedirs(world.get_world_saving_folder())
     # save file
     with open(world.get_world_saving_main_file(), "wb") as f:
+        print("Saving the world at: ", world.get_world_saving_main_file())
         dill.dump(world, f)
     SAVING_WORLD_FLAG = False
 

@@ -56,11 +56,6 @@ world_save = "world"
 
 w = world.World.load_world(world_save)
 
-# audio
-pygame.mixer.music.set_volume(0.1)
-pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
-pygame.mixer.music.play(-1)
-
 # w = world.World(world_save)
 # w.t_signal = signal.Signal("Test Signal")
 # w.t_emitter = w.t_signal.get_unique_emitter()
@@ -97,6 +92,11 @@ pygame.mixer.music.play(-1)
 
 # singleton.save_world(w)
 
+
+# audio
+pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
+pygame.mixer.music.play(-1)
 
 # phandler.collide_rect_to_bitmask(pygame.Rect(0, 0, 10, 10), pygame.Surface((10, 10)).get_mas, pygame.Rect(0, 0, 10, 10))
 
