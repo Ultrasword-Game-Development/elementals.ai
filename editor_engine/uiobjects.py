@@ -396,10 +396,12 @@ class Tab(ui.Text):
     
     def _load_tab_data(self):
         """ Load the tab data """
+        # load the spritesheet
         for item in self._tab_data:
             _file = item["file"]
             _position = (item["x"], item["y"])
             # load the spritesheets
+            # TODO - fix this problem
             _spritesheet = spritesheet.load_spritesheet(_file)
             _areas = (_spritesheet._config[spritesheet.WIDTH], _spritesheet._config[spritesheet.HEIGHT])
             _coords = (_position[0] // _areas[0], _position[1] // _areas[1])
@@ -551,7 +553,6 @@ class SaveButton(ui.Button):
         editor_singleton.CURRENT_EDITING_WORLD._camera = editor_singleton.EDITOR_ELEMENT._world_camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = editor_singleton.EDITOR_ELEMENT._world_camera
         singleton.save_world(
-            editor_singleton.CURRENT_WORLD_SAVE_KEY, 
             editor_singleton.CURRENT_EDITING_WORLD
         )
         # bring old camera back

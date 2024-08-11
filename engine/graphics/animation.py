@@ -26,10 +26,50 @@ class Animation:
                 
         # handle all the types of animations within an animation
         # including frame limits + etc
+        """
+        {
+            "type": [
+                "image_path1", 
+                "image_path2", 
+                "image_path3"
+            ]
+        }
+        """
         self._animation_types = {}
         self._default_animation_type = None
         
         # TODO - signal
+        
+        self.load_sprite_data_from_json()
+
+    # ---------------------------- #
+    # logic
+    
+    def load_sprite_data_from_json(self):
+        """ Load the sprite data from the json file """
+        # load the animation
+        data = io.json_to_dict(self._json_path)
+        # extract data
+        meta = data["meta"]
+        # don't use os.path.join (different between MAC and Windows)
+        _framedata = data["frames"]
+        _tags = meta["frameTags"]
+        _image_size = meta["size"]
+                
+        sheet = spritesheet.load_spritesheet(self._json_path)
+        
+        # create all the tags first
+        for taginfo in _tags:
+            self._animation_types[taginfo["name"]] = []
+        
+        # add all the images from framedata
+        for frameinfo in _framedata:
+            name = frameinfo["filename"]
+            _, _ani_type, _index_and = name.split("-")
+            self._animation_types[_ani_type].append(name)
+        
+        # set the default animation type - the first animation
+        self._default_animation_type = _tags[0]["name"]
 
     def get_registry(self):
         """ Return the animation registry """
@@ -73,42 +113,9 @@ class Animation:
         self._spritesheet = spritesheet.load_spritesheet(self._json_path)
         self._animation_types = {}
         # register the animation
-        Animation.load_sprite_data_from_json(self._json_path, self)
+        self.load_sprite_data_from_json()
         cache_animation(self)
     
-    # ---------------------------- #
-    # classmethod
-    
-    @classmethod
-    def load_sprite_data_from_json(cls, json_path: str, animation: "Animation"):
-        # load the animation
-        data = io.json_to_dict(json_path)
-        # extract data
-        meta = data["meta"]
-        # don't use os.path.join (different between MAC and Windows)
-        _layers = meta["layers"]
-        _framedata = data["frames"]
-        _sprite_size = (_framedata[0]["frame"]["w"], _framedata[0]["frame"]["h"])
-        _size = meta["size"]
-        
-        sprites_per_row = _size['w'] // _sprite_size[0]
-        
-        sheet = spritesheet.load_spritesheet(json_path)
-        
-        # create all animation_types (layers of the aseprite file)
-        for l_id, layer in enumerate(_layers):
-            _name = layer["name"]
-            animation._animation_types[_name] = [
-                # get all sprites from spritesheet on this layer 
-                    (
-                        sheet.get_sprite_str_id(sprites_per_row * l_id + __sid),
-                        sheet[sprites_per_row * l_id + __sid]
-                    ) 
-                    for __sid in range(sprites_per_row)
-            ]
-        
-        # set the default animation type
-        animation._default_animation_type = _layers[0]["name"]
 
 
 # ---------------------------- #
@@ -146,12 +153,12 @@ class AnimationRegistry:
     @property
     def sprite(self):
         """ Return the current frame """
-        return self._parent[self._animation_type][self._frame][1]
+        return io.load_image(self._parent[self._animation_type][self._frame])
     
     @property
     def sprite_path(self):
         """ Return the current frame path """
-        return self._parent[self._animation_type][self._frame][0]
+        return self._parent[self._animation_type][self._frame]
     
     # ---------------------------- #
     # utils
@@ -197,7 +204,6 @@ def load_animation_from_json(json_path: str):
     
     # create the animation
     animation = Animation(json_path, sheet)
-    Animation.load_sprite_data_from_json(json_path, animation)
     
     # cache animation
     ANI_CACHE[json_path] = animation

@@ -62,7 +62,7 @@ singleton.update_default_chunk_tile_config(12, 12, 8, 8)
 
 # Note: must load world + start ui
 ui.start_ui()
-editor_singleton.CURRENT_EDITING_WORLD = (w:=singleton.load_world("assets/level/world.elal"))
+editor_singleton.CURRENT_EDITING_WORLD = (w:=singleton.load_world("assets/level/world"))
 
 base_window = ui.UIObject(0, 0, padding=2)
 base_window.set_background_color(utils.hex_to_rgb('00233A'))

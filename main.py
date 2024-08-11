@@ -52,7 +52,7 @@ singleton.update_default_chunk_tile_config(12, 12, 8, 8)
 # testing
 
 
-world_save = "assets/level/world.elal"
+world_save = "world"
 
 w = world.World.load_world(world_save)
 
@@ -61,7 +61,7 @@ pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
 pygame.mixer.music.play(-1)
 
-# w = world.World()
+# w = world.World(world_save)
 # w.t_signal = signal.Signal("Test Signal")
 # w.t_emitter = w.t_signal.get_unique_emitter()
 # w.t_signal.add_emitter_handling_function("_test_signal", lambda data: print(data))
@@ -82,7 +82,8 @@ pygame.mixer.music.play(-1)
 #         _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
 
 # for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
+#     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
+
 # # add an animated sprite at location - (0, 0)
 # _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
 # _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
@@ -94,7 +95,7 @@ pygame.mixer.music.play(-1)
 # w.p_ani = animation.load_animation_from_json('assets/sprites/entities/player.json')
 # w.p_ani_reg = w.p_ani.get_registry()
 
-# singleton.save_world(world_save, w)
+# singleton.save_world(w)
 
 
 # phandler.collide_rect_to_bitmask(pygame.Rect(0, 0, 10, 10), pygame.Surface((10, 10)).get_mas, pygame.Rect(0, 0, 10, 10))

@@ -22,9 +22,9 @@ class SpriteCacher:
         """ Load a sprite and cache it """
         if path in self._cached_sprites:
             return self._cached_sprites[path]
-        
+            
         # check if sprite is an image or spritesheet
-        if '|' in path:
+        if '||' in path:
             spritesheet.load_spritesheet(path.split(spritesheet.SPRITESHEET_PADDING)[0])
         
         sprite = io.load_image(path)

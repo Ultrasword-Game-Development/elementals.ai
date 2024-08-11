@@ -19,7 +19,10 @@ SYNCED_TILE_ANIMATION = "_synced_tile_animation"
 # animated - semi-dynamic tiles (across the entire world)
 
 class SemiAnimatedTile(world.DefaultTile):
+    
     def __init__(self, position: tuple, sprite: str) -> None:
+        self.__parent_class__ = self.__class__
+
         super().__init__(position, sprite)
         self._animation_json_path = sprite
         self._animation_registry = None
@@ -27,7 +30,7 @@ class SemiAnimatedTile(world.DefaultTile):
         
         # grab the animation and stick a default image into the sprite object
         ani = animation.load_animation_from_json(sprite)
-        self._sprite_path = ani[ani._default_animation_type][0][0]
+        self._sprite_path = ani[ani._default_animation_type][0]
         
     # ---------------------------- #
     # logic
@@ -45,14 +48,14 @@ class SemiAnimatedTile(world.DefaultTile):
         
         # set animation registry
         self._animation_registry = signal.get_signal(singleton.GLOBAL_FRAME_SIGNAL_KEY).get_registered_function_info(self._signal_function_registry_key)[1]["registry"]        
-        # cache all animation registry sprites
+        # cache all animation registry sprites - into local spritecacher
+        # loop through types
         for _a_type in self._animation_registry._parent._animation_types:
-            for _sid, _ in self._animation_registry._parent[_a_type]:
+            # loop through image paths
+            for _sid in self._animation_registry._parent[_a_type]:
                 _config = self._animation_registry._parent._spritesheet.get_config()
-                chunk._sprite_cacher.load_sprite(
-                    _sid,
-                    pygame.Rect(0, 0, _config[spritesheet.WIDTH], _config[spritesheet.HEIGHT])
-                )
+                # load the sprite
+                chunk._sprite_cacher.load_sprite(_sid)
 
                 
     def update(self):
@@ -82,6 +85,8 @@ def update_synced_sprite_animations(data: dict, **kwargs):
 
 class AnimatedTile(world.DefaultTile):
     def __init__(self, position: tuple, sprite: str, offset: int = 0) -> None:
+        self.__parent_class__ = self.__class__
+        
         super().__init__(position, sprite)
         self._animation_json_path = sprite
         self._animation_registry = None
@@ -89,7 +94,7 @@ class AnimatedTile(world.DefaultTile):
         # load animation registry
         ani = animation.load_animation_from_json(self._animation_json_path)
         self._animation_registry = ani.get_registry()
-        self._sprite_path = ani[ani._default_animation_type][0][0]
+        self._sprite_path = ani[ani._default_animation_type][0]
         
         # set offset frame
         self._animation_registry._frame += offset
@@ -101,12 +106,9 @@ class AnimatedTile(world.DefaultTile):
         """ Post init """
         # cache all animation registry sprites
         for _a_type in self._animation_registry._parent._animation_types:
-            for _sid, _ in self._animation_registry._parent[_a_type]:
+            for _sid in self._animation_registry._parent[_a_type]:
                 _config = self._animation_registry._parent._spritesheet.get_config()
-                chunk._sprite_cacher.load_sprite(
-                    _sid,
-                    pygame.Rect(0, 0, _config[spritesheet.WIDTH], _config[spritesheet.HEIGHT])
-                )
+                chunk._sprite_cacher.load_sprite(_sid)
 
     def update(self):
         """ Update the tile """

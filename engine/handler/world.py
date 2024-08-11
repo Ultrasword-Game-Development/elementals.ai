@@ -33,8 +33,8 @@ CAMERA_OLD_CHUNK = "_old_chunk"
 CAMERA_NEW_CHUNK = "_new_chunk"
 
 
-WORLD_BLOBS_FOLDER = "assets/level/blobs"
-WORLD_BLOBS_CHUNKS_FOLDER = "chunkdata/"
+WORLD_LEVEL_FOLDER = "assets/level/"
+WORLD_LEVEL_CHUNKS_FOLDER = "chunkdata/"
 
 WORLD_CACHE = {}
 
@@ -61,6 +61,7 @@ class DefaultTile:
         """ Initialize the default tile """
         if not "__parent_class__" in self.__dict__:
             self.__parent_class__ = DefaultTile
+        
         self._tile_id = generate_id()
         
         self._index_position = position
@@ -272,7 +273,7 @@ class Chunk:
 
         # the chunk save folder should already exist
         # we save the chunkdata into the file to isolate chunk data and world data (transferrable terrain) 
-        with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'wb') as f:
+        with open(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER + _filename, 'wb') as f:
             f.write(pickle.dumps(self._tiles))
         del state["_tiles"]
         del state["_sprite_cacher"]
@@ -292,7 +293,7 @@ class Chunk:
         self._sprite_cacher = spritecacher.SpriteCacher(self._tile_pixel_area)
         # load up the chunk save file
         _filename = self._chunk_hash_str
-        with open(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER + _filename, 'rb') as f:
+        with open(WORLD_LEVEL_FOLDER + "/" + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER + _filename, 'rb') as f:
             _tiles = dill.load(f)
         self._tiles = [ [ None for x in range(len(_tiles[y])) ] for y in range(len(_tiles)) ]
         # re "place" all the tiles
@@ -453,7 +454,13 @@ class World:
     def __init__(self, name: str = None) -> None:
         """ Initialize the world """
         # store a "save file" with the creatino date and world name
-        self._world_storage_key = f"{name if name else "New World"}=={str(datetime.datetime.now()).split()[0]}"
+        __num = 1
+        __base = "New World"
+        if "New World" in os.listdir(WORLD_LEVEL_FOLDER):
+            while (end_result_string := f"{__base} ({__num})") in os.listdir(WORLD_LEVEL_FOLDER):
+                __num += 1
+        
+        self._world_storage_key = f"{name if name else ("New World" + end_result_string)}"
         # cache the world
         self.cache_world(self)
 
@@ -565,16 +572,24 @@ class World:
             return state
         
         # create a blob storage file - this should run first
-        if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key):
-            os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key)
-        if not os.path.exists(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER):
-            os.mkdir(WORLD_BLOBS_FOLDER + "/" + self._world_storage_key + "/" + WORLD_BLOBS_CHUNKS_FOLDER)
+        if not os.path.exists(WORLD_LEVEL_FOLDER + self._world_storage_key):
+            os.mkdir(WORLD_LEVEL_FOLDER + self._world_storage_key)
+        if not os.path.exists(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER):
+            os.mkdir(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER)
         return state
     
     def __setstate__(self, state):
         """ Set the state of the world """
         self.__dict__.update(state)
     
+    def get_world_saving_main_file(self):
+        """ Get the world saving folder """
+        return WORLD_LEVEL_FOLDER + self._world_storage_key + "/save.elal"
+
+    def get_world_saving_folder(self):
+        """ Get the world saving folder """
+        return WORLD_LEVEL_FOLDER + self._world_storage_key
+
     # ---------------------------- #
     # caching
     
@@ -591,7 +606,7 @@ class World:
         if world_key in WORLD_CACHE:
             return WORLD_CACHE[world_key]
         # load the world
-        result = singleton.load_world(world_key)
+        result = singleton.load_world(WORLD_LEVEL_FOLDER + world_key)
         cls.cache_world(result)
         return result
     

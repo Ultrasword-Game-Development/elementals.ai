@@ -187,17 +187,22 @@ def system_update_function():
     if io.get_key_clicked(pygame.K_e) and io.get_key_pressed(pygame.K_LSHIFT):
         EDITOR_DEBUG = not EDITOR_DEBUG
 
-def save_world(path: str, world):
+def save_world(world):
     """ Save the world to a file """
     global SAVING_WORLD_FLAG
     SAVING_WORLD_FLAG = True
-    with open(path, "wb") as f:
+    # create folder
+    if not os.path.exists(world.get_world_saving_folder()):
+        os.makedirs(world.get_world_saving_folder())
+    # save file
+    with open(world.get_world_saving_main_file(), "wb") as f:
         dill.dump(world, f)
     SAVING_WORLD_FLAG = False
 
-def load_world(path: str):
+def load_world(folder_path: str):
     """ Load a world from a file """
-    with open(path, "rb") as f:
+    _level_save = folder_path + "/save.elal"
+    with open(_level_save, "rb") as f:
         return dill.load(f)
 
 def set_framebuffer_size_factor(factor: int):
