@@ -72,8 +72,8 @@ class GLContext:
 
         # create pygame window
         singleton.WINDOW = pygame.display.set_mode(singleton.WIN_SIZE, singleton.WIN_FLAGS, singleton.WIN_DEPTH, 0, 0)
-        singleton.FRAMEBUFFER = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
-        singleton.SCREENBUFFER = pygame.Surface(singleton.WIN_SIZE, 0, 16).convert_alpha()
+        singleton.FRAMEBUFFER = pygame.Surface(singleton.FB_SIZE, singleton.DEFAULT_SURFACE_FLAGS, 16).convert_alpha()
+        singleton.SCREENBUFFER = pygame.Surface(singleton.WIN_SIZE, singleton.DEFAULT_SURFACE_FLAGS, 16).convert_alpha()
         
         # load all pygame items
         io.KEY_MOD_CLICKED = pygame.key.get_mods()

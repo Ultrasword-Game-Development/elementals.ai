@@ -314,7 +314,7 @@ class Chunk:
 class Layer:
     def __init__(self, layer_num: int) -> None:
         """ Initialize the layer """
-        self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
+        self._layer_buffer = pygame.Surface(singleton.FB_SIZE, singleton.DEFAULT_SURFACE_FLAGS, 16).convert_alpha()
         self._layer_buffer.fill((0, 0, 0, 0))
         self._layer_id = layer_num
 
@@ -449,7 +449,7 @@ class Layer:
         """ Set the state of the layer """
         self.__dict__.update(state)
         # load unserializable data
-        self._layer_buffer = pygame.Surface(singleton.FB_SIZE, 0, 16).convert_alpha()
+        self._layer_buffer = pygame.Surface(singleton.FB_SIZE, pygame.SRCALPHA, 16).convert_alpha()
         self._layer_buffer.fill((0, 0, 0, 0))
     
     def load_layer_data(self):
@@ -520,7 +520,6 @@ class World:
 
     def update_and_render(self, surface: pygame.Surface):
         """ Update and render the world """
-        surface.fill(self._background_color)
         # check if camera entered new chunk
         new_c_chunk = (
             int(self.camera.center[0] // singleton.DEFAULT_CHUNK_PIXEL_WIDTH), 
@@ -587,8 +586,10 @@ class World:
         
         # create a blob storage file - this should run first
         if not os.path.exists(WORLD_LEVEL_FOLDER + self._world_storage_key):
+            print("Creating world folder: ", WORLD_LEVEL_FOLDER + self._world_storage_key)
             os.mkdir(WORLD_LEVEL_FOLDER + self._world_storage_key)
         if not os.path.exists(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER):
+            print("Creating world chunk folder: ", WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER)
             os.mkdir(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER)
         return state
     

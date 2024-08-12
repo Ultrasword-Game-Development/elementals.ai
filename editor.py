@@ -127,6 +127,8 @@ def exit_func():
     """ Exit function """
     # save the world or something
     print("saving world - (not really)")
+    editor_singleton.EDITOR_ELEMENT.close()
+    editor_singleton.TABSMANAGER_ELEMENT.close()
     # don't actaully do it yet
 
 singleton.GAME_EXIT_FUNCTION = exit_func

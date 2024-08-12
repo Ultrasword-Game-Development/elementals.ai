@@ -1,3 +1,4 @@
+import os
 import json
 import pygame
 
@@ -24,6 +25,8 @@ from engine.addon import spritecacher
 
 # ---------------------------- #
 # constants
+
+CONFIG_SAVE_FILE = "config.json"
 
 
 
@@ -434,22 +437,24 @@ class Tab(ui.Text):
                 _tile["_file_rect"] = pygame.Rect(_tiledata[0], _tiledata[1], _tiledata[2], _tiledata[3])
                 # save data
                 self._tab_content.append(_tile)
-    
-    def save_tab_data(self):
-        """ Save the tab data """
-        tabs = []
-        result = {"tabs": tabs}
-        for tab in self._tab_content:
-            for item in tab._tab_content:
-                _file_rect = item["_file_rect"]
-                obj = {
-                    "file": item._sprite_path,
-                    "x": _file_rect.x,
-                    "y": _file_rect.y,
-                    "w": _file_rect.w,
-                    "h": _file_rect.h
-                }
-                
+                    
+    def _get_tab_data(self):
+        """ Get the tab data """
+        result = {
+            "name": self._tab_name,
+        }
+        _items = []
+        for item in self._tab_data:
+            _items.append({
+                "file": item["file"],
+                "x": item["x"],
+                "y": item["y"],
+                "w": item["w"],
+                "h": item["h"]
+            })
+        result["items"] = _items
+        return result
+
 
 class TabsManager(ui.Frame):
 
@@ -549,6 +554,28 @@ class TabsManager(ui.Frame):
             # not a spritesheet
             pass
 
+    # ---------------------------- #
+    # admin functions
+
+    def close(self):
+        """ Close the tab manager """
+        print('Note: Closing Tab Manager')
+        result = {
+            "type": "editor_config",
+            "tabs": []
+        }
+        # save all tab data
+        for tab in self._tabs:
+            result["tabs"].append(tab._get_tab_data())
+        
+        # save the data into a config file
+        # if the file was saved / exists
+        # then save the config file into the folder the level is located
+        if os.path.exists(editor_singleton.CURRENT_EDITING_WORLD.get_world_saving_folder()):
+            with open(editor_singleton.CURRENT_EDITING_WORLD.get_world_saving_folder() + "/" + CONFIG_SAVE_FILE, 'w') as f:
+                json.dump(result, f)
+        else:
+            print(f"Note: Could not save config file, world folder at: `{editor_singleton.CURRENT_EDITING_WORLD.get_world_saving_folder()}` does not exist")
 
 # ---------------------------- #
 # save button

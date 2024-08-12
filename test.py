@@ -26,6 +26,8 @@ from engine import singleton
 from engine.handler import signal
 from engine.handler import world
 
+from engine.physics import phandler
+
 from engine.ui import ui
 
 from engine.graphics import gl
@@ -91,8 +93,21 @@ for i in range(singleton.DEFAULT_CHUNK_WIDTH):
 singleton.save_world(_w)
 
 
-# _img = _spritesheet.image
-# _mask = pygame.mask.from_surface(_img)
+
+# take player sprite 1 + player sprite 2
+_spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
+_left = _spritesheet[0]
+_left_rect = _left.get_rect()
+_left_rect.topleft = (100, 100)
+_left_mask = pygame.mask.from_surface(_spritesheet[0])
+_left_mask_surface = _left_mask.to_surface()
+
+_right = _spritesheet[1]
+_right_rect = _right.get_rect()
+_right_rect.topleft = (120, 100)
+_right_mask = pygame.mask.from_surface(_spritesheet[1])
+_right_mask_surface = _right_mask.to_surface()
+
 
 # ---------------------------- #
 
@@ -108,8 +123,30 @@ while singleton.RUNNING:
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
     singleton.SCREENBUFFER.fill((0, 0, 0, 0))
 
+    # if phandler.collide_rect_to_rect(_left_rect, _right_rect):
+    # if phandler.collide_rect_to_bitmask(_left_rect, _right_mask, _right_rect):
+    if phandler.collide_bitmask_to_bitmask(_left_mask, _left_rect, _right_mask, _right_rect):
+        singleton.FRAMEBUFFER.fill((255, 0, 0))
+
+    # testing
+    singleton.FRAMEBUFFER.blit(_left_mask_surface, _left_rect, special_flags=pygame.BLEND_RGBA_MAX)
+    # pygame.draw.rect(singleton.FRAMEBUFFER, (255, 255, 255), _left_rect, 1)
+    singleton.FRAMEBUFFER.blit(_right_mask_surface, _right_rect, special_flags=pygame.BLEND_RGBA_MAX)
+    # pygame.draw.rect(singleton.FRAMEBUFFER, (255, 255, 255), _right_rect, 1)
 
     _w.update_and_render(singleton.FRAMEBUFFER)
+
+    if io.get_key_clicked(pygame.K_a):
+        _right_rect.x -= 1
+    if io.get_key_clicked(pygame.K_d):
+        _right_rect.x += 1
+    if io.get_key_clicked(pygame.K_w):
+        _right_rect.y -= 1
+    if io.get_key_clicked(pygame.K_s):
+        _right_rect.y += 1
+
+
+
 
     # singleton.SCREENBUFFER.blit(_spritesheet.image, (100, 100))
     # singleton.SCREENBUFFER.blit(_mask.to_surface(), (200, 100))

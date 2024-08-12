@@ -63,23 +63,25 @@ class PhysicsHandler:
 # ---------------------------- #
 # utils
 
-def collide_rect_to_rect(self, rect1: pygame.Rect, rect2: pygame.Rect):
+def collide_rect_to_rect(rect1: pygame.Rect, rect2: pygame.Rect):
     """ Check if two rects collide """
     return rect1.colliderect(rect2)
 
-def collide_rect_to_bitmask(self, rect: pygame.Rect, bitmask: pygame.Surface, bitmask_rect: pygame.Rect):
+def collide_rect_to_bitmask(rect: pygame.Rect, bitmask: pygame.Surface, bitmask_rect: pygame.Rect):
     """ Check if a rect collides with a bitmask """
     if not rect.colliderect(bitmask_rect):
         return False
     # get the overlap
-    # TODO - rect + bitmask collision
+    _rect_mask = pygame.mask.Mask(rect.size, fill=True)
+    return _rect_mask.overlap(bitmask, (bitmask_rect.x - rect.x, bitmask_rect.y - rect.y)) != None
 
-def collide_bitmask_to_bitmask(self, bitmask1: pygame.Surface, bitmask1_rect: pygame.Rect, bitmask2: pygame.Surface, bitmask2_rect: pygame.Rect):
+def collide_bitmask_to_bitmask(bitmask1: pygame.Surface, bitmask1_rect: pygame.Rect, bitmask2: pygame.Surface, bitmask2_rect: pygame.Rect):
     """ Check if two bitmasks collide """
     if not bitmask1_rect.colliderect(bitmask2_rect):
         return False
     # get the overlap
     # TODO - bitmask + bitmask collision
+    return bitmask1.overlap(bitmask2, (bitmask2_rect.x - bitmask1_rect.x, bitmask2_rect.y - bitmask1_rect.y)) != None
 
 
             

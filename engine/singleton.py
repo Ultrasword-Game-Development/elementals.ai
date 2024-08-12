@@ -40,7 +40,7 @@ ACTIVE_TIME = 0
 # ---------------------------- #
 
 WIN_SIZE = [1280, 720]
-WIN_FLAGS = pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.OPENGL
+WIN_FLAGS = pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.OPENGL | pygame.SRCALPHA
 WIN_DEPTH = 16
 WIN_BACKGROUND = (255, 255, 255, 255)
 
@@ -50,7 +50,7 @@ FB_SIZE = [WIN_SIZE[0] // FB_FACTOR, WIN_SIZE[1] // FB_FACTOR]
 WINDOW = None
 FRAMEBUFFER = None
 SCREENBUFFER = None
-DEFAULT_SURFACE_FLAGS = pygame.SRCALPHA
+DEFAULT_SURFACE_FLAGS = pygame.SRCALPHA 
 
 # ---------------------------- #
 
@@ -132,6 +132,9 @@ def GAME_EXIT_FUNCTION():
 
 def update_default_chunk_tile_config(width: int, height: int, tile_width: int, tile_height: int):
     """ Update the default chunk config """
+    global RUNNING
+    if RUNNING:
+        raise Exception("Cannot update the default chunk config while the game is running.")
     global DEFAULT_CHUNK_WIDTH, DEFAULT_CHUNK_HEIGHT, DEFAULT_CHUNK_AREA_VEC2, DEFAULT_CHUNK_PIXEL_WIDTH, DEFAULT_CHUNK_PIXEL_HEIGHT, DEFAULT_TILE_WIDTH, DEFAULT_TILE_HEIGHT
     DEFAULT_TILE_WIDTH = tile_width
     DEFAULT_TILE_HEIGHT = tile_height

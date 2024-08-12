@@ -91,8 +91,6 @@ class SpriteSheet:
         """ Loads all sprites from the spritesheet - including empty ones """
         self.sprites.clear()
         _exists_in_io = hash(self) in SPRITESHEET_CACHE
-        
-        print(self._config, self._path, self._json)
                 
         # if its a json file, we follow the json config
         if self._json and not self._config[FRAMEDATA]:
@@ -141,7 +139,6 @@ class SpriteSheet:
                 top += spacingy + height
                 left = padx
         else:
-            print('framedata: ', self._framedata)
             # load from framedata
             for framedata in self._framedata:
                 _frame = framedata[0:4]
