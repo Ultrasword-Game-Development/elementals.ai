@@ -39,6 +39,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 singleton.WIN_BACKGROUND = utils.hex_to_rgb('71C828')
+singleton.set_framebuffer_size_factor(2)
 
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
@@ -46,60 +47,55 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PRO
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
-singleton.update_default_chunk_tile_config(12, 12, 8, 8)
-
 # ---------------------------- #
 # testing
 
 
 world_save = "world"
 
-w = world.World.load_world(world_save)
+# w = world.World.load_world(world_save)
 
-# w = world.World(world_save)
-# w.t_signal = signal.Signal("Test Signal")
-# w.t_emitter = w.t_signal.get_unique_emitter()
-# w.t_signal.add_emitter_handling_function("_test_signal", lambda data: print(data))
+w = world.World(world_save)
+w.t_signal = signal.Signal("Test Signal")
+w.t_emitter = w.t_signal.get_unique_emitter()
+w.t_signal.add_emitter_handling_function("_test_signal", lambda data: print(data))
 
-# w.get_layer_at(0).set_chunk_at(world.Chunk(
-#     w.get_camera_chunk()
-# ))
-# w.get_layer_at(0).set_chunk_at(world.Chunk(
-#     (-1, -1)
-# ))
+w.get_layer_at(0).set_chunk_at(world.Chunk(
+    w.get_camera_chunk()
+))
+w.get_layer_at(0).set_chunk_at(world.Chunk(
+    (-1, -1)
+))
 
-# _c = w.get_layer_at(0).get_chunk_at(w.get_camera_chunk())
-# _spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
+_c = w.get_layer_at(0).get_chunk_at(w.get_camera_chunk())
+_spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
 
-# # temp load a chunk up with a tile
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     for j in range(2):
-#         _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
+# temp load a chunk up with a tile
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    for j in range(2):
+        _c.set_tile_at((i, j), world.DefaultTile((i, j), "assets/test/screenshot.png"))
 
-# for i in range(singleton.DEFAULT_CHUNK_WIDTH):
-#     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
 
-# # add an animated sprite at location - (0, 0)
-# _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
-# _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
-# _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/entities/player.json", offset=2))
+# add an animated sprite at location - (0, 0)
+_c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
+_c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
+_c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/entities/player.json", offset=2))
 
-# w.ssheet = spritesheet.load_spritesheet("assets/sprites/entities/mage.json")
-# w.t_ani = animation.load_animation_from_json("assets/sprites/entities/mage.json")
-# w.t_ani_reg = w.t_ani.get_registry()
-# w.p_ani = animation.load_animation_from_json('assets/sprites/entities/player.json')
-# w.p_ani_reg = w.p_ani.get_registry()
+w.ssheet = spritesheet.load_spritesheet("assets/sprites/entities/mage.json")
+w.t_ani = animation.load_animation_from_json("assets/sprites/entities/mage.json")
+w.t_ani_reg = w.t_ani.get_registry()
+w.p_ani = animation.load_animation_from_json('assets/sprites/entities/player.json')
+w.p_ani_reg = w.p_ani.get_registry()
 
-# singleton.save_world(w)
+singleton.save_world(w)
 
 
 # audio
 pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
 pygame.mixer.music.play(-1)
-
-# phandler.collide_rect_to_bitmask(pygame.Rect(0, 0, 10, 10), pygame.Surface((10, 10)).get_mas, pygame.Rect(0, 0, 10, 10))
-
 
 
 # ---------------------------- #
@@ -115,19 +111,9 @@ while singleton.RUNNING:
     # ---------------------------- #
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
     singleton.SCREENBUFFER.fill((0, 0, 0, 0))
-    
-    # w.t_emitter.emit()
+
     
     w.update_and_render(singleton.FRAMEBUFFER)
-
-    # w.t_ani_reg.update()
-    # singleton.FRAMEBUFFER.blit(w.t_ani_reg.sprite, (10, 50))
-    # w.p_ani_reg.update()
-    # singleton.FRAMEBUFFER.blit(w.p_ani_reg.sprite, (100, 90))
-
-    # for x in range(len(w.ssheet)):
-    #     singleton.FRAMEBUFFER.blit(w.ssheet[x], (x * 10, 30))
-
 
     # ---------------------------- #
     # final rendering

@@ -27,6 +27,7 @@ from engine.handler import signal
 from engine.handler import world
 
 from engine.physics import phandler
+from engine.physics import gameobject
 
 from engine.ui import ui
 
@@ -96,18 +97,30 @@ singleton.save_world(_w)
 
 # take player sprite 1 + player sprite 2
 _spritesheet = spritesheet.load_spritesheet("assets/sprites/entities/player.json")
-_left = _spritesheet[0]
-_left_rect = _left.get_rect()
-_left_rect.topleft = (100, 100)
-_left_mask = pygame.mask.from_surface(_spritesheet[0])
-_left_mask_surface = _left_mask.to_surface()
 
-_right = _spritesheet[1]
-_right_rect = _right.get_rect()
-_right_rect.topleft = (120, 100)
-_right_mask = pygame.mask.from_surface(_spritesheet[1])
-_right_mask_surface = _right_mask.to_surface()
 
+_left = gameobject.GameObject(
+    position = (-100, 0),
+    area = _spritesheet[0].get_size(),
+    sprite_str = _spritesheet.get_sprite_str_id(0),
+    create_mask = True
+)
+_left.set_area((_left.get_area()[0] - 1, _left.get_area()[1] - 1))
+_left_mask_surface = _left.mask.to_surface()
+
+_w.add_gameobject(_left)
+
+
+_right = gameobject.GameObject(
+    position = (-100, 0),
+    area = _spritesheet[1].get_size(),
+    sprite_str = _spritesheet.get_sprite_str_id(1),
+    create_mask = True
+)
+_right.set_area((_right.get_area()[0] - 1, _right.get_area()[1] - 1))
+_right_mask_surface = _right.mask.to_surface()
+
+_w.add_gameobject(_right)
 
 # ---------------------------- #
 
@@ -125,27 +138,30 @@ while singleton.RUNNING:
 
     # if phandler.collide_rect_to_rect(_left_rect, _right_rect):
     # if phandler.collide_rect_to_bitmask(_left_rect, _right_mask, _right_rect):
-    if phandler.collide_bitmask_to_bitmask(_left_mask, _left_rect, _right_mask, _right_rect):
+    if phandler.collide_bitmask_to_bitmask(_left.mask, _left.rect, _right.mask, _right.rect):
         singleton.FRAMEBUFFER.fill((255, 0, 0))
 
-    # testing
-    singleton.FRAMEBUFFER.blit(_left_mask_surface, _left_rect, special_flags=pygame.BLEND_RGBA_MAX)
-    # pygame.draw.rect(singleton.FRAMEBUFFER, (255, 255, 255), _left_rect, 1)
-    singleton.FRAMEBUFFER.blit(_right_mask_surface, _right_rect, special_flags=pygame.BLEND_RGBA_MAX)
-    # pygame.draw.rect(singleton.FRAMEBUFFER, (255, 255, 255), _right_rect, 1)
+    _right.velocity.xy = 0, 0
+    # if io.get_key_clicked(pygame.K_a):
+    #     _right.velocity.x = -1
+    # if io.get_key_clicked(pygame.K_d):
+    #     _right.velocity.x = 1
+    # if io.get_key_clicked(pygame.K_w):
+    #     _right.velocity.y = -1
+    # if io.get_key_clicked(pygame.K_s):
+    #     _right.velocity.y = 1
+    if io.get_key_pressed(pygame.K_a):
+        _right.velocity.x += -1 * 100 * singleton.DELTA_TIME
+    if io.get_key_pressed(pygame.K_d):
+        _right.velocity.x += 1 * 100 * singleton.DELTA_TIME
+    if io.get_key_pressed(pygame.K_w):
+        _right.velocity.y += -1 * 100 * singleton.DELTA_TIME
+    if io.get_key_pressed(pygame.K_s):
+        _right.velocity.y += 1 * 100 * singleton.DELTA_TIME
+
+    _w.move_entity_in_world(_right)
 
     _w.update_and_render(singleton.FRAMEBUFFER)
-
-    if io.get_key_clicked(pygame.K_a):
-        _right_rect.x -= 1
-    if io.get_key_clicked(pygame.K_d):
-        _right_rect.x += 1
-    if io.get_key_clicked(pygame.K_w):
-        _right_rect.y -= 1
-    if io.get_key_clicked(pygame.K_s):
-        _right_rect.y += 1
-
-
 
 
     # singleton.SCREENBUFFER.blit(_spritesheet.image, (100, 100))

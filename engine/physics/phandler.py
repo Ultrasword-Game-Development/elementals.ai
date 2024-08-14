@@ -11,13 +11,13 @@ DEATH_SIGNAL_ID = "_physics_death_signal_id"
 
 
 # ---------------------------- #
-# physics / entity handler
+# physics / gameobject handler
 
 class PhysicsHandler:
     def __init__(self, _world: "World") -> None:
         """ Initialize the physics handler """
         self._world = _world
-        self._entities = {}
+        self._gameobjects = {}
 
         # death signal
         self._death_signal = signal.Signal(DEATH_SIGNAL_NAME)
@@ -28,15 +28,19 @@ class PhysicsHandler:
 
     def update(self):
         """ Update the physics handler """
-        for entity in self._entities.values():
-            entity.update()
-            self._world.get_layer_at(entity.zlayer)._entity_rendering_queue.add(entity)
+        for gameobject in self._entities.values():
+            gameobject.update()
+            self._world.get_layer_at(gameobject.zlayer)._gameobject_rendering_queue.add(gameobject)
             
-    def add_entity(self, entity):
-        """ Add an entity to the physics handler """
-        self._entities[entity] = entity
+    def add_gameobject(self, gameobject: "GameObject"):
+        """ Add an gameobject to the physics handler """
+        self._entities[hash(gameobject)] = gameobject
         # add death signal
-        entity._death_emitter = self._death_signal.get_unique_emitter()
+        gameobject._death_emitter = self._death_signal.get_unique_emitter()
+    
+    def get_gameobject(self, gameobject_hash: int):
+        """ Get an gameobject by id """
+        return self._entities[gameobject_hash]
     
     def handle_death_signal(self, data: dict):
         """ 
@@ -47,18 +51,12 @@ class PhysicsHandler:
         - data: dict (containing whatever lol)
         """
         
-        self._entities[data['id']]._alive = False
-        # run the custom entity death function
-        self._entities[data['id']].handle_death_signal(data)
-        # remove the entity
-        del self._entities[data['id']]
+        self._gameobjects[data['id']]._alive = False
+        # run the custom gameobject death function
+        self._gameobjects[data['id']].handle_death_signal(data)
+        # remove the gameobject
+        del self._gameobjects[data['id']]
     
-    # ---------------------------- #
-    # movement + collision
-
-    def move_entity(self, entity: "Entity", world: "World"):
-        """ Move the entity """
-        pass
         
 # ---------------------------- #
 # utils

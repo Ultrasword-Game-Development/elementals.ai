@@ -160,10 +160,6 @@ class SpriteSheet:
         """ Get the sprite uuid """
         return self.sprites[index][0]
 
-    def gen_sprite_str_id(self, index: int):
-        """ Generate a sprite uuid """
-        return f"{self._path}{SPRITESHEET_PADDING}{index}"
-
     # ---------------------------- #
     # utils
 

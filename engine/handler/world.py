@@ -12,6 +12,8 @@ from engine import utils
 from engine import singleton
 
 from engine.handler import signal
+from engine.handler import component
+from engine.handler import aspect
 
 from engine.graphics import camera
 from engine.graphics import spritesheet
@@ -56,6 +58,7 @@ class DefaultTile:
     _tile_id: str
     _index_position: tuple
     _sprite_path: str
+    _rect: "pygame.Rect"
     _data: dict
     
     def __init__(self, position: tuple, sprite: str) -> None:
@@ -67,6 +70,12 @@ class DefaultTile:
         
         self._index_position = position
         self._sprite_path = sprite
+        self._rect = pygame.Rect(
+            position[0] * singleton.DEFAULT_TILE_WIDTH,
+            position[1] * singleton.DEFAULT_TILE_HEIGHT, 
+            singleton.DEFAULT_TILE_WIDTH, 
+            singleton.DEFAULT_TILE_HEIGHT
+        )
         
         # extra data storage for custom data objects (child classes)
         self._data = {}
@@ -90,7 +99,6 @@ class DefaultTile:
         """ Create a copy """
         print(self._data)
         return self.__parent_class__(self._index_position, self._sprite_path)
-
 
     # ---------------------------- #
     # utils
@@ -163,6 +171,8 @@ class Chunk:
             singleton.DEFAULT_TILE_WIDTH if not tile_dimensions[0] else tile_dimensions[0],
             singleton.DEFAULT_TILE_HEIGHT if not tile_dimensions[1] else tile_dimensions[1]
         )
+
+        self._chunk_rect = pygame.Rect(self._pixel_coords, (singleton.DEFAULT_CHUNK_PIXEL_WIDTH, singleton.DEFAULT_CHUNK_PIXEL_HEIGHT))
         
         self._chunk_offset = pygame.math.Vector2(get_chunk_offset(self._chunk_position))
     
@@ -201,6 +211,17 @@ class Chunk:
                         pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - camera.position + self._chunk_offset, 
                             self._sprite_cacher[tile._sprite_path].get_size()), 1)
 
+    def collide_tiles(self, rect: pygame.Rect) -> "Iterable":
+        """ Collide the tiles """
+        for j in range(self._chunk_tile_dimensions[1]):
+            for i in range(self._chunk_tile_dimensions[0]):
+                # check if tile exists
+                if not self._tiles[j][i]:
+                    continue
+                # check if colliding
+                if phandler.collide_rect_to_rect(rect, self._tiles[j][i]._rect):
+                    yield self._tiles[j][i]
+
     # ---------------------------- #
     # utils
     
@@ -216,7 +237,11 @@ class Chunk:
             return
         self._tiles[position[1]][position[0]] = tile
         # define the collision rect of the tile
-        tile[CHUNK_TILE_RECT] = pygame.Rect(0, 0, self._tile_pixel_area[0], self._tile_pixel_area[1])
+        tile._rect.topleft = (
+            position[0] * self._tile_pixel_area[0] + self._pixel_coords[0],
+            position[1] * self._tile_pixel_area[1] + self._pixel_coords[1]
+        )
+        tile._rect.size = (self._tile_pixel_area[0], self._tile_pixel_area[1])
         # define the position of the tile -- topleft
         tile[CHUNK_TILE_PIXEL_COORD] = pygame.math.Vector2(
             self._tile_pixel_area[0] * position[0],
@@ -312,6 +337,15 @@ class Chunk:
 # layer
 
 class Layer:
+
+    _CHUNK_AREA_3X3 = [
+        (-1, -1), (0, -1), (1, -1),
+        (-1, 0), (0, 0), (1, 0),
+        (-1, 1), (0, 1), (1, 1)
+    ]
+
+    # ---------------------------- #
+
     def __init__(self, layer_num: int) -> None:
         """ Initialize the layer """
         self._layer_buffer = pygame.Surface(singleton.FB_SIZE, singleton.DEFAULT_SURFACE_FLAGS, 16).convert_alpha()
@@ -321,7 +355,7 @@ class Layer:
         # chunk handler
         self._chunks = {}
         self._world = None
-        self._entity_rendering_queue = set()
+        self._gameobject_rendering_queue = set()
 
         # data
         self._data = {}
@@ -337,11 +371,14 @@ class Layer:
             if chunk_hash_str not in self._chunks:
                 continue
             self._chunks[chunk_hash_str].update_and_render(self._layer_buffer, camera)
+            # draw chunk rect
+            pygame.draw.rect(self._layer_buffer, (255, 255, 255, 150), 
+                Chunk.generate_chunk_rect_given_chunk_position(self._chunks[chunk_hash_str]._chunk_position, camera), 1)
         
         # render the entities
-        for entity in self._entity_rendering_queue:
-            entity.render(self._layer_buffer, camera.position)
-        self._entity_rendering_queue.clear()
+        for gameobject in self._gameobject_rendering_queue:
+            gameobject.render(self._layer_buffer, camera.position)
+        self._gameobject_rendering_queue.clear()
 
         # render the layer buffer
         surface.blit(self._layer_buffer, (0, 0))
@@ -456,6 +493,7 @@ class Layer:
         """ Load the layer data """
         for _chunk in self._chunks.values():
             _chunk.load_chunk_data()
+
 # ---------------------------- #
 # world
 
@@ -470,6 +508,7 @@ class World:
                 __num += 1
         
         self._world_storage_key = f"{name if name else ("New World" + end_result_string)}"
+        
         # cache the world
         self.cache_world(self)
 
@@ -478,6 +517,10 @@ class World:
         
         # physics handler
         self._physics_handler = phandler.PhysicsHandler(self)
+
+        # ECS system
+        self._aspect_handler = aspect.AspectHandler(self)
+        self._component_handler = component.ComponentHandler(self)
 
         # camera data
         self._camera = camera.PseudoCamera((0, 0), singleton.FB_SIZE)
@@ -506,7 +549,9 @@ class World:
         
         # special data object
         self._data = {
-            "EDITOR_TAB_SPRITESHEETS": {}
+            "EDITOR_TAB_SPRITESHEETS": {},
+            "GAMEOBJECT_ID_COUNT": 0,
+            "COMPONENT_ID_COUNT": 0
         }
     
         self.__post_init__()
@@ -535,7 +580,6 @@ class World:
         # render the physics + all entities
         self._physics_handler.update()
 
-
     def get_layer_at(self, layer: int):
         """ Get the layer at the index """
         return self._layers[layer]
@@ -553,6 +597,14 @@ class World:
     
     # ---------------------------- #
     # utils
+
+    def add_gameobject(self, gameobject: "GameObject"):
+        """ Add an gameobject to the world """
+        self._physics_handler.add_gameobject(gameobject)
+    
+    def get_gameobject(self, gameobject_id: int) -> "GameObject":
+        """ Get the gameobject """
+        return self._physics_handler.get_gameobject(gameobject_id)
 
     def update_renderable_chunks(self):
         """ Update the renderable chunks """
@@ -624,6 +676,13 @@ class World:
         WORLD_CACHE[world._world_storage_key] = world
     
     @classmethod
+    def save_world(cls, world: "World"):
+        """ Save the world """
+        self._data["GAMEOBJECT_ID_COUNT"] = singleton.GAMEOBJECT_ID_COUNT
+        self._data["COMPONENT_ID_COUNT"] = singleton.COMPONENT_COUNT
+        singleton.save_world(world)
+
+    @classmethod
     def load_world(cls, world_key: str):
         """ Load the world from the cache """
         if world_key in WORLD_CACHE:
@@ -631,6 +690,9 @@ class World:
         # load the world
         result = singleton.load_world(WORLD_LEVEL_FOLDER + world_key)
         cls.cache_world(result)
+        # update constants
+        singleton.GAMEOBJECT_ID_COUNT = result._data["GAMEOBJECT_ID_COUNT"]
+        singleton.COMPONENT_COUNT = result._data["COMPONENT_ID_COUNT"]
         return result
     
     @classmethod

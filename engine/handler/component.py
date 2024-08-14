@@ -1,0 +1,104 @@
+import pygame
+
+from engine import singleton
+
+
+# ---------------------------- #
+# constants
+
+# ---------------------------- #
+# component handler
+
+class ComponentHandler:
+
+    COMPONENTS_CLASS_CACHE = {}
+
+    @classmethod
+    def cache_component_class(cls, _class: "Component Child Class"):
+        """ Cache the component class supplied """
+        cls.COMPONENTS_CLASS_CACHE[_class.__name__] = _class
+
+    # ---------------------------- #
+    
+    def __init__(self, _world: "World"):
+        """ Initialize the component handler """
+        self._components = {}
+        self._world = _world
+    
+    # ---------------------------- #
+    # logic
+
+    def add_component(self, _component: "Component"):
+        """ Add a component to the handler """
+        self._components[_component.get_component_id()] = _component
+
+    def get_component(self, _component_id: int):
+        """ Get a component by id """
+        return self._components[_component_id]
+
+    def _remove_component(self, _component_id: int):
+        """ Remove a component from the handler """
+        del self._components[_component_id]
+    
+
+# ---------------------------- #
+# component
+
+class Component:
+    """
+    A component is a single piece of data that is attached to a gameobject.
+
+    Components can be used to perform a SHIT TON of functions:
+
+    - sprites
+    - animation
+    - ai movement
+    - tiles
+    - meshes
+
+    """
+
+    def __init__(self):
+        """ The Init Function """
+        self._component_id = generate_component_id()
+
+        self._parent_gameobject = None
+        self._parent_aspect = None
+    
+    # ---------------------------- #
+    # logic
+
+    def __post_gameobject__(self, _parent_gameobject: "GameObject"):
+        """ Called after being added to a gameobject """
+        self._parent_gameobject = _parent_gameobject
+
+    def __post_aspect__(self, _parent_aspect: "Aspect"):
+        """ Called after being added to an aspect """
+        self._parent_aspect = _parent_aspect
+
+    def update(self):
+        """ Update Function """
+        pass
+
+    # ---------------------------- #
+    # attributes
+
+    def get_parent(self):
+        """ Get the parent gameobject """
+        return self._parent
+    
+    def get_aspect(self):
+        """ Get the parent aspect """
+        return self._aspect
+    
+    def get_component_id(self):
+        """ Get the component id """
+        return self._component_id
+
+# ---------------------------- #
+# util functions
+
+def generate_component_id():
+    """ Generate a unique ID for the component """
+    singleton.COMPONENT_ID_COUNT += 1
+    return singleton.COMPONENT_ID_COUNT - 1

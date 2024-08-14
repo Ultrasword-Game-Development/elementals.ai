@@ -104,6 +104,10 @@ UPDATE_INVISIBLE_CHUNKS = True
 
 SAVING_WORLD_FLAG = False
 
+# keep track of count
+GAMEOBJECT_ID_COUNT = 0
+COMPONENT_ID_COUNT = 0
+
 # ---------------------------- #
 # signals
 

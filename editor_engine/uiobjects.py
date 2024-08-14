@@ -137,6 +137,7 @@ class Editor(ui.Frame):
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
+        self._frame.fill((0, 0, 0, 0))
         # render the world into the frame
         editor_singleton.CURRENT_EDITING_WORLD.update_and_render(self._frame)
 

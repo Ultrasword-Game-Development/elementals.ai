@@ -11,7 +11,7 @@ from engine.ui import pixelfont
 
 from engine.handler import signal
 
-from engine.physics import entity
+from engine.physics import gameobject
 
 from editor_engine import editor_singleton
 
@@ -45,10 +45,11 @@ PADDING_TOP = 1
 PADDING_RIGHT = 2
 PADDING_BOTTOM = 3
 
-class UIObject(entity.Entity):
+class UIObject(gameobject.GameObject):
     def __init__(self, relx = 0, rely = 0, w = None, h = None , offset: list = [0, 0], parent = None, padding = 0, horizontal_align: bool = False):
         """ Create a new UI object """
         super().__init__()
+
         self.abs_area = [0, 0]
         self.abs_position = [0, 0]
         self.abs_offset = offset.copy()
@@ -396,6 +397,7 @@ class Text(UIObject):
             self._font = io.load_font(font_path, 22)
         self.update_text()
 
+
 class EditableText(Text):
     _MAX_STRING_LENGTH = 25
 
@@ -417,7 +419,7 @@ class EditableText(Text):
                 self._is_editing = False
             elif io.get_key_pressed(pygame.K_ESCAPE):
                 self._is_editing = False
-
+        
         if self.is_hovering():
             self._background_color = self._secondary_color
         else:
@@ -448,6 +450,8 @@ class EditableText(Text):
 
     def _receive_keyboard_input(self, data: dict):
         """ Receive keyboard input """
+        if not self._is_editing:
+            return
         e = data["event"]
         if e.unicode == '':
             return
