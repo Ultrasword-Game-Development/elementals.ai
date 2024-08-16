@@ -17,24 +17,35 @@ KEY_CLICKED = set()
 KEY_MOD_CLICKED = None
 
 
+IMAGE_INDEX = 0
+MASK_INDEX = 1
+
+
 # ---------------------------- #
 # images
 
 def load_image(path: str, convert: bool = True):
     """ Load an image from a file """
     if path in IMAGES_CACHE:
-        return IMAGES_CACHE[path]
+        return IMAGES_CACHE[path][IMAGE_INDEX]
 
     image = pygame.image.load(path)
     image = image if not convert else image.convert_alpha()
-    IMAGES_CACHE[path] = image
+    mask = pygame.mask.from_surface(image)
+    IMAGES_CACHE[path] = (image, mask)
     return image
+
+def load_mask(path: str):
+    """ Load a mask from a file """
+    load_image(path)
+    return IMAGES_CACHE[path][MASK_INDEX]
 
 def cache_image(path: str, image: pygame.Surface):
     """ Cache an image """
     if path in IMAGES_CACHE:
         raise ValueError(f"Image at path: {path} already cached.")
-    IMAGES_CACHE[path] = image
+    # cache image + create mask
+    IMAGES_CACHE[path] = (image, pygame.mask.from_surface(image))
 
 
 # ---------------------------- #

@@ -38,20 +38,6 @@ class GameObject:
     def update(self):
         """ Update the gameobject """
         pass
-
-    def render(self, surface: pygame.Surface, offset: tuple):
-        """ Render the gameobject """
-        if (_img := self.get_sprite_surface()):
-            # update center
-            render_position = self.position - offset
-
-            # render around center
-            if self._has_mask:
-                surface.blit(self.mask.to_surface(), render_position)
-            surface.blit(_img, render_position)
-            # TODO - remove : draw rect
-            # draw mask
-            pygame.draw.rect(surface, (255, 255, 255), (self.position - offset, self.rect.size), 1)
     
     def handle_death_signal(self, data: dict):
         """ Death function -- to be overriden """
@@ -72,7 +58,16 @@ class GameObject:
         self._components.append(component)
         # run post_init script
         component.__post_gameobject__(self)
+        # return the component
+        return component
     
+    def get_component(self, component_name: list):
+        """ Get a component by name """
+        for _comp in self._components:
+            if _comp.__class__.__name__ in component_name:
+                return _comp
+        return None
+
     def remove_component(self, component: "Component"):
         """ Remove a component from the gameobject """
         # remove component from component handler + aspect handler
@@ -89,6 +84,11 @@ class GameObject:
         self.position.xy = x, y
         self.rect.topleft = x, y
     
+    def kill(self):
+        """ Kill the gameobject """
+        self._alive = False
+        self._death_emitter.emit({'id': self._id})
+
     def __hash__(self):
         """ Hash the gameobject """
         return self._id

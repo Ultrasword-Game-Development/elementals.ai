@@ -31,6 +31,7 @@ class ComponentHandler:
     def add_component(self, _component: "Component"):
         """ Add a component to the handler """
         self._components[_component.get_component_id()] = _component
+        _component._handler = self
 
     def get_component(self, _component_id: int):
         """ Get a component by id """
@@ -64,6 +65,7 @@ class Component:
 
         self._parent_gameobject = None
         self._parent_aspect = None
+        self._handler = None
     
     # ---------------------------- #
     # logic
@@ -76,20 +78,16 @@ class Component:
         """ Called after being added to an aspect """
         self._parent_aspect = _parent_aspect
 
-    def update(self):
-        """ Update Function """
-        pass
-
     # ---------------------------- #
     # attributes
 
-    def get_parent(self):
+    def get_gameobject(self):
         """ Get the parent gameobject """
-        return self._parent
+        return self._parent_gameobject
     
     def get_aspect(self):
         """ Get the parent aspect """
-        return self._aspect
+        return self._parent_aspect
     
     def get_component_id(self):
         """ Get the component id """

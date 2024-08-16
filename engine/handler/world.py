@@ -59,9 +59,10 @@ class DefaultTile:
     _index_position: tuple
     _sprite_path: str
     _rect: "pygame.Rect"
+    _collision_mask: int
     _data: dict
     
-    def __init__(self, position: tuple, sprite: str) -> None:
+    def __init__(self, position: tuple, sprite: str, solid: bool = True) -> None:
         """ Initialize the default tile """
         if not "__parent_class__" in self.__dict__:
             self.__parent_class__ = DefaultTile
@@ -70,12 +71,13 @@ class DefaultTile:
         
         self._index_position = position
         self._sprite_path = sprite
-        self._rect = pygame.Rect(
+        self._rect = pygame.FRect(
             position[0] * singleton.DEFAULT_TILE_WIDTH,
             position[1] * singleton.DEFAULT_TILE_HEIGHT, 
             singleton.DEFAULT_TILE_WIDTH, 
             singleton.DEFAULT_TILE_HEIGHT
         )
+        self._collision_mask = 0b0000000000000001
         
         # extra data storage for custom data objects (child classes)
         self._data = {}
@@ -102,6 +104,25 @@ class DefaultTile:
 
     # ---------------------------- #
     # utils
+
+    def set_mask_value(self, mask_index: int, value: bool):
+        """ Set the mask value """
+        if mask_index < 0 or mask_index > 15:
+            raise ValueError("mask_index must be between 0 and 15")
+        if value:
+            self._collision_mask |= 0b1 << (mask_index)
+        else:
+            self._collision_mask &= ~(0b1 << (mask_index))
+    
+    def get_mask_value(self, mask_index: int):
+        """ Get the mask value """
+        if mask_index < 0 or mask_index > 15:
+            raise ValueError("mask_index must be between 0 and 15")
+        return (self._collision_mask >> (mask_index - 1)) & 0b1
+    
+    def get_mask(self):
+        """ Get the mask """
+        return self._collision_mask
 
     def __setitem__(self, key, value):
         """ Set the data item """
@@ -192,7 +213,7 @@ class Chunk:
     # ---------------------------- #
     # logic
     
-    def update_and_render(self, surface: pygame.Surface, camera: camera.PseudoCamera):
+    def update_and_render(self, surface: pygame.Surface, _camera: camera.PseudoCamera):
         """ Update and render the chunk """
         # update all tiles
         for row in self._tiles:
@@ -204,11 +225,11 @@ class Chunk:
                 # render logic
                 surface.blit(
                     self._sprite_cacher[tile._sprite_path], 
-                    tile[CHUNK_TILE_PIXEL_COORD] - camera.position + self._chunk_offset
+                    tile[CHUNK_TILE_PIXEL_COORD] - _camera.position + self._chunk_offset
                 )
                 if singleton.DEBUG or singleton.EDITOR_DEBUG:
                     pygame.draw.rect(surface, (255, 255, 255, 150),
-                        pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - camera.position + self._chunk_offset, 
+                        pygame.Rect(tile[CHUNK_TILE_PIXEL_COORD] - _camera.position + self._chunk_offset, 
                             self._sprite_cacher[tile._sprite_path].get_size()), 1)
 
     def collide_tiles(self, rect: pygame.Rect) -> "Iterable":
@@ -338,12 +359,6 @@ class Chunk:
 
 class Layer:
 
-    _CHUNK_AREA_3X3 = [
-        (-1, -1), (0, -1), (1, -1),
-        (-1, 0), (0, 0), (1, 0),
-        (-1, 1), (0, 1), (1, 1)
-    ]
-
     # ---------------------------- #
 
     def __init__(self, layer_num: int) -> None:
@@ -363,7 +378,7 @@ class Layer:
     # ---------------------------- #
     # logic
 
-    def update_and_render(self, surface: pygame.Surface, camera: camera.PseudoCamera):
+    def update(self, camera: camera.PseudoCamera):
         """ Update and render the layer """
         self._layer_buffer.fill((0, 0, 0, 0))
         # update the chunks
@@ -374,13 +389,10 @@ class Layer:
             # draw chunk rect
             pygame.draw.rect(self._layer_buffer, (255, 255, 255, 150), 
                 Chunk.generate_chunk_rect_given_chunk_position(self._chunks[chunk_hash_str]._chunk_position, camera), 1)
-        
-        # render the entities
-        for gameobject in self._gameobject_rendering_queue:
-            gameobject.render(self._layer_buffer, camera.position)
-        self._gameobject_rendering_queue.clear()
-
-        # render the layer buffer
+    
+    def render(self, surface: pygame.Surface):
+        """ Render the layer """
+        # TODO - add opengl rendering + custom shaders to each layer
         surface.blit(self._layer_buffer, (0, 0))
 
     # ---------------------------- #
@@ -430,6 +442,16 @@ class Layer:
     def get_chunk_at(self, position: tuple) -> Chunk:
         """ Get the chunk at the position """
         return self._chunks.get(Chunk.get_chunk_hash(position))
+
+    def get_chunk_at_or_default(self, position: tuple) -> Chunk:
+        """ Get the chunk at the position or create a default chunk """
+        result = self._chunks.get(Chunk.get_chunk_hash(position))
+        if result:
+            return result
+        # generate default chunk
+        result = Chunk(position)
+        self.set_chunk_at(result)
+        return result
 
     def get_tile_at(self, global_tile_position: tuple) -> DefaultTile:
         """ Get the tile at the global position """
@@ -573,10 +595,18 @@ class World:
         if self._camera_old_chunk != new_c_chunk:
             self._camera_old_chunk = new_c_chunk
             self.update_renderable_chunks()
-        
+
         # update layers
         for layer in self._layers:
-            layer.update_and_render(surface, self._camera)
+            layer.update(self.camera)
+        
+        # update aspects
+        self._aspect_handler.handle()
+
+        # render layers
+        for layer in self._layers:
+            layer.render(surface)
+        
         # render the physics + all entities
         self._physics_handler.update()
 
@@ -598,13 +628,40 @@ class World:
     # ---------------------------- #
     # utils
 
+    # gameobject 
+
     def add_gameobject(self, gameobject: "GameObject"):
         """ Add an gameobject to the world """
         self._physics_handler.add_gameobject(gameobject)
+        return gameobject
     
     def get_gameobject(self, gameobject_id: int) -> "GameObject":
         """ Get the gameobject """
         return self._physics_handler.get_gameobject(gameobject_id)
+
+    def remove_gameobject(self, gameobject_id: int):
+        """ Remove gameobject - set to be dead """
+        self._physics_handler.get_gameobject(gameobject_id).kill()
+
+    # aspects
+
+    def add_aspect(self, aspect: "Aspect"):
+        """ Add an aspect to the world """
+        self._aspect_handler.add_aspect(aspect)
+    
+    def get_aspect(self, _aspect_class: "Aspect Class") -> "Aspect":
+        """ Get the aspect """
+        return self._aspect_handler.get_aspect(_aspect_class)
+    
+    def remove_aspect(self, aspect: "Aspect"):
+        """ Remove an aspect from the world """
+        self._aspect_handler.remove_aspect(aspect)
+    
+    def remove_aspect_by_str(self, _aspect_class: str):
+        """ Remove an aspect by string """
+        self._aspect_handler.remove_aspect_by_str(_aspect_class)
+    
+    # chunk stuff
 
     def update_renderable_chunks(self):
         """ Update the renderable chunks """

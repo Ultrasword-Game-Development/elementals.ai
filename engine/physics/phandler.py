@@ -28,19 +28,20 @@ class PhysicsHandler:
 
     def update(self):
         """ Update the physics handler """
-        for gameobject in self._entities.values():
+        for gameobject in self._gameobjects.values():
             gameobject.update()
             self._world.get_layer_at(gameobject.zlayer)._gameobject_rendering_queue.add(gameobject)
             
     def add_gameobject(self, gameobject: "GameObject"):
         """ Add an gameobject to the physics handler """
-        self._entities[hash(gameobject)] = gameobject
+        self._gameobjects[hash(gameobject)] = gameobject
+        gameobject._parent_phandler = self
         # add death signal
         gameobject._death_emitter = self._death_signal.get_unique_emitter()
     
     def get_gameobject(self, gameobject_hash: int):
         """ Get an gameobject by id """
-        return self._entities[gameobject_hash]
+        return self._gameobjects[gameobject_hash]
     
     def handle_death_signal(self, data: dict):
         """ 
@@ -81,6 +82,7 @@ def collide_bitmask_to_bitmask(bitmask1: pygame.Surface, bitmask1_rect: pygame.R
     # TODO - bitmask + bitmask collision
     return bitmask1.overlap(bitmask2, (bitmask2_rect.x - bitmask1_rect.x, bitmask2_rect.y - bitmask1_rect.y)) != None
 
-
-            
+def is_collision_masks_overlap(mask1: int, mask2: int):
+    """ Check if two collision masks overlap """
+    return mask1 & mask2 != 0
             
