@@ -370,7 +370,6 @@ class Layer:
         # chunk handler
         self._chunks = {}
         self._world = None
-        self._gameobject_rendering_queue = set()
 
         # data
         self._data = {}

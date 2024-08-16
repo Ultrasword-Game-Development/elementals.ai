@@ -1,8 +1,8 @@
 
 import pygame
 
-from engine.handler import component
 from engine.handler import aspect
+from engine.handler import component
 
 # ---------------------------- #
 # constants

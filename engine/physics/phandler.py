@@ -30,7 +30,6 @@ class PhysicsHandler:
         """ Update the physics handler """
         for gameobject in self._gameobjects.values():
             gameobject.update()
-            self._world.get_layer_at(gameobject.zlayer)._gameobject_rendering_queue.add(gameobject)
             
     def add_gameobject(self, gameobject: "GameObject"):
         """ Add an gameobject to the physics handler """

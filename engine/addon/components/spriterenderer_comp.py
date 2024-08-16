@@ -46,6 +46,8 @@ class SpriteRendererAspect(aspect.Aspect):
         super().__init__(target_component_classes=[SpriteRendererComponent])
 
     # ---------------------------- #
+    # logic
+    
     def handle(self):
         """ Handle the Sprite Renderer aspect """
         for _c in self.iter_components():

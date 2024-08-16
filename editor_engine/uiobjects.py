@@ -29,7 +29,6 @@ from engine.addon import spritecacher
 CONFIG_SAVE_FILE = "config.json"
 
 
-
 # ---------------------------- #
 # editor window
 
@@ -137,7 +136,7 @@ class Editor(ui.Frame):
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
-        self._frame.fill((0, 0, 0, 0))
+        self._frame.fill(editor_singleton.CURRENT_EDITING_WORLD._background_color)
         # render the world into the frame
         editor_singleton.CURRENT_EDITING_WORLD.update_and_render(self._frame)
 

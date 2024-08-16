@@ -108,6 +108,7 @@ singleton.save_world(_w)
 _w.add_aspect(components.spriterenderer_comp.SpriteRendererAspect())
 _w.add_aspect(components.animation_comp.AnimationAspect())
 _w.add_aspect(components.rect_comp.WorldRectAspect())
+_w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
 
 _gameobject = _w.add_gameobject(gameobject.GameObject(
     position=(-100, 0),
@@ -115,6 +116,7 @@ _gameobject = _w.add_gameobject(gameobject.GameObject(
 _gameobject.add_component(components.sprite_comp.SpriteComponent(_spritesheet.get_sprite_str_id(0), scale_area=2))
 _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent())
 _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
+_gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent())
 
 # TODO - figure out why this ain't working
 _g2 = _w.add_gameobject(gameobject.GameObject(

@@ -1,6 +1,6 @@
-import pygame
-import json
 import os
+import json
+import pygame
 
 from engine import utils
 from engine import singleton
