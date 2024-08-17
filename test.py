@@ -120,7 +120,7 @@ _gameobject = _w.add_gameobject(gameobject.GameObject(
 _gameobject.add_component(components.sprite_comp.SpriteComponent(_spritesheet.get_sprite_str_id(0), scale_area=2))
 _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent())
 _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
-_gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent())
+_gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default"))
 
 # TODO - figure out why this ain't working
 _g2 = _w.add_gameobject(gameobject.GameObject(

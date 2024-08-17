@@ -14,24 +14,26 @@ from engine.addon.components import renderable_comp
 
 COMPONENT_NAME = "ParticleHandlerComponent"
 
-PARTICLE_CREATION_STAGE = "particle_creation_stage"
-PARTICLE_UPDATE_STAGE = "particle_update_stage"
-PARTICLE_DELETE_STAGE = "particle_delete_stage"
-
 PARTICLE_FUNCTION_COMBINATION = {}
+DEFAULT_COMBINATION = "default"
 
 # ---------------------------- #
 # component
 
 class ParticleHandlerComponent(renderable_comp.RenderableComponent):
     
-    def __init__(self):
+    def __init__(self, create_func_str: str = DEFAULT_COMBINATION, update_func_str: str = DEFAULT_COMBINATION, delete_func_str: str = DEFAULT_COMBINATION):
         """ Initialize the Particle Handler Component """
         super().__init__()
 
         self._particles = {}
         self._particle_count = 0
         self._particle_delete_queue = set()
+        
+        self.create_new_particle = PARTICLE_FUNCTION_COMBINATION[create_func_str][0]
+        self.update_particles = PARTICLE_FUNCTION_COMBINATION[update_func_str][1]
+        self.delete_particles = PARTICLE_FUNCTION_COMBINATION[delete_func_str][2]
+        
 
     def __post_gameobject__(self, gameobject: "GameObject"):
         """ Post init function """
@@ -45,31 +47,35 @@ class ParticleHandlerComponent(renderable_comp.RenderableComponent):
         self._particle_count += 1
         return self._particle_count
 
-    def create_new_particle(self, **kwargs):
-        """ Create a particle """
-        _particle_id = self.generate_id()
-        _velocity = pygame.math.Vector2(random.random() * 40, 0).rotate(random.randint(0, 360))
-        _time = random.random() * 4
 
-        self._particles[_particle_id] = [_particle_id, self._parent_gameobject.position.copy(), _velocity, _time]
+# ---------------------------- #
+# particle functions
 
-    def update_particles(self, surface: pygame.Surface):
-        """ Update all particles """
-        for _particle in self._particles.values():
-            _particle[1] += _particle[2] * singleton.DELTA_TIME
-            _particle[3] -= singleton.DELTA_TIME
+def _DEFAULT_CREATE_PARTICLE(self, **kwargs):
+    """ Create a particle """
+    _particle_id = self.generate_id()
+    _velocity = pygame.math.Vector2(random.random() * 40, 0).rotate(random.randint(0, 360))
+    _time = random.random() * 4
 
-            # render particle
-            pygame.draw.circle(surface, (255, 255, 255), _particle[1] - self._handler._world._camera.position, 2)
+    self._particles[_particle_id] = [_particle_id, self._parent_gameobject.position.copy(), _velocity, _time]
 
-            if _particle[3] <= 0:
-                self._particle_delete_queue.add(_particle[0])
-    
-    def delete_particles(self):
-        """ Delete a particle """
-        for particle in self._particle_delete_queue:
-            del self._particles[particle]
-        self._particle_delete_queue.clear()
+def _DEFAULT_UPDATE_PARTICLE(self, surface: pygame.Surface):
+    """ Update all particles """
+    for _particle in self._particles.values():
+        _particle[1] += _particle[2] * singleton.DELTA_TIME
+        _particle[3] -= singleton.DELTA_TIME
+
+        # render particle
+        pygame.draw.circle(surface, (255, 255, 255), _particle[1] - self._handler._world._camera.position, 2)
+
+        if _particle[3] <= 0:
+            self._particle_delete_queue.add(_particle[0])
+
+def _DEFAULT_DELETE_PARTICLE(self):
+    """ Delete a particle """
+    for particle in self._particle_delete_queue:
+        del self._particles[particle]
+    self._particle_delete_queue.clear()
 
 # ---------------------------- #
 # aspect
@@ -88,14 +94,25 @@ class ParticleHandlerAspect(aspect.Aspect):
     def handle(self):
         """ Handle the Particle Handler Aspect """
         for _c in self.iter_components():
-            _c.create_new_particle()
-            _c.update_particles(self._handler._world.get_layer_at(_c._parent_gameobject.zlayer)._layer_buffer)
-            _c.delete_particles()
+            _c.create_new_particle(_c)
+            _c.update_particles(_c, self._handler._world.get_layer_at(_c._parent_gameobject.zlayer)._layer_buffer)
+            _c.delete_particles(_c)
 
 # ---------------------------- #
 # utils
 
+def register_particle_fucntion_combination(name: str, create_func: "function" = None, update_func: "function" = None, delete_func: "function" = None):
+    """ Register a particle function combination """
+    if create_func is None:
+        create_func = _DEFAULT_CREATE_PARTICLE
+    if update_func is None:
+        update_func = _DEFAULT_UPDATE_PARTICLE
+    if delete_func is None:
+        delete_func = _DEFAULT_DELETE_PARTICLE
+    PARTICLE_FUNCTION_COMBINATION[name] = (create_func, update_func, delete_func)
 
+# register default
+register_particle_fucntion_combination(DEFAULT_COMBINATION)
 
 # caching the component class
 component.ComponentHandler.cache_component_class(ParticleHandlerComponent)

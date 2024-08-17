@@ -84,10 +84,9 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                # check if collided tile is solid
-                if not _collided_tile._solid:
+                if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
-
+                
                 if _rect_comp._velocity.x > 0:
                     _tentative_rect.right = _collided_tile._rect.left
                 elif _rect_comp._velocity.x < 0:
@@ -106,8 +105,7 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                # check if collided tile is solid
-                if not _collided_tile._solid:
+                if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
                 if _rect_comp._velocity.y > 0:
@@ -144,7 +142,6 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                # TODO - change to bitmask
                 if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
@@ -166,7 +163,6 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                # TODO - change to bitmask
                 if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
