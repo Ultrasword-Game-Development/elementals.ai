@@ -153,16 +153,13 @@ while singleton.RUNNING:
     singleton.START_TIME = singleton.END_TIME
 
     # ---------------------------- #
-    # update loop
+    # update loop    
     
-    while singleton.DELTA_TIME > singleton.DESIRE_DELTA:
-        singleton.DELTA_TIME -= singleton.DESIRE_DELTA
-        
-        singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
-        singleton.SCREENBUFFER.fill((0, 0, 0, 0))
-        
-        w.update_and_render(singleton.FRAMEBUFFER)
+    singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
+    singleton.SCREENBUFFER.fill((0, 0, 0, 0))
 
+    w.update_and_render(singleton.FRAMEBUFFER)
+    
     # ---------------------------- #
     # final rendering
     gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
