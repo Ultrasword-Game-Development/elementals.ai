@@ -83,7 +83,6 @@ for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(i)))
     _c.get_tile_at((i, 3)).set_mask_value(0, 0)
     _c.get_tile_at((i, 3)).set_mask_value(1, 1)
-    print("row 3", bin(_c.get_tile_at((i, 3))._collision_mask))
 
 # add an animated sprite at location - (0, 0)
 _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
@@ -99,7 +98,6 @@ for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 0), tiles.AnimatedTile((i, 0), "assets/sprites/entities/wizard.json", offset=1))
     _c.get_tile_at((i, 0)).set_mask_value(0, 0)
     _c.get_tile_at((i, 0)).set_mask_value(1, 1)
-    print("row 0", bin(_c.get_tile_at((i, 0))._collision_mask))
 
 
 singleton.save_world(_w)
@@ -134,7 +132,6 @@ _right_rect = _g2.add_component(components.rect_comp.WorldRectComponent(has_spri
 _right_rect.set_mask_value(0, 0)
 _right_rect.set_mask_value(1, 1)
 
-print(_right_rect, bin(_right_rect._collision_mask))
 
 # ---------------------------- #
 

@@ -94,6 +94,7 @@ class GLContext:
         # create the framebuffer render object
         cls.FRAMEBUFFER_SHADER = shader.load_shader(singleton.DEFAULT_SHADER)
         cls.SCREEN_SHADER = shader.load_shader(singleton.DEFAULT_SCREEN_SHADER)
+        cls.handle_resizing(singleton.WIN_SIZE)
 
         cls.FRAMEBUFFER_RENDER_OBJECT = cls.FRAMEBUFFER_SHADER.load_quad_vertexarray(singleton.FRAMEBUFFER_SHADER_QUAD, [
                 (singleton.FULL_QUAD_BUFFER, '2f 2f', 'vert', 'texcoord')
@@ -145,6 +146,31 @@ class GLContext:
     def handle_resizing(cls, new_size: tuple):
         """ Handles the resizing of the window """
         singleton.WIN_SIZE = new_size
-        singleton.CONTEXT.viewport = (0, 0, *new_size)
+        _desired_ratio = round(16 / 9, ndigits=4) # w / h
+        # hceck if content is same ratio
+        _aspect_ratio = round(new_size[0] / new_size[1], ndigits=4)
+        _offset = (0, 0)
+         
+        # width is too big - create shift in x axis 
+        if _aspect_ratio < _desired_ratio:
+            # find offset
+            _offset = (
+                (new_size[0] - new_size[1] * _desired_ratio) // 2,
+                0
+            )
+            # find new_size
+            new_size = (new_size[1] * _desired_ratio, new_size[1])
+        # width is too small - create shift in y axis
+        elif _aspect_ratio > _desired_ratio:
+            # find offset
+            _offset = (
+                0,
+                (new_size[1] - new_size[0] / _desired_ratio) // 2
+            )
+            # find new_size
+            new_size = (new_size[0], new_size[0] / _desired_ratio)
+            
+        
+        singleton.CONTEXT.viewport = (*_offset, *new_size)
         print(singleton.FB_SIZE, singleton.WIN_SIZE)
         print(singleton.CONTEXT.viewport)

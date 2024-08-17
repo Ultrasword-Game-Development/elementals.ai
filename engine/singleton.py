@@ -34,6 +34,7 @@ DEBUG = False
 EDITOR_DEBUG = False
 
 FPS = 60
+DESIRE_DELTA = 1 / FPS
 FRAME_COUNTER = 0
 ACTIVE_TIME = 0
 
@@ -221,3 +222,9 @@ def set_framebuffer_size_factor(factor: int):
     global FB_FACTOR, FB_SIZE
     FB_FACTOR = factor
     FB_SIZE = [WIN_SIZE[0] // FB_FACTOR, WIN_SIZE[1] // FB_FACTOR]
+
+def set_fps(fps: int):
+    """ Set the fps """
+    global FPS, DESIRE_DELTA
+    FPS = fps
+    DESIRE_DELTA = 1 / FPS
