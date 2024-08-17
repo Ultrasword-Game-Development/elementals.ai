@@ -51,8 +51,8 @@ class AspectHandler:
     
     def get_aspect(self, _aspect_class: "Aspect Class"):
         """ Get an aspect by string """
-        for aspect in self._aspect:
-            if aspect.__class__.__name__ == _aspect_class:
+        for aspect in self._aspects:
+            if aspect.__class__.__name__ == _aspect_class.__name__:
                 return aspect
         return None
     

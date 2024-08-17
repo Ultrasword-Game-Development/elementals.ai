@@ -37,6 +37,7 @@ from engine.graphics import spritesheet
 
 from engine.addon import tiles
 from engine.addon import components
+from engine.addon import physicscomponents
 
 # ---------------------------- #
 # create a window
@@ -109,6 +110,9 @@ _w.add_aspect(components.spriterenderer_comp.SpriteRendererAspect())
 _w.add_aspect(components.animation_comp.AnimationAspect())
 _w.add_aspect(components.rect_comp.WorldRectAspect())
 _w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
+
+_w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(pygame.math.Vector2(0, 9.8)))
+_w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(0.05))
 
 _gameobject = _w.add_gameobject(gameobject.GameObject(
     position=(-100, 0),

@@ -736,6 +736,7 @@ class World:
         """ Save the world """
         self._data["GAMEOBJECT_ID_COUNT"] = singleton.GAMEOBJECT_ID_COUNT
         self._data["COMPONENT_ID_COUNT"] = singleton.COMPONENT_COUNT
+        self._data["PHYSICS_COMP_ID_COUNT"] = singleton.PHYSICS_COMP_ID_COUNT
         singleton.save_world(world)
 
     @classmethod
@@ -748,7 +749,8 @@ class World:
         cls.cache_world(result)
         # update constants
         singleton.GAMEOBJECT_ID_COUNT = result._data["GAMEOBJECT_ID_COUNT"]
-        singleton.COMPONENT_COUNT = result._data["COMPONENT_ID_COUNT"]
+        singleton.COMPONENT_ID_COUNT = result._data["COMPONENT_ID_COUNT"]
+        singleton.PHYSICS_COMP_ID_COUNT = result._data["PHYSICS_COMP_ID_COUNT"]
         return result
     
     @classmethod

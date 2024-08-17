@@ -47,6 +47,23 @@ gl.GLContext.add_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PRO
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 gl.GLContext.create_context()
 
+"""
+
+When creating a world, adding components, and creating gameobjects, here is the general order of 
+steps you should follow to ensure things start up correctly:
+
+1. Create the world (or load up a world)
+2. Add aspects to the world
+3. Add physics objects to the world
+4. Create gameobjects
+5. Add components to the gameobjects
+
+It's pretty simple, but it's important to follow this order to ensure that everything is set up
+
+Have fun!
+
+"""
+
 # ---------------------------- #
 # testing
 

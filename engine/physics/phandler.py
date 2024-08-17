@@ -18,6 +18,7 @@ class PhysicsHandler:
         """ Initialize the physics handler """
         self._world = _world
         self._gameobjects = {}
+        self._components = []
 
         # death signal
         self._death_signal = signal.Signal(DEATH_SIGNAL_NAME)
@@ -30,6 +31,14 @@ class PhysicsHandler:
         """ Update the physics handler """
         for gameobject in self._gameobjects.values():
             gameobject.update()
+        # update physics world components
+        for component in self._components:
+            component.update() if component._active else None
+    
+    def add_component(self, component: "PhysicsComponent"):
+        """ Add an component to the physics handler """
+        self._components.append(component)
+        component.__post_init__(self)    
             
     def add_gameobject(self, gameobject: "GameObject"):
         """ Add an gameobject to the physics handler """
