@@ -146,6 +146,9 @@ while singleton.RUNNING:
     # ---------------------------- #
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
     singleton.SCREENBUFFER.fill((0, 0, 0, 0))
+    
+    if io.is_left_clicked():
+        io.play_sound("assets/audio/jump.wav")
 
     # # if phandler.collide_rect_to_rect(_left_rect, _right_rect):
     # # if phandler.collide_rect_to_bitmask(_left_rect, _right_mask, _right_rect):

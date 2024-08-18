@@ -16,6 +16,7 @@ KEY_HELD = set()
 KEY_CLICKED = set()
 KEY_MOD_CLICKED = None
 
+AUDIO_CHANNELS = [None for i in range(10)]
 
 IMAGE_INDEX = 0
 MASK_INDEX = 1
@@ -51,6 +52,12 @@ def cache_image(path: str, image: pygame.Surface):
 # ---------------------------- #
 # audio
 
+def init_audio():
+    """ Initialize the audio system """
+    pygame.mixer.init()
+    for i in range(pygame.mixer.get_num_channels()):
+        AUDIO_CHANNELS[i] = pygame.mixer.Channel(i)
+
 def load_audio(path: str):
     """ Load an audio file """
     if path in AUDIO_CACHE:
@@ -60,6 +67,16 @@ def load_audio(path: str):
     AUDIO_CACHE[path] = audio
     return audio
 
+def get_channel(index: int):
+    """ Get a channel """
+    return AUDIO_CHANNELS[index]
+
+def play_sound(path: str, loops: int = 0, maxtime: int = 0, fade_ms: int = 0, override: bool = False):
+    """ Play a sound on a channel """
+    _channel = pygame.mixer.find_channel(force=override)
+    if _channel:
+        _channel.play(load_audio(path), loops=loops, maxtime=maxtime, fade_ms=fade_ms)
+        return
 # ---------------------------- #
 # fonts
 

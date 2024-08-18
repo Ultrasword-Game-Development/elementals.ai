@@ -77,6 +77,7 @@ class GLContext:
         
         # load all pygame items
         io.KEY_MOD_CLICKED = pygame.key.get_mods()
+        io.init_audio()
 
         # create signal
         singleton.GLOBAL_FRAME_SIGNAL_EMITTER = signal.Signal(singleton.GLOBAL_FRAME_SIGNAL_KEY).get_unique_emitter()
@@ -172,5 +173,3 @@ class GLContext:
             
         
         singleton.CONTEXT.viewport = (*_offset, *new_size)
-        print(singleton.FB_SIZE, singleton.WIN_SIZE)
-        print(singleton.CONTEXT.viewport)
