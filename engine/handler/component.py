@@ -41,6 +41,18 @@ class ComponentHandler:
         """ Remove a component from the handler """
         del self._components[_component_id]
     
+    # ---------------------------- #
+    # serialize
+    
+    def __getstate__(self):
+        """ Pickle state """
+        state = self.__dict__.copy()
+        return state
+
+    def __setstate__(self, state):
+        """ Unpickle state """
+        self.__dict__.update(state)
+    
 
 # ---------------------------- #
 # component

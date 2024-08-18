@@ -64,6 +64,19 @@ class MaskedSpriteComponent(sprite_comp.SpriteComponent):
         """ Get the mask """
         return pygame.mask.from_surface(self.get_sprite())
 
+    # ---------------------------- #
+    # serialize
+    
+    def __getstate__(self):
+        """ Pickle state """
+        state = super().__getstate__()
+        del state['_mask']
+        return state
+
+    def __setstate__(self, state):
+        """ Unpickle state """
+        self.__dict__.update(state)
+        self._mask = None
 
 # ---------------------------- #
 # aspect

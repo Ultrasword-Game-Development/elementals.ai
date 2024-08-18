@@ -66,6 +66,15 @@ class PhysicsHandler:
         # remove the gameobject
         del self._gameobjects[data['id']]
     
+    # ---------------------------- #
+    # serialize
+    
+    def __getstate__(self):
+        """ Pickle state """
+        state = self.__dict__.copy()
+        print(state)
+        return state
+    
         
 # ---------------------------- #
 # utils

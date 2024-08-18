@@ -85,7 +85,7 @@ class DefaultTile:
     # ---------------------------- #
     # to be overriden
     
-    def __post_init__(self, chunk: "Chunk"):
+    def __post_init__ (self, chunk: "Chunk"):
         """ Post init function """
         pass
     
@@ -572,7 +572,8 @@ class World:
         self._data = {
             "EDITOR_TAB_SPRITESHEETS": {},
             "GAMEOBJECT_ID_COUNT": 0,
-            "COMPONENT_ID_COUNT": 0
+            "COMPONENT_ID_COUNT": 0,
+            "PHYSICS_COMP_ID_COUNT": 0
         }
     
         self.__post_init__()
@@ -699,6 +700,7 @@ class World:
         if not os.path.exists(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER):
             print("Creating world chunk folder: ", WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER)
             os.mkdir(WORLD_LEVEL_FOLDER + self._world_storage_key + "/" + WORLD_LEVEL_CHUNKS_FOLDER)
+        
         return state
     
     def __setstate__(self, state):
@@ -708,7 +710,7 @@ class World:
             spritesheet.load_spritesheet(_path, framedata=_data)
             
         self.__dict__.update(state)
-        
+
         # load world data
         for layer in self._layers:
             layer.load_layer_data()
@@ -734,9 +736,10 @@ class World:
     @classmethod
     def save_world(cls, world: "World"):
         """ Save the world """
-        self._data["GAMEOBJECT_ID_COUNT"] = singleton.GAMEOBJECT_ID_COUNT
-        self._data["COMPONENT_ID_COUNT"] = singleton.COMPONENT_COUNT
-        self._data["PHYSICS_COMP_ID_COUNT"] = singleton.PHYSICS_COMP_ID_COUNT
+        world._data["GAMEOBJECT_ID_COUNT"] = singleton.GAMEOBJECT_ID_COUNT
+        world._data["COMPONENT_ID_COUNT"] = singleton.COMPONENT_ID_COUNT
+        world._data["PHYSICS_COMP_ID_COUNT"] = singleton.PHYSICS_COMP_ID_COUNT
+        
         singleton.save_world(world)
 
     @classmethod

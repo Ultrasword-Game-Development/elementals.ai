@@ -16,7 +16,7 @@ KEY_HELD = set()
 KEY_CLICKED = set()
 KEY_MOD_CLICKED = None
 
-AUDIO_CHANNELS = [None for i in range(10)]
+AUDIO_CHANNELS = []
 
 IMAGE_INDEX = 0
 MASK_INDEX = 1
@@ -56,7 +56,7 @@ def init_audio():
     """ Initialize the audio system """
     pygame.mixer.init()
     for i in range(pygame.mixer.get_num_channels()):
-        AUDIO_CHANNELS[i] = pygame.mixer.Channel(i)
+        AUDIO_CHANNELS.append(pygame.mixer.Channel(i))
 
 def load_audio(path: str):
     """ Load an audio file """
@@ -71,12 +71,22 @@ def get_channel(index: int):
     """ Get a channel """
     return AUDIO_CHANNELS[index]
 
+def get_music_channel():
+    """ Get the music channel """
+    return AUDIO_CHANNELS[0]
+
+def play_music(path: str, loops: int = -1, start: float = 0.0):
+    """ Play music """
+    pygame.mixer.music.load(path)
+    pygame.mixer.music.play(loops=loops, start=start)
+
 def play_sound(path: str, loops: int = 0, maxtime: int = 0, fade_ms: int = 0, override: bool = False):
     """ Play a sound on a channel """
     _channel = pygame.mixer.find_channel(force=override)
     if _channel:
         _channel.play(load_audio(path), loops=loops, maxtime=maxtime, fade_ms=fade_ms)
         return
+
 # ---------------------------- #
 # fonts
 

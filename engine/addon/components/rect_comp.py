@@ -47,8 +47,20 @@ class WorldRectComponent(physics_comp.PhysicsComponent):
         if self._has_mask:
             self._mask_comp = gameobject.get_component([mask_comp.COMPONENT_NAME])
         
-        self._hitbox = gameobject.get_component([hitbox_comp.COMPONENT_NAME ])
+        self._hitbox = gameobject.get_component([hitbox_comp.COMPONENT_NAME])
         self._has_hitbox = self._hitbox != None
+    
+    # ---------------------------- #
+    # serialize
+    
+    def __getstate__(self):
+        """ Pickle state """
+        state = self.__dict__.copy()
+        return state
+
+    def __setstate__(self, state):
+        """ Unpickle state """
+        self.__dict__.update(state)
 
 
 # ---------------------------- #

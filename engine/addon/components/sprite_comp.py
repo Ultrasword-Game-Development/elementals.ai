@@ -94,6 +94,21 @@ class SpriteComponent(renderable_comp.RenderableComponent):
 
         return self._sprite
 
+    # ---------------------------- #
+    # serialize
+    
+    def __getstate__(self):
+        """ Pickle state """
+        state = self.__dict__.copy()
+        del state['_sprite']
+        return state
+    
+    def __setstate__(self, state):
+        """ Unpickle state """
+        self.__dict__.update(state)
+        self._sprite = None
+        self._sprite_changed = True
+
 # ---------------------------- #
 # aspect
 

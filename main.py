@@ -132,7 +132,7 @@ _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent
 _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
 _gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default"))
 
-# singleton.save_world(w)
+# world.World.save_world(_w)
 
 
 

@@ -99,10 +99,6 @@ for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.get_tile_at((i, 0)).set_mask_value(0, 0)
     _c.get_tile_at((i, 0)).set_mask_value(1, 1)
 
-
-singleton.save_world(_w)
-
-
 # adding aspects
 _w.add_aspect(components.spriterenderer_comp.SpriteRendererAspect())
 _w.add_aspect(components.animation_comp.AnimationAspect())
@@ -120,6 +116,9 @@ _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent
 _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
 _gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default"))
 
+
+world.World.save_world(_w)
+
 # TODO - figure out why this ain't working
 _g2 = _w.add_gameobject(gameobject.GameObject(
     position=(-20, 0),
@@ -132,6 +131,8 @@ _right_rect = _g2.add_component(components.rect_comp.WorldRectComponent(has_spri
 _right_rect.set_mask_value(0, 0)
 _right_rect.set_mask_value(1, 1)
 
+
+io.play_music("assets/audio/departures.mp3")
 
 # ---------------------------- #
 
@@ -150,20 +151,6 @@ while singleton.RUNNING:
     if io.is_left_clicked():
         io.play_sound("assets/audio/jump.wav")
 
-    # # if phandler.collide_rect_to_rect(_left_rect, _right_rect):
-    # # if phandler.collide_rect_to_bitmask(_left_rect, _right_mask, _right_rect):
-    # if phandler.collide_bitmask_to_bitmask(_left.mask, _left.rect, _right.mask, _right.rect):
-    #     singleton.FRAMEBUFFER.fill((255, 0, 0))
-
-    # _right_rect._velocity.xy = 0, 0
-    # if io.get_key_clicked(pygame.K_a):
-    #     _right_rect._velocity.x += -1
-    # if io.get_key_clicked(pygame.K_d):
-    #     _right_rect._velocity.x += 1
-    # if io.get_key_clicked(pygame.K_w):
-    #     _right_rect._velocity.y += -1
-    # if io.get_key_clicked(pygame.K_s):
-    #     _right_rect._velocity.y += 1
     _right_rect._velocity.xy = 0, 0
     if io.get_key_pressed(pygame.K_a):
         _right_rect._velocity.x += -1 * 100 * singleton.DELTA_TIME
@@ -174,14 +161,8 @@ while singleton.RUNNING:
     if io.get_key_pressed(pygame.K_s):
         _right_rect._velocity.y += 1 * 100 * singleton.DELTA_TIME
 
-    # _w.move_entity_in_world(_right)
-
     _w.update_and_render(singleton.FRAMEBUFFER)
 
-
-    # singleton.SCREENBUFFER.blit(_spritesheet.image, (100, 100))
-    # singleton.SCREENBUFFER.blit(_mask.to_surface(), (200, 100))
-        
     # ---------------------------- #
     # render screen items
     gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
