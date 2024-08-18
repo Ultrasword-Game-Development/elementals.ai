@@ -104,7 +104,6 @@ class GameObject:
     def __setstate__(self, state):
         """ Unpickle state """
         self.__dict__.update(state)
-        
 
 
 # ---------------------------- #
