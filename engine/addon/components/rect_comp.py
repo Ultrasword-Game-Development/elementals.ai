@@ -235,7 +235,6 @@ class WorldRectDebugAspect(aspect.Aspect):
             
             # render rect into world
             _pos = _rect_comp._rect.topleft - camera.position
-            print(_pos + camera.position, _rect_comp._parent_gameobject)
             pygame.draw.rect(
                 _layer_surface,
                 (0, 255, 0), 
