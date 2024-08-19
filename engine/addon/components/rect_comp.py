@@ -44,11 +44,15 @@ class WorldRectComponent(physics_comp.PhysicsComponent):
         if self._has_sprite:
             self._sprite_comp = gameobject.get_component([sprite_comp.COMPONENT_NAME, mask_comp.COMPONENT_NAME])
             self._area = self._sprite_comp.get_sprite().get_size()
+            self._rect.size = self._area
         if self._has_mask:
             self._mask_comp = gameobject.get_component([mask_comp.COMPONENT_NAME])
         
         self._hitbox = gameobject.get_component([hitbox_comp.COMPONENT_NAME])
         self._has_hitbox = self._hitbox != None
+
+        # center the rect
+        self._rect.center = gameobject.position
     
     # ---------------------------- #
     # serialize
@@ -80,7 +84,7 @@ class WorldRectAspect(aspect.Aspect):
         _layer = _world.get_layer_at(_gameobject.zlayer)
 
         # cache
-        _tentative_rect = pygame.FRect(_gameobject.position, _rect_comp._area)
+        _tentative_rect = pygame.FRect(_rect_comp._rect.topleft, _rect_comp._area)
         _center_chunk = world.get_chunk_from_pixel_position(_gameobject.position)
 
         # x-axis movement
@@ -96,13 +100,15 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
+                if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
                 
                 if _rect_comp._velocity.x > 0:
                     _tentative_rect.right = _collided_tile._rect.left
+                    _rect_comp._velocity.x = 0
                 elif _rect_comp._velocity.x < 0:
                     _tentative_rect.left = _collided_tile._rect.right
+                    _rect_comp._velocity.x = 0
         
         # y-axis movement
         _tentative_rect.y += _rect_comp._velocity.y
@@ -114,19 +120,21 @@ class WorldRectAspect(aspect.Aspect):
             # check if gameobject even contact with chunk
             if not phandler.collide_rect_to_rect(_tentative_rect, _chunk._chunk_rect):
                 continue
-
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
+                if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
                 if _rect_comp._velocity.y > 0:
                     _tentative_rect.bottom = _collided_tile._rect.top
+                    _rect_comp._velocity.y = 0
                 elif _rect_comp._velocity.y < 0:
                     _tentative_rect.top = _collided_tile._rect.bottom
+                    _rect_comp._velocity.y = 0
 
         # update final coordinates
-        _gameobject.position.xy = _tentative_rect.topleft
+        _rect_comp._rect.topleft = _tentative_rect.topleft
+        _gameobject.position.xy = _rect_comp._rect.center
 
     def handle_hitbox(self, _world, _rect_comp):
         """ Handle the mask to rect collision """
@@ -136,7 +144,7 @@ class WorldRectAspect(aspect.Aspect):
 
         # cache
         _tentative_rect = pygame.FRect(
-            _gameobject.position + _hitbox._rect.topleft,
+            _hitbox._rect.topleft + _gameobject.position,
             _hitbox._rect.size
         )
         _center_chunk = world.get_chunk_from_pixel_position(_gameobject.position)
@@ -154,13 +162,15 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
+                if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
                 if _rect_comp._velocity.x > 0:
                     _tentative_rect.right = _collided_tile._rect.left
+                    _rect_comp._velocity.x = 0
                 elif _rect_comp._velocity.x < 0:
                     _tentative_rect.left = _collided_tile._rect.right
+                    _rect_comp._velocity.x = 0
         
         # y-axis movement
         _tentative_rect.y += _rect_comp._velocity.y
@@ -175,22 +185,25 @@ class WorldRectAspect(aspect.Aspect):
 
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
-                if phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
+                if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
                 if _rect_comp._velocity.y > 0:
                     _tentative_rect.bottom = _collided_tile._rect.top
+                    _rect_comp._velocity.y = 0
                 elif _rect_comp._velocity.y < 0:
                     _tentative_rect.top = _collided_tile._rect.bottom
+                    _rect_comp._velocity.y = 0
 
         # update final coordinates
-        _gameobject.position.xy = (
-            _tentative_rect.x - _hitbox._rect.left,
-            _tentative_rect.y - _hitbox._rect.top
+        _gameobject.position.xy  = (
+            _tentative_rect.x - _hitbox._rect.x,
+            _tentative_rect.y - _hitbox._rect.y
         )
+        _rect_comp._rect.topleft = _gameobject.position - pygame.math.Vector2(_rect_comp._rect.size) // 2
 
 
-    def handle(self):
+    def handle(self, camera: "Camera"):
         """ Handle the aspect """
         _world = self._handler._world
 
@@ -200,11 +213,35 @@ class WorldRectAspect(aspect.Aspect):
                 self.handle_hitbox(_world, _rect_comp)
             else:
                 self.handle_rect(_world, _rect_comp)
-            # render debug?
-            if _rect_comp._has_hitbox and singleton.DEBUG:
-                pygame.draw.rect(_world.get_layer_at(_rect_comp.get_gameobject().zlayer)._layer_buffer, (0, 255, 0), 
-                        (_rect_comp.get_gameobject().position + _rect_comp._hitbox._rect.topleft - self._handler._world._camera.position, _rect_comp._hitbox._rect.size), 1)
+
+
+class WorldRectDebugAspect(aspect.Aspect):
+
+    def __init__(self):
+        """ Create a new World Rect Debug Aspect """
+        super().__init__(priority=1, target_component_classes=[WorldRectComponent])
+    
+    # ---------------------------- #
+    # logic
+
+    def handle(self, camera: "Camera"):
+        """ Handle the aspect """
+        if not singleton.DEBUG:
+            return
+
+        for _rect_comp in self.iter_components():
+            _gameobject = _rect_comp.get_gameobject()
+            _layer_surface = _gameobject._parent_phandler._world.get_layer_at(_gameobject.zlayer)._layer_buffer
             
+            # render rect into world
+            _pos = _rect_comp._rect.topleft - camera.position
+            print(_pos + camera.position, _rect_comp._parent_gameobject)
+            pygame.draw.rect(
+                _layer_surface,
+                (0, 255, 0), 
+                (_pos, _rect_comp._rect.size),
+                1
+            )
 
 # ---------------------------- #
 # utils

@@ -28,10 +28,9 @@ class AnimationComponent(renderable_comp.RenderableComponent):
 
         self._animation_str = json_path
         self._animation_registry = animation.load_animation_from_json(json_path).get_registry()
-    
-    # ---------------------------- #
-    # logic
 
+        print(self._animation_registry._parent._animation_types)
+    
     def __post_gameobject__(self, _parent_gameobject: "GameObject"):
         """ Called after being added to a gameobject """
         super().__post_gameobject__(_parent_gameobject)
@@ -39,6 +38,28 @@ class AnimationComponent(renderable_comp.RenderableComponent):
         self._sprite_component = self._parent_gameobject.get_component([sprite_comp.COMPONENT_NAME, mask_comp.COMPONENT_NAME])
         # update sprite
         self._sprite_component.set_sprite_str(self._animation_registry.sprite_path)
+
+    # ---------------------------- #
+    # logic
+
+    def set_animation(self, animation_json: str):
+        """ Set the animation """
+        self._animation_str = animation_json
+        self._animation_registry = animation.load_animation_from_json(animation_json).get_registry()
+
+    def set_animation_type(self, animation_name: str):
+        """ Set the animation """
+        self._animation_registry.animation_type = animation_name
+    
+    def get_animation(self) -> str:
+        """ Get the animation """
+        return self._animation_str
+    
+    def get_animation_type(self) -> str:
+        """ Get the animation """
+        return self._animation_registry.animation_type
+    
+
 
 
 # ---------------------------- #
@@ -51,7 +72,7 @@ class AnimationAspect(aspect.Aspect):
         super().__init__(priority=1, target_component_classes=[AnimationComponent])
 
     # ---------------------------- #
-    def handle(self):
+    def handle(self, camera: "Camera"):
         """ Handle the Sprite Renderer aspect """
         for _c in self.iter_components():
             _gameobject = _c.get_gameobject()

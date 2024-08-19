@@ -93,7 +93,7 @@ class PhysicsAspect(aspect.Aspect):
     # ---------------------------- #
     # logic
 
-    def handle(self, component: "Component"):
+    def handle(self, camera: "Camera"):
         """ Handle the component """
         pass
 

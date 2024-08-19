@@ -257,6 +257,7 @@ class Chunk:
             self._tiles[position[1]][position[0]] = None
             return
         self._tiles[position[1]][position[0]] = tile
+        tile._index_position = (position[0], position[1])
         # define the collision rect of the tile
         tile._rect.topleft = (
             position[0] * self._tile_pixel_area[0] + self._pixel_coords[0],
@@ -385,6 +386,9 @@ class Layer:
             if chunk_hash_str not in self._chunks:
                 continue
             self._chunks[chunk_hash_str].update_and_render(self._layer_buffer, camera)
+            
+            if not singleton.DEBUG and not singleton.EDITOR_DEBUG:
+                continue
             # draw chunk rect
             pygame.draw.rect(self._layer_buffer, (255, 255, 255, 150), 
                 Chunk.generate_chunk_rect_given_chunk_position(self._chunks[chunk_hash_str]._chunk_position, camera), 1)
@@ -456,7 +460,7 @@ class Layer:
         """ Get the tile at the global position """
         chunk_pos = (
             global_tile_position[0] // singleton.DEFAULT_CHUNK_WIDTH,
-            global_tile_position[1] // singleton.DEFAULT
+            global_tile_position[1] // singleton.DEFAULT_CHUNK_HEIGHT
         )
         chunk = self.get_chunk_at(chunk_pos)
         if not chunk:
@@ -562,9 +566,9 @@ class World:
 
         # signal handler
         self._layer_signals = signal.Signal(WORLD_SIGNAL_HANDLER)
-        self._layers = [Layer(_) for _ in range(singleton.DEFAULT_LAYER_COUNT)]
+        self._layers = {_ - 2 : Layer(_ - 2) for _ in range(singleton.DEFAULT_LAYER_COUNT)}
         # give each layer a signal emitter
-        for layer in self._layers:
+        for layer in self._layers.values():
             layer._signal_emitter = self._layer_signals.get_unique_emitter()
             layer._world = self
         
@@ -585,7 +589,7 @@ class World:
     # ---------------------------- #
     # logic
 
-    def update_and_render(self, surface: pygame.Surface):
+    def update_and_render_world(self, surface: pygame.Surface):
         """ Update and render the world """
         # check if camera entered new chunk
         new_c_chunk = (
@@ -598,16 +602,16 @@ class World:
 
         # update layers
         for layer in self._layers:
-            layer.update(self.camera)
-        
+            self._layers[layer].update(self.camera)
         # update aspects
-        self._aspect_handler.handle()
-
+        self._aspect_handler.handle(self.camera)
         # render layers
         for layer in self._layers:
-            layer.render(surface)
+            self._layers[layer].render(surface)
+            
         
-        # render the physics + all entities
+    def update_and_render_physics(self):
+        """ Update and render the physics """
         self._physics_handler.update()
 
     def get_layer_at(self, layer: int):
@@ -616,7 +620,7 @@ class World:
     
     def add_layer(self, layer: Layer):
         """ Add a layer to the world """
-        self._layers.append(layer)
+        self._layers[layer._layer_id] = (layer)
         # setup layer
         layer._signal_emitter = self._layer_signals.get_unique_emitter()
         layer._world = self
@@ -671,8 +675,8 @@ class World:
 
     def iterate_renderable_chunk_positions(self):
         """ Iterate the renderable chunks """
-        for cx in range(self._camera_old_chunk[0] - self._render_distance, self._camera_old_chunk[0] + self._render_distance + 1):
-            for cy in range(self._camera_old_chunk[1] - self._render_distance, self._camera_old_chunk[1] + self._render_distance + 1):
+        for cx in range(self._camera_old_chunk[0] - self._render_distance[0], self._camera_old_chunk[0] + self._render_distance[0] + 1):
+            for cy in range(self._camera_old_chunk[1] - self._render_distance[0], self._camera_old_chunk[1] + self._render_distance[0] + 1):
                 yield (cx, cy)
 
     def get_camera_chunk(self):
@@ -713,7 +717,7 @@ class World:
 
         # load world data
         for layer in self._layers:
-            layer.load_layer_data()
+            self._layers[layer].load_layer_data()
     
     def get_world_saving_main_file(self):
         """ Get the world saving folder """
@@ -748,7 +752,7 @@ class World:
         if world_key in WORLD_CACHE:
             return WORLD_CACHE[world_key]
         # load the world
-        result = singleton.load_world(WORLD_LEVEL_FOLDER + world_key)
+        result = singleton.load_world((WORLD_LEVEL_FOLDER if not world_key.startswith(WORLD_LEVEL_FOLDER) else "") + world_key)
         cls.cache_world(result)
         # update constants
         singleton.GAMEOBJECT_ID_COUNT = result._data["GAMEOBJECT_ID_COUNT"]

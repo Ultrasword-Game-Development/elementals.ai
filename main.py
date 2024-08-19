@@ -46,8 +46,10 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-singleton.WIN_BACKGROUND = utils.hex_to_rgb('71C828')
+singleton.WIN_BACKGROUND = utils.hex_to_rgb('000000')
 singleton.set_framebuffer_size_factor(2)
+singleton.DEBUG = True
+singleton.set_render_distance(4)
 
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
@@ -75,6 +77,7 @@ Have fun!
 # ---------------------------- #
 # testing
 
+from game.entities import player
 
 world_save = "world"
 
@@ -121,18 +124,26 @@ w.add_aspect(components.animation_comp.AnimationAspect())
 w.add_aspect(components.rect_comp.WorldRectAspect())
 w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
 
-w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(pygame.math.Vector2(0, 9.8)))
+# debug
+w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())
+w.add_aspect(components.rect_comp.WorldRectDebugAspect())
+w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
+
+w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(pygame.math.Vector2(0, 12)))
 w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(0.05))
 
+
 _gameobject = w.add_gameobject(gameobject.GameObject(
-    position=(-100, 0),
+    position=(100, -100),
 ))
 _gameobject.add_component(components.sprite_comp.SpriteComponent(_spritesheet.get_sprite_str_id(0), scale_area=2))
 _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent())
 _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
-_gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default"))
+_gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default", zlayer=-1))
 
-# world.World.save_world(_w)
+world.World.save_world(w)
+
+w.add_gameobject(player.Player(0, 0))
 
 
 
@@ -158,7 +169,8 @@ while singleton.RUNNING:
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
     singleton.SCREENBUFFER.fill((0, 0, 0, 0))
 
-    w.update_and_render(singleton.FRAMEBUFFER)
+    w.update_and_render_world(singleton.FRAMEBUFFER)
+    w.update_and_render_physics()
     
     # ---------------------------- #
     # final rendering

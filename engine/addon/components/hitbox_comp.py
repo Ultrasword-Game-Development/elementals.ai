@@ -26,10 +26,13 @@ class HitBoxComponent(component.Component):
         """ Create a new Hit Box Component """
         super().__init__()
 
-        self._offset = pygame.math.Vector2(offset)
-        self._area = pygame.math.Vector2(area)
-
         self._rect = pygame.FRect(*offset, *area)
+    
+    def __post_gameobject__(self, gameobject: "GameObject"):
+        """ Post init function """
+        super().__post_gameobject__(gameobject)
+
+        self._rect.center = gameobject.position
     
     # ---------------------------- #
     # logic
@@ -40,25 +43,51 @@ class HitBoxComponent(component.Component):
     
     def get_area(self):
         """ Get the area """
-        return self._area
+        return self._rect.size
     
     def get_offset(self):
         """ Get the offset """
-        return self._offset
+        return self._rect.topleft
     
     def set_offset(self, offset: tuple):
         """ Set the offset """
-        self._offset.xy = offset
-        self._rect.topleft = self._offset
+        self._rect.topleft = (offset)
     
     def set_area(self, area: tuple):
         """ Set the area """
-        self._area.xy = area
         self._rect.size = area
 
 
 # ---------------------------- #
 # aspect
+
+class HitBoxDebugAspect(aspect.Aspect):
+    def __init__(self):
+        """ Create a new Hit Box Debug Aspect """
+        super().__init__(target_component_classes=[HitBoxComponent])
+    
+    # ---------------------------- #
+    # logic
+
+    def handle(self, camera: "Camera"):
+        """ Handle the Hit Box Debug Aspect """
+        if not singleton.DEBUG:
+            return
+
+        for _c in self.iter_components():
+            _gameobject = _c.get_gameobject()
+            
+            _layer_surface = _gameobject._parent_phandler._world._layers[_gameobject.zlayer]._layer_buffer
+            
+            # render hitbox into world
+            _position = _gameobject.position - camera.position + _c.get_offset()
+
+            pygame.draw.rect(
+                _layer_surface,
+                (255, 0, 0), 
+                pygame.Rect(_position, _c.get_area()), 
+                1
+            )
 
 
 # ---------------------------- #

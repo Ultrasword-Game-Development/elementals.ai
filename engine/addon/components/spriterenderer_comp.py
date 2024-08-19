@@ -48,7 +48,7 @@ class SpriteRendererAspect(aspect.Aspect):
     # ---------------------------- #
     # logic
     
-    def handle(self):
+    def handle(self, camera: "Camera"):
         """ Handle the Sprite Renderer aspect """
         for _c in self.iter_components():
             _gameobject = _c.get_gameobject()
@@ -57,23 +57,43 @@ class SpriteRendererAspect(aspect.Aspect):
             # check if has sprite
             if not _sprite_comp.get_sprite_str():
                 return
-
+            
             _layer_surface = self._handler._world._layers[_gameobject.zlayer]._layer_buffer
             
             _sprite = _sprite_comp.get_sprite()
             # render sprite into world
-            _position = _gameobject.position - self._handler._world._camera.position
+            _position = _gameobject.position - camera.position - _sprite_comp._sprite_rect.center
             _layer_surface.blit(_sprite, _position)
 
-            if singleton.DEBUG:
-                pygame.draw.rect(
-                    _layer_surface, 
-                    (255, 0, 0), 
-                    pygame.Rect(_position, _sprite.get_size()), 
-                    1
-                )
 
+class SpriteRendererDebugAspect(aspect.Aspect):
 
+    def __init__(self):
+        """ Create a new Sprite Renderer Debug Aspect """
+        super().__init__(target_component_classes=[SpriteRendererComponent])
+    
+    # ---------------------------- #
+    # logic
+
+    def handle(self, camera: "Camera"):
+        """ Handle the Sprite Renderer Debug Aspect """
+        if not singleton.DEBUG:
+            return
+
+        for _c in self.iter_components():
+            _gameobject = _c.get_gameobject()
+            _sprite_comp = _c._sprite_component
+
+            _layer_surface = _gameobject._parent_phandler._world._layers[_gameobject.zlayer]._layer_buffer
+            
+            # render rect into world
+            _pos = _gameobject.position - camera.position - _sprite_comp._sprite_rect.center
+            pygame.draw.rect(
+                _layer_surface,
+                (255, 0, 0), 
+                (_pos, _sprite_comp._sprite_rect.size),
+                1
+            )
 
 # ---------------------------- #
 # utils

@@ -25,10 +25,10 @@ class AspectHandler:
     # ---------------------------- #
     # logic
 
-    def handle(self):
+    def handle(self, camera: "Camera"):
         """ Handle all the aspects """
         for aspect in self._aspects:
-            aspect.handle()
+            aspect.handle(camera)
 
     def add_aspect(self, aspect: "Aspect"):
         """ Add an aspect to the handler """
@@ -132,7 +132,7 @@ class Aspect:
     # ---------------------------- #
     # logic
 
-    def handle(self):
+    def handle(self, camera: "Camera"):
         """ Handle the aspect """
         pass
     

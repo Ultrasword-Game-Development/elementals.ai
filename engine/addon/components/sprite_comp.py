@@ -50,6 +50,10 @@ class SpriteComponent(renderable_comp.RenderableComponent):
         """ Set the sprite string """
         self._sprite_str = sprite_str
         self._sprite_rect = io.load_image(sprite_str).get_rect()
+        self._sprite_rect.size = (
+            self._sprite_rect.width * self._scale_area,
+            self._sprite_rect.height * self._scale_area
+        )
         self._sprite_changed = True
     
     def get_scale_area(self):
@@ -87,8 +91,8 @@ class SpriteComponent(renderable_comp.RenderableComponent):
             self._sprite = pygame.transform.scale(
                 self._sprite, 
                 (
-                    int(self._sprite_rect.width * self._scale_area), 
-                    int(self._sprite_rect.height * self._scale_area)
+                    int(self._sprite_rect.width), 
+                    int(self._sprite_rect.height)
                 )
             )
 

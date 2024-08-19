@@ -161,7 +161,8 @@ while singleton.RUNNING:
     if io.get_key_pressed(pygame.K_s):
         _right_rect._velocity.y += 1 * 100 * singleton.DELTA_TIME
 
-    _w.update_and_render(singleton.FRAMEBUFFER)
+    _w.update_and_render_world(singleton.FRAMEBUFFER)
+    _w.update_and_render_physics()
 
     # ---------------------------- #
     # render screen items

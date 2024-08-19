@@ -23,6 +23,8 @@ from editor_engine import editor_singleton
 
 from engine.addon import spritecacher
 
+from engine.addon.components import spriterenderer_comp
+
 # ---------------------------- #
 # constants
 
@@ -132,13 +134,18 @@ class Editor(ui.Frame):
                     _layer.set_tile_at(self._buffer_tile_pos, editor_singleton.SPRITESELECT_ELEMENT._selected_tile.copy())
                     # editor_singleton.CURRENT_EDITING_WORLD.set_tile_at_position(self._buffer_tile_pos, editor_singleton.SPRITESELECT_ELEMENT._selected_tile.copy())
                     # print(editor_singleton.SPRITESELECT_ELEMENT._selected_tile.copy())
-                print('Note: Left clicked at', self._buffer_tile_pos, " | and chunk pos: ", self._buffer_chunk_pos, " | and chunk tile pos: ", self._buffer_chunk_tile_pos)
+                    print("Tile Placed: ", _layer.get_tile_at(self._buffer_tile_pos))
+                # print('Note: Left clicked at', self._buffer_tile_pos, " | and chunk pos: ", self._buffer_chunk_pos, " | and chunk tile pos: ", self._buffer_chunk_tile_pos)
 
     def render(self, surface: pygame.Surface):
         """ Render the object """
         self._frame.fill(editor_singleton.CURRENT_EDITING_WORLD._background_color)
         # render the world into the frame
-        editor_singleton.CURRENT_EDITING_WORLD.update_and_render(self._frame)
+        editor_singleton.CURRENT_EDITING_WORLD.update_and_render_world(self._frame)
+
+        # TODO - rendering images of gameobjects if they have spriterenderer component
+        if (_aspect := editor_singleton.CURRENT_EDITING_WORLD._aspect_handler.get_aspect(spriterenderer_comp.SpriteRendererAspect)):
+            _aspect.handle(self._camera)
 
         # TODO - scaling the image???
         if singleton.EDITOR_DEBUG:
@@ -209,10 +216,11 @@ class Editor(ui.Frame):
         # TODO -- include other paramters
 
         # load the world
-        editor_singleton.CURRENT_EDITING_WORLD = singleton.load_world(_worlddata)
+        editor_singleton.CURRENT_EDITING_WORLD = world.World.load_world(_worlddata)
         editor_singleton.WORLD_NAME_TITLE_ELEMENT.set_text(editor_singleton.CURRENT_EDITING_WORLD._world_storage_key)
         editor_singleton.CURRENT_EDITING_WORLD._camera = self._camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = self._camera
+
         # load tabdata
         editor_singleton.TABSMANAGER_ELEMENT.load_config(_tabdata)
         
@@ -404,7 +412,6 @@ class Tab(ui.Text):
         # load the spritesheet
         for item in self._tab_data:
             _file = item["file"]
-            _filename = _file.split('.')[0]
             # load the spritesheets
             if _file not in _spritesheet_data:
                 _spritesheet_data[_file] = []
@@ -414,7 +421,7 @@ class Tab(ui.Text):
                     item["y"], 
                     item["w"], 
                     item["h"], 
-                    f"{_filename}-{len(_spritesheet_data[_file])}.elemg")
+                    f"{_file}||{len(_spritesheet_data[_file])}")
                 )
         
         # TODO - should I store _spritesheet_data?
@@ -601,7 +608,7 @@ class SaveButton(ui.Button):
         editor_singleton.CURRENT_EDITING_WORLD._camera = editor_singleton.EDITOR_ELEMENT._world_camera
         editor_singleton.CURRENT_EDITING_WORLD.camera = editor_singleton.EDITOR_ELEMENT._world_camera
         # save the world
-        singleton.save_world(
+        editor_singleton.CURRENT_EDITING_WORLD.save_world(
             editor_singleton.CURRENT_EDITING_WORLD
         )
         # bring old camera back

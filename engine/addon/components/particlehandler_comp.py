@@ -22,9 +22,9 @@ DEFAULT_COMBINATION = "default"
 
 class ParticleHandlerComponent(renderable_comp.RenderableComponent):
     
-    def __init__(self, create_func_str: str = DEFAULT_COMBINATION, update_func_str: str = DEFAULT_COMBINATION, delete_func_str: str = DEFAULT_COMBINATION):
+    def __init__(self, create_func_str: str = DEFAULT_COMBINATION, update_func_str: str = DEFAULT_COMBINATION, delete_func_str: str = DEFAULT_COMBINATION, zlayer: int = None):
         """ Initialize the Particle Handler Component """
-        super().__init__()
+        super().__init__(zlayer=zlayer)
 
         self._particles = {}
         self._particle_count = 0
@@ -59,14 +59,14 @@ def _DEFAULT_CREATE_PARTICLE(self, **kwargs):
 
     self._particles[_particle_id] = [_particle_id, self._parent_gameobject.position.copy(), _velocity, _time]
 
-def _DEFAULT_UPDATE_PARTICLE(self, surface: pygame.Surface):
+def _DEFAULT_UPDATE_PARTICLE(self, surface: pygame.Surface, camera: "Camera"):
     """ Update all particles """
     for _particle in self._particles.values():
         _particle[1] += _particle[2] * singleton.DELTA_TIME
         _particle[3] -= singleton.DELTA_TIME
 
         # render particle
-        pygame.draw.circle(surface, (255, 255, 255), _particle[1] - self._handler._world._camera.position, 2)
+        pygame.draw.circle(surface, (255, 255, 255), _particle[1] - camera.position, 2)
 
         if _particle[3] <= 0:
             self._particle_delete_queue.add(_particle[0])
@@ -91,17 +91,19 @@ class ParticleHandlerAspect(aspect.Aspect):
     # ---------------------------- #
     # logic
 
-    def handle(self):
+    def handle(self, camera: "Camera"):
         """ Handle the Particle Handler Aspect """
         for _c in self.iter_components():
+            _layer_surface = self._handler._world.get_layer_at(_c.zlayer)._layer_buffer
+            
             _c.create_new_particle(_c)
-            _c.update_particles(_c, self._handler._world.get_layer_at(_c._parent_gameobject.zlayer)._layer_buffer)
+            _c.update_particles(_c, _layer_surface, camera)
             _c.delete_particles(_c)
 
 # ---------------------------- #
 # utils
 
-def register_particle_fucntion_combination(name: str, create_func: "function" = None, update_func: "function" = None, delete_func: "function" = None):
+def register_particle_function_combination(name: str, create_func: "function" = None, update_func: "function" = None, delete_func: "function" = None):
     """ Register a particle function combination """
     if create_func is None:
         create_func = _DEFAULT_CREATE_PARTICLE
@@ -112,7 +114,7 @@ def register_particle_fucntion_combination(name: str, create_func: "function" = 
     PARTICLE_FUNCTION_COMBINATION[name] = (create_func, update_func, delete_func)
 
 # register default
-register_particle_fucntion_combination(DEFAULT_COMBINATION)
+register_particle_function_combination(DEFAULT_COMBINATION)
 
 # caching the component class
 component.ComponentHandler.cache_component_class(ParticleHandlerComponent)

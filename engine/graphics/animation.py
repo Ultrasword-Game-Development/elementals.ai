@@ -160,6 +160,17 @@ class AnimationRegistry:
         """ Return the current frame path """
         return self._parent[self._animation_type][self._frame]
     
+    @property
+    def animation_type(self):
+        """ Return the current animation type """
+        return self._animation_type
+    
+    @animation_type.setter
+    def animation_type(self, value: str):
+        """ Set the animation type """
+        self._animation_type = value
+        self.reset()
+    
     # ---------------------------- #
     # utils
     

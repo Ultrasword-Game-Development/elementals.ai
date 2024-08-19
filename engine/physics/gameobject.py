@@ -32,6 +32,14 @@ class GameObject:
         self._death_emitter = None
         self._parent_phandler = parent
 
+        self._queue_components = []
+    
+    def __post_init__(self):
+        """ Post init function """
+        for _comp in self._queue_components:
+            self.add_component(_comp)
+        self._queue_components = []
+
     # ---------------------------- #
     # logic
 
@@ -51,6 +59,9 @@ class GameObject:
 
     def add_component(self, component: "Component"):
         """ Add a component to the gameobject """
+        if not self._parent_phandler:
+            self._queue_components.append(component)
+            return component
         # add component to component handler + aspect handler
         self._parent_phandler._world._component_handler.add_component(component)
         self._parent_phandler._world._aspect_handler.register_component(component)
@@ -61,15 +72,26 @@ class GameObject:
         # return the component
         return component
     
-    def get_component(self, component_name: list):
+    def get_component(self, component_names: list):
         """ Get a component by name """
+        if not isinstance(component_names, list):
+            component_names = [component_names]
+        # find component
+        if not self._parent_phandler:
+            for _comp in self._queue_components:
+                if _comp.__class__.__name__ in component_names:
+                    return _comp
+            return None
+        # has parent
         for _comp in self._components:
-            if _comp.__class__.__name__ in component_name:
+            if _comp.__class__.__name__ in component_names:
                 return _comp
         return None
 
     def remove_component(self, component: "Component"):
         """ Remove a component from the gameobject """
+        if not self._parent_phandler:
+            return self._queue_components.remove(component)
         # remove component from component handler + aspect handler
         self._parent_phandler._world._component_handler._remove_component(component)
         self._parent_phandler._world._aspect_handler._remove_component(component)

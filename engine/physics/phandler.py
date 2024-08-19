@@ -46,6 +46,8 @@ class PhysicsHandler:
         gameobject._parent_phandler = self
         # add death signal
         gameobject._death_emitter = self._death_signal.get_unique_emitter()
+        # post init
+        gameobject.__post_init__()
     
     def get_gameobject(self, gameobject_hash: int):
         """ Get an gameobject by id """
@@ -72,8 +74,11 @@ class PhysicsHandler:
     def __getstate__(self):
         """ Pickle state """
         state = self.__dict__.copy()
-        print(state)
         return state
+    
+    def __setstate__(self, state):
+        """ Unpickle state """
+        self.__dict__.update(state)
     
         
 # ---------------------------- #

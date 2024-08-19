@@ -156,6 +156,10 @@ class SpriteSheet:
         self._config[HORIZONTAL_TILES] = (self.image.get_size()[0] - self._config[SPACINGX]) // (self._config[WIDTH] + self._config[SPACINGX])
         self._config[VERTICAL_TILES] = (self.image.get_size()[1] - self._config[SPACINGY]) // (self._config[HEIGHT] + self._config[SPACINGY])
     
+    def gen_sprite_str_id(self, index: int):
+        """ Generate the sprite uuid """
+        return f"{self._path}||{index}"
+
     def get_sprite_str_id(self, index: int):
         """ Get the sprite uuid """
         return self.sprites[index][0]
