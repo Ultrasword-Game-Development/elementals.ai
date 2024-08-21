@@ -1,6 +1,6 @@
 { "frames": [
    {
-    "filename": "mage-idle-0.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]0.aseprite",
     "frame": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -9,7 +9,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-1.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]1.aseprite",
     "frame": { "x": 16, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -18,7 +18,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-2.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]2.aseprite",
     "frame": { "x": 32, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -27,7 +27,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-3.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]3.aseprite",
     "frame": { "x": 48, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -36,7 +36,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-4.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]4.aseprite",
     "frame": { "x": 64, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -45,7 +45,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-5.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]5.aseprite",
     "frame": { "x": 80, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -54,7 +54,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-6.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]6.aseprite",
     "frame": { "x": 96, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -63,7 +63,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-7.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]7.aseprite",
     "frame": { "x": 112, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -72,7 +72,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-idle-8.aseprite",
+    "filename": "[n]mage-[l]entity-[t]idle-[f]8.aseprite",
     "frame": { "x": 128, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -81,7 +81,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-end_cast-0.aseprite",
+    "filename": "[n]mage-[l]entity-[t]end_cast-[f]0.aseprite",
     "frame": { "x": 0, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -90,7 +90,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-end_cast-1.aseprite",
+    "filename": "[n]mage-[l]entity-[t]end_cast-[f]1.aseprite",
     "frame": { "x": 16, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -99,7 +99,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-end_cast-2.aseprite",
+    "filename": "[n]mage-[l]entity-[t]end_cast-[f]2.aseprite",
     "frame": { "x": 32, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -108,7 +108,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-end_cast-3.aseprite",
+    "filename": "[n]mage-[l]entity-[t]end_cast-[f]3.aseprite",
     "frame": { "x": 48, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -117,7 +117,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-end_cast-4.aseprite",
+    "filename": "[n]mage-[l]entity-[t]end_cast-[f]4.aseprite",
     "frame": { "x": 64, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -126,7 +126,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-end_cast-5.aseprite",
+    "filename": "[n]mage-[l]entity-[t]end_cast-[f]5.aseprite",
     "frame": { "x": 80, "y": 16, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -135,7 +135,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-casting-0.aseprite",
+    "filename": "[n]mage-[l]entity-[t]casting-[f]0.aseprite",
     "frame": { "x": 0, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -144,7 +144,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-casting-1.aseprite",
+    "filename": "[n]mage-[l]entity-[t]casting-[f]1.aseprite",
     "frame": { "x": 16, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -153,7 +153,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-casting-2.aseprite",
+    "filename": "[n]mage-[l]entity-[t]casting-[f]2.aseprite",
     "frame": { "x": 32, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -162,7 +162,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-casting-3.aseprite",
+    "filename": "[n]mage-[l]entity-[t]casting-[f]3.aseprite",
     "frame": { "x": 48, "y": 32, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -171,7 +171,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-pre_attack-0.aseprite",
+    "filename": "[n]mage-[l]entity-[t]pre_attack-[f]0.aseprite",
     "frame": { "x": 0, "y": 48, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -180,7 +180,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-pre_attack-1.aseprite",
+    "filename": "[n]mage-[l]entity-[t]pre_attack-[f]1.aseprite",
     "frame": { "x": 16, "y": 48, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -189,7 +189,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-pre_attack-2.aseprite",
+    "filename": "[n]mage-[l]entity-[t]pre_attack-[f]2.aseprite",
     "frame": { "x": 32, "y": 48, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -198,7 +198,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-pre_attack-3.aseprite",
+    "filename": "[n]mage-[l]entity-[t]pre_attack-[f]3.aseprite",
     "frame": { "x": 48, "y": 48, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -207,7 +207,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-pre_attack-4.aseprite",
+    "filename": "[n]mage-[l]entity-[t]pre_attack-[f]4.aseprite",
     "frame": { "x": 64, "y": 48, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -216,7 +216,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-pre_attack-5.aseprite",
+    "filename": "[n]mage-[l]entity-[t]pre_attack-[f]5.aseprite",
     "frame": { "x": 80, "y": 48, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -225,7 +225,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-0.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]0.aseprite",
     "frame": { "x": 0, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -234,7 +234,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-1.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]1.aseprite",
     "frame": { "x": 16, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -243,7 +243,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-2.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]2.aseprite",
     "frame": { "x": 32, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -252,7 +252,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-3.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]3.aseprite",
     "frame": { "x": 48, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -261,7 +261,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-4.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]4.aseprite",
     "frame": { "x": 64, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -270,7 +270,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-5.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]5.aseprite",
     "frame": { "x": 80, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -279,7 +279,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-6.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]6.aseprite",
     "frame": { "x": 96, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -288,7 +288,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-7.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]7.aseprite",
     "frame": { "x": 112, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -297,7 +297,7 @@
     "duration": 100
    },
    {
-    "filename": "mage-run-8.aseprite",
+    "filename": "[n]mage-[l]entity-[t]run-[f]8.aseprite",
     "frame": { "x": 128, "y": 64, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -321,11 +321,7 @@
    { "name": "run", "from": 25, "to": 33, "direction": "forward" }
   ],
   "layers": [
-   { "name": "run", "opacity": 255, "blendMode": "normal" },
-   { "name": "pre_attack", "opacity": 255, "blendMode": "normal" },
-   { "name": "casting", "opacity": 255, "blendMode": "normal" },
-   { "name": "end_cast", "opacity": 255, "blendMode": "normal" },
-   { "name": "idle", "opacity": 255, "blendMode": "normal" }
+   { "name": "entity", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
   ]

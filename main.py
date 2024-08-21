@@ -151,9 +151,10 @@ _gameobject.add_component(components.particlehandler_comp.ParticleHandlerCompone
 
 world.World.save_world(w)
 
-w.add_gameobject(player.Player(200, 0))
+w.add_gameobject(player.Player(100, -100))
 
 
+# [print(x, ": ", io.IMAGES_CACHE[x]) for x in io.IMAGES_CACHE]
 
 # audio
 pygame.mixer.music.set_volume(0.1)

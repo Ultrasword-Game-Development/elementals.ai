@@ -7,6 +7,7 @@ from engine.handler import component
 from engine.handler import aspect
 
 from engine.addon.components import renderable_comp
+from engine.addon.components import animation_comp
 
 # ---------------------------- #
 # constants
@@ -31,6 +32,9 @@ class SpriteComponent(renderable_comp.RenderableComponent):
 
         self._sprite_changed = True
         self._sprite = None
+        
+        self._is_animation = False
+        self._animation_comp = None
 
     def __post_gameobject__(self, gameobject: "GameObject"):
         """ Post init function """
@@ -38,6 +42,9 @@ class SpriteComponent(renderable_comp.RenderableComponent):
         
         if self._sprite_str:
             self.set_sprite_str(self._sprite_str)
+        if gameobject.get_component(animation_comp.COMPONENT_NAME):
+            self._is_animation = True 
+            self._animation_comp = gameobject.get_component(animation_comp.COMPONENT_NAME)
 
     # ---------------------------- #
     # logic
@@ -71,7 +78,7 @@ class SpriteComponent(renderable_comp.RenderableComponent):
 
     def set_flipx(self, flipx: bool):
         """ Set the flip """
-        self._flip = flipx
+        self._flipx = flipx
         self._sprite_changed = True
     
     def get_flipy(self):
@@ -85,17 +92,21 @@ class SpriteComponent(renderable_comp.RenderableComponent):
     
     def get_sprite(self):
         """ Get the sprite """
-        if self._sprite_changed:
+        if self._is_animation:
+            self._sprite = self._animation_comp.get_sprite()
+        elif self._sprite_changed:
             self._sprite = io.load_image(self._sprite_str)
-            self._sprite = pygame.transform.flip(self._sprite, self._flipx, self._flipy)
-            self._sprite = pygame.transform.scale(
-                self._sprite, 
-                (
-                    int(self._sprite_rect.width), 
-                    int(self._sprite_rect.height)
-                )
+        
+        # transforms
+        self._sprite = pygame.transform.flip(self._sprite, self._flipx, self._flipy)
+        self._sprite = pygame.transform.scale(
+            self._sprite, 
+            (
+                int(self._sprite_rect.width), 
+                int(self._sprite_rect.height)
             )
-
+        )
+        
         return self._sprite
 
     # ---------------------------- #

@@ -70,6 +70,8 @@ class SpriteSheet:
 
         # load sprites
         self._load_sprites()
+        
+        # [print(entry) for entry in self.sprites]
 
     # ---------------------------- #
     # logic

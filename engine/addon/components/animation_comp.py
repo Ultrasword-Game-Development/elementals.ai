@@ -28,8 +28,6 @@ class AnimationComponent(renderable_comp.RenderableComponent):
 
         self._animation_str = json_path
         self._animation_registry = animation.load_animation_from_json(json_path).get_registry()
-
-        print(self._animation_registry._parent._animation_types)
     
     def __post_gameobject__(self, _parent_gameobject: "GameObject"):
         """ Called after being added to a gameobject """
@@ -42,14 +40,22 @@ class AnimationComponent(renderable_comp.RenderableComponent):
     # ---------------------------- #
     # logic
 
-    def set_animation(self, animation_json: str):
+    def set_animation(self, animation_json: str, layer: str = None, all_layers: bool = True):
         """ Set the animation """
         self._animation_str = animation_json
         self._animation_registry = animation.load_animation_from_json(animation_json).get_registry()
+        self.set_animation_layer(layer, all_layers = all_layers)
 
     def set_animation_type(self, animation_name: str):
         """ Set the animation """
         self._animation_registry.animation_type = animation_name
+    
+    def set_animation_layer(self, layer_name: str = None, all_layers: bool = True):
+        """ Set the animation """
+        if not all_layers and layer_name == None:
+            raise ValueError("Layer name cannot be None if all_layers is False")
+        self._animation_registry.animation_layer = layer
+        self._animation_registry.compile_layers = all_layers
     
     def get_animation(self) -> str:
         """ Get the animation """
@@ -59,6 +65,9 @@ class AnimationComponent(renderable_comp.RenderableComponent):
         """ Get the animation """
         return self._animation_registry.animation_type
     
+    def get_animation_layer(self) -> str:
+        """ Get the animation """
+        return self._animation_registry.animation_layer
 
 
 
@@ -78,7 +87,7 @@ class AnimationAspect(aspect.Aspect):
             _gameobject = _c.get_gameobject()
             _sprite = _c._sprite_component
             _registry = _c._animation_registry
-            
+                        
             # update sprite
             _registry.update()
             _sprite.set_sprite_str(_registry.sprite_path)

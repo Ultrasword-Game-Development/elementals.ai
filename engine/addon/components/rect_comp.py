@@ -91,6 +91,11 @@ class WorldRectAspect(aspect.Aspect):
             _rect_comp._area
         )
         _center_chunk = world.get_chunk_from_pixel_position(_gameobject.position)
+        
+        _rect_comp._touching[0] = False
+        _rect_comp._touching[1] = False
+        _rect_comp._touching[2] = False
+        _rect_comp._touching[3] = False
 
         # x-axis movement
         _tentative_rect.x += _rect_comp._velocity.x
@@ -111,9 +116,11 @@ class WorldRectAspect(aspect.Aspect):
                 if _rect_comp._velocity.x > 0:
                     _tentative_rect.right = _collided_tile._rect.left
                     _rect_comp._velocity.x = 0
+                    _rect_comp._touching[physics_comp.TOUCHING_RIGHT] = True
                 elif _rect_comp._velocity.x < 0:
                     _tentative_rect.left = _collided_tile._rect.right
                     _rect_comp._velocity.x = 0
+                    _rect_comp._touching[physics_comp.TOUCHING_LEFT] = True
         
         # y-axis movement
         _tentative_rect.y += _rect_comp._velocity.y
@@ -134,9 +141,11 @@ class WorldRectAspect(aspect.Aspect):
                 if _rect_comp._velocity.y > 0:
                     _tentative_rect.bottom = _collided_tile._rect.top
                     _rect_comp._velocity.y = 0
+                    _rect_comp._touching[physics_comp.TOUCHING_BOTTOM] = True
                 elif _rect_comp._velocity.y < 0:
                     _tentative_rect.top = _collided_tile._rect.bottom
                     _rect_comp._velocity.y = 0
+                    _rect_comp._touching[physics_comp.TOUCHING_TOP] = True
 
         # update final coordinates
         _rect_comp._rect.topleft = _tentative_rect.topleft
@@ -154,6 +163,11 @@ class WorldRectAspect(aspect.Aspect):
             _hitbox._rect.size
         )
         _center_chunk = world.get_chunk_from_pixel_position(_gameobject.position)
+        
+        _hitbox._touching[0] = False
+        _hitbox._touching[1] = False
+        _hitbox._touching[2] = False
+        _hitbox._touching[3] = False
 
         # x-axis movement
         _tentative_rect.x += _rect_comp._velocity.x
@@ -174,9 +188,11 @@ class WorldRectAspect(aspect.Aspect):
                 if _rect_comp._velocity.x > 0:
                     _tentative_rect.right = _collided_tile._rect.left
                     _rect_comp._velocity.x = 0
+                    _hitbox._touching[physics_comp.TOUCHING_RIGHT] = True
                 elif _rect_comp._velocity.x < 0:
                     _tentative_rect.left = _collided_tile._rect.right
                     _rect_comp._velocity.x = 0
+                    _hitbox._touching[physics_comp.TOUCHING_LEFT] = True
         
         # y-axis movement
         _tentative_rect.y += _rect_comp._velocity.y
@@ -197,9 +213,11 @@ class WorldRectAspect(aspect.Aspect):
                 if _rect_comp._velocity.y > 0:
                     _tentative_rect.bottom = _collided_tile._rect.top
                     _rect_comp._velocity.y = 0
+                    _hitbox._touching[physics_comp.TOUCHING_BOTTOM] = True
                 elif _rect_comp._velocity.y < 0:
                     _tentative_rect.top = _collided_tile._rect.bottom
                     _rect_comp._velocity.y = 0
+                    _hitbox._touching[physics_comp.TOUCHING_TOP] = True
 
         # update final coordinates
         _gameobject.position.xy  = (

@@ -11,19 +11,27 @@ from engine.physics import gameobject
 
 from engine.addon import components
 
+from game.entities import entity
+
 
 # ---------------------------- #
 # constants
 
-
+IDLE_ANIM = "Idle"
+WALK_ANIM = "Walk"
+ATTACK1_ANIM = "Attack1"
+ATTACK2_ANIM = "Attack2"
+ATTACK3_ANIM = "Attack3"
+HURT_ANIM = "Hurt"
+DEATH_ANIM = "Death"
 
 # ---------------------------- #
 # player
 
-class Player(gameobject.GameObject):
+class Player(entity.Entity):
     
     def __init__(self, x: int, y: int):
-        super().__init__(position=(x, y))
+        super().__init__(x=x, y=y)
         
         # add components
         self._sprite_comp = self.add_component(components.sprite_comp.SpriteComponent())
@@ -37,11 +45,17 @@ class Player(gameobject.GameObject):
         self.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="playertest" ,update_func_str="playertest", zlayer=-2))
         
         # set up hitbox
-        self._hitbox_comp.set_offset((-10, -5))
+        self._hitbox_comp.set_offset((-4, -7))
         self._hitbox_comp.set_area((10, 18))
                 
         # set up animation
         self._animation_comp.set_animation_type("Idle")
+        
+    def __post_init__(self):
+        """ Post init function """
+        super().__post_init__()
+        
+        self._camera = self._parent_phandler._world._camera
     
     # ---------------------------- #
     # logic
@@ -50,29 +64,39 @@ class Player(gameobject.GameObject):
         """ Update the player """
         super().update()
         
+        print(self._camera)
+        self._camera._rect.center = self.position
+        
         # update movement
         if io.get_key_pressed(pygame.K_a):
             self._rect_comp._velocity.x += -1 * 40 * singleton.DELTA_TIME
         if io.get_key_pressed(pygame.K_d):
             self._rect_comp._velocity.x += 1 * 40 * singleton.DELTA_TIME
-        if io.get_key_pressed(pygame.K_w):
-            self._rect_comp._velocity.y += -1 * 40 * singleton.DELTA_TIME
+        # if io.get_key_pressed(pygame.K_w):
+        #     self._rect_comp._velocity.y += -1 * 40 * singleton.DELTA_TIME
+        if self._hitbox_comp._touching[components.physics_comp.TOUCHING_BOTTOM]:
+            if io.get_key_pressed(pygame.K_SPACE):
+                self._rect_comp._velocity.y = -10
         if io.get_key_pressed(pygame.K_s):
             self._rect_comp._velocity.y += 1 * 40 * singleton.DELTA_TIME
+                
+        # set flipx
+        self._sprite_comp.set_flipx(self._rect_comp._velocity.x < 0)
         
         # set animation 
         _velocity_mag = self._rect_comp._velocity.length()
-        if _velocity_mag < 1:
+        if _velocity_mag < 0.1:
             # is idle
             self._animation_comp.set_animation_type("Idle")
-        
-    
-        
+        else:
+            # is walking
+            self._animation_comp.set_animation_type("Walk")
+            
         
 # testing
 def _DEFAULT_CREATE_PARTICLE(self, **kwargs):
     """ Create a particle """
-    for i in range(10):
+    for i in range(3):
         _particle_id = self.generate_id()
         _velocity = pygame.math.Vector2(random.random() * 40, 0).rotate(random.randint(0, 360))
         _time = random.random() * 4

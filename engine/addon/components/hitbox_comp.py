@@ -21,7 +21,7 @@ COMPONENT_NAME = "HitBoxComponent"
 # ---------------------------- #
 # component
 
-class HitBoxComponent(component.Component):
+class HitBoxComponent(physics_comp.PhysicsComponent):
     def __init__(self, offset: tuple = (0, 0), area: tuple = (0, 0)):
         """ Create a new Hit Box Component """
         super().__init__()

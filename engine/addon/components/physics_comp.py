@@ -11,6 +11,11 @@ COMPONENT_NAME = "PhysicsComponent"
 
 PHYSICS_OBJECTS_CLASSES = []
 
+TOUCHING_LEFT = 0
+TOUCHING_RIGHT = 1
+TOUCHING_TOP = 2
+TOUCHING_BOTTOM = 3
+
 # ---------------------------- #
 # component
 
