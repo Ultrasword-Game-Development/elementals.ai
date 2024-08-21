@@ -77,7 +77,10 @@ Have fun!
 # ---------------------------- #
 # testing
 
-from game.entities import player
+from game import singleton as game_singleton
+
+from game.entities import soldier
+from game.tiles import ladder
 
 world_save = "world"
 
@@ -110,6 +113,17 @@ _c = w.get_layer_at(0).get_chunk_at_or_default((-1, 0))
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
 
+# set ladders
+_c.set_tile_at((7, 2), ladder.LadderTile((7, 2)))
+_c.set_tile_at((7, 1), ladder.LadderTile((7, 1)))
+_c.set_tile_at((7, 0), ladder.LadderTile((7, 0)))
+
+_c = w.get_layer_at(0).get_chunk_at_or_default((-1, -1))
+_c.set_tile_at((7, 4), ladder.LadderTile((7, 0)))
+_c.set_tile_at((7, 5), ladder.LadderTile((7, 0)))
+_c.set_tile_at((7, 6), ladder.LadderTile((7, 0)))
+_c.set_tile_at((7, 7), ladder.LadderTile((7, 0)))
+
 _c = w.get_layer_at(0).get_chunk_at_or_default((-2, 0))
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
@@ -131,15 +145,16 @@ w.add_aspect(components.spriterenderer_comp.SpriteRendererAspect())
 w.add_aspect(components.animation_comp.AnimationAspect())
 w.add_aspect(components.rect_comp.WorldRectAspect())
 w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
+w.add_aspect(components.cameracontrol_comp.CameraControlAspect())
 
 # debug
 w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())
 w.add_aspect(components.rect_comp.WorldRectDebugAspect())
 w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
 
-w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(pygame.math.Vector2(0, 18)))
-w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(0.05))
-
+w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(game_singleton.GAME_GRAVITY))
+w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(game_singleton.AIR_RESISTANCE_COEF))
+w._physics_handler.add_component(physicscomponents.friction_comp.FrictionComponent())
 
 _gameobject = w.add_gameobject(gameobject.GameObject(
     position=(0, -100),
@@ -151,13 +166,13 @@ _gameobject.add_component(components.particlehandler_comp.ParticleHandlerCompone
 
 world.World.save_world(w)
 
-w.add_gameobject(player.Player(100, -100))
+game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(100, -100))
 
 
 # [print(x, ": ", io.IMAGES_CACHE[x]) for x in io.IMAGES_CACHE]
 
 # audio
-pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.set_volume(0)
 pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
 pygame.mixer.music.play(-1)
 

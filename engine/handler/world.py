@@ -62,7 +62,7 @@ class DefaultTile:
     _collision_mask: int
     _data: dict
     
-    def __init__(self, position: tuple, sprite: str, solid: bool = True) -> None:
+    def __init__(self, position: tuple, sprite: str) -> None:
         """ Initialize the default tile """
         if not "__parent_class__" in self.__dict__:
             self.__parent_class__ = DefaultTile

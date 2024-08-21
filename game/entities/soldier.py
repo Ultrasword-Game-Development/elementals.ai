@@ -12,6 +12,7 @@ from engine.physics import gameobject
 from engine.addon import components
 
 from game.entities import entity
+from game import singleton as game_singleton
 
 
 # ---------------------------- #
@@ -28,7 +29,7 @@ DEATH_ANIM = "Death"
 # ---------------------------- #
 # player
 
-class Player(entity.Entity):
+class Soldier(entity.Entity):
     
     def __init__(self, x: int, y: int):
         super().__init__(x=x, y=y)
@@ -38,6 +39,7 @@ class Player(entity.Entity):
         self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/soldier.json"))
         self._hitbox_comp = self.add_component(components.hitbox_comp.HitBoxComponent())
         self._rect_comp = self.add_component(components.rect_comp.WorldRectComponent())
+        self._camera_comp = self.add_component(components.cameracontrol_comp.CameraControlComponent())
         
         self.add_component(components.spriterenderer_comp.SpriteRendererComponent())
 
@@ -54,9 +56,7 @@ class Player(entity.Entity):
     def __post_init__(self):
         """ Post init function """
         super().__post_init__()
-        
-        self._camera = self._parent_phandler._world._camera
-    
+            
     # ---------------------------- #
     # logic
 
@@ -64,33 +64,47 @@ class Player(entity.Entity):
         """ Update the player """
         super().update()
         
-        print(self._camera)
-        self._camera._rect.center = self.position
-        
+        # print("\t", self._rect_comp._rect)
+                        
         # update movement
         if io.get_key_pressed(pygame.K_a):
-            self._rect_comp._velocity.x += -1 * 40 * singleton.DELTA_TIME
+            self._rect_comp._velocity.x += -1 * self._agility * singleton.DELTA_TIME
         if io.get_key_pressed(pygame.K_d):
-            self._rect_comp._velocity.x += 1 * 40 * singleton.DELTA_TIME
+            self._rect_comp._velocity.x += 1 * self._agility * singleton.DELTA_TIME
         # if io.get_key_pressed(pygame.K_w):
         #     self._rect_comp._velocity.y += -1 * 40 * singleton.DELTA_TIME
-        if self._hitbox_comp._touching[components.physics_comp.TOUCHING_BOTTOM]:
+        if self._rect_comp._touching[components.physics_comp.TOUCHING_BOTTOM]:
             if io.get_key_pressed(pygame.K_SPACE):
-                self._rect_comp._velocity.y = -10
-        if io.get_key_pressed(pygame.K_s):
-            self._rect_comp._velocity.y += 1 * 40 * singleton.DELTA_TIME
-                
+                self._rect_comp._velocity.y = -5
+        
+        # touching ladders
+        if self._can_climb:
+            if not self._rect_comp._touching[components.physics_comp.TOUCHING_BOTTOM]:
+                # cancel gravity
+                self._rect_comp._velocity -= game_singleton.GAME_GRAVITY * singleton.DELTA_TIME    
+            
+            # climbing up + down
+            if io.get_key_pressed(pygame.K_w):
+                self._rect_comp._velocity.y += -1 * self._climbing_factor * self._agility * singleton.DELTA_TIME
+            if io.get_key_pressed(pygame.K_s):
+                self._rect_comp._velocity.y += 1 * self._climbing_factor * self._agility * singleton.DELTA_TIME
+            print(self._rect_comp._velocity)
+            
         # set flipx
         self._sprite_comp.set_flipx(self._rect_comp._velocity.x < 0)
         
         # set animation 
         _velocity_mag = self._rect_comp._velocity.length()
-        if _velocity_mag < 0.1:
+        if _velocity_mag < 0.3:
             # is idle
             self._animation_comp.set_animation_type("Idle")
         else:
             # is walking
             self._animation_comp.set_animation_type("Walk")
+        
+        
+        # reset stats
+        self._can_climb = False
             
         
 # testing
