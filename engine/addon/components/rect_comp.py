@@ -47,11 +47,13 @@ class WorldRectComponent(physics_comp.PhysicsComponent):
             self._rect.size = self._area
         if self._has_mask:
             self._mask_comp = gameobject.get_component([mask_comp.COMPONENT_NAME])
+            self._area = self._mask_comp._rect.size
+            self._rect.size = self._area
         
         self._hitbox = gameobject.get_component([hitbox_comp.COMPONENT_NAME])
         self._has_hitbox = self._hitbox != None
 
-        # center the rect
+        # set initial pos
         self._rect.center = gameobject.position
     
     # ---------------------------- #
@@ -84,7 +86,10 @@ class WorldRectAspect(aspect.Aspect):
         _layer = _world.get_layer_at(_gameobject.zlayer)
 
         # cache
-        _tentative_rect = pygame.FRect(_rect_comp._rect.topleft, _rect_comp._area)
+        _tentative_rect = pygame.FRect(
+            _rect_comp._rect.topleft,
+            _rect_comp._area
+        )
         _center_chunk = world.get_chunk_from_pixel_position(_gameobject.position)
 
         # x-axis movement
@@ -120,6 +125,7 @@ class WorldRectAspect(aspect.Aspect):
             # check if gameobject even contact with chunk
             if not phandler.collide_rect_to_rect(_tentative_rect, _chunk._chunk_rect):
                 continue
+
             # check if gameobject collides with any tiles in chunk
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
                 if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
@@ -134,7 +140,7 @@ class WorldRectAspect(aspect.Aspect):
 
         # update final coordinates
         _rect_comp._rect.topleft = _tentative_rect.topleft
-        _gameobject.position.xy = _rect_comp._rect.center
+        _gameobject.position.xy = _tentative_rect.center
 
     def handle_hitbox(self, _world, _rect_comp):
         """ Handle the mask to rect collision """
@@ -200,7 +206,7 @@ class WorldRectAspect(aspect.Aspect):
             _tentative_rect.x - _hitbox._rect.x,
             _tentative_rect.y - _hitbox._rect.y
         )
-        _rect_comp._rect.topleft = _gameobject.position - pygame.math.Vector2(_rect_comp._rect.size) // 2
+        _rect_comp._rect.center = _gameobject.position
 
 
     def handle(self, camera: "Camera"):
@@ -237,7 +243,7 @@ class WorldRectDebugAspect(aspect.Aspect):
             _pos = _rect_comp._rect.topleft - camera.position
             pygame.draw.rect(
                 _layer_surface,
-                (0, 255, 0), 
+                (255, 255, 0), 
                 (_pos, _rect_comp._rect.size),
                 1
             )

@@ -27,7 +27,7 @@ class Player(gameobject.GameObject):
         
         # add components
         self._sprite_comp = self.add_component(components.sprite_comp.SpriteComponent())
-        self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/player.json"))
+        self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/soldier.json"))
         self._hitbox_comp = self.add_component(components.hitbox_comp.HitBoxComponent())
         self._rect_comp = self.add_component(components.rect_comp.WorldRectComponent())
         
@@ -37,11 +37,11 @@ class Player(gameobject.GameObject):
         self.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="playertest" ,update_func_str="playertest", zlayer=-2))
         
         # set up hitbox
-        self._hitbox_comp.set_offset((3, 3))
-        self._hitbox_comp.set_area((10, 13))
+        self._hitbox_comp.set_offset((-10, -5))
+        self._hitbox_comp.set_area((10, 18))
                 
         # set up animation
-        self._animation_comp.set_animation_type("idle")
+        self._animation_comp.set_animation_type("Idle")
     
     # ---------------------------- #
     # logic
@@ -59,14 +59,20 @@ class Player(gameobject.GameObject):
             self._rect_comp._velocity.y += -1 * 40 * singleton.DELTA_TIME
         if io.get_key_pressed(pygame.K_s):
             self._rect_comp._velocity.y += 1 * 40 * singleton.DELTA_TIME
-
+        
+        # set animation 
+        _velocity_mag = self._rect_comp._velocity.length()
+        if _velocity_mag < 1:
+            # is idle
+            self._animation_comp.set_animation_type("Idle")
+        
     
         
         
 # testing
 def _DEFAULT_CREATE_PARTICLE(self, **kwargs):
     """ Create a particle """
-    for i in range(100):
+    for i in range(10):
         _particle_id = self.generate_id()
         _velocity = pygame.math.Vector2(random.random() * 40, 0).rotate(random.randint(0, 360))
         _time = random.random() * 4
@@ -101,7 +107,8 @@ def _DEFAULT_UPDATE_PARTICLE(self, surface: pygame.Surface, camera: "Camera"):
         _color = (
             math.sin(_pos.x / 100) * 127 + 127, 
             math.cos(_pos.y / 80) * 127 + 127, 
-            math.sin(singleton.ACTIVE_TIME) * 127 + 127
+            math.sin(singleton.ACTIVE_TIME) * 127 + 127,
+            100
         )
         # pygame.draw.circle(surface, (
             # _color,

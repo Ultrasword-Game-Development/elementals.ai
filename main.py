@@ -47,7 +47,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 singleton.WIN_BACKGROUND = utils.hex_to_rgb('000000')
-singleton.set_framebuffer_size_factor(2)
+singleton.set_framebuffer_size_factor(3)
 singleton.DEBUG = True
 singleton.set_render_distance(4)
 
@@ -106,6 +106,14 @@ for i in range(singleton.DEFAULT_CHUNK_WIDTH):
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
 
+_c = w.get_layer_at(0).get_chunk_at_or_default((-1, 0))
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
+
+_c = w.get_layer_at(0).get_chunk_at_or_default((-2, 0))
+for i in range(singleton.DEFAULT_CHUNK_WIDTH):
+    _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
+
 # add an animated sprite at location - (0, 0)
 _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
 _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
@@ -129,12 +137,12 @@ w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())
 w.add_aspect(components.rect_comp.WorldRectDebugAspect())
 w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
 
-w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(pygame.math.Vector2(0, 12)))
+w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(pygame.math.Vector2(0, 18)))
 w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(0.05))
 
 
 _gameobject = w.add_gameobject(gameobject.GameObject(
-    position=(100, -100),
+    position=(0, -100),
 ))
 _gameobject.add_component(components.sprite_comp.SpriteComponent(_spritesheet.get_sprite_str_id(0), scale_area=2))
 _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent())
@@ -143,7 +151,7 @@ _gameobject.add_component(components.particlehandler_comp.ParticleHandlerCompone
 
 world.World.save_world(w)
 
-w.add_gameobject(player.Player(0, 0))
+w.add_gameobject(player.Player(200, 0))
 
 
 

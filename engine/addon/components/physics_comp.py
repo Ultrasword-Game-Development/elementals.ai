@@ -26,6 +26,7 @@ class PhysicsComponent(component.Component):
         self._mass = 0
         self._velocity = pygame.math.Vector2(0, 0)
         self._force = pygame.math.Vector2(0, 0)
+        self._touching = [False, False, False, False]
 
         # default mask value
         self.set_mask_value(0, True)

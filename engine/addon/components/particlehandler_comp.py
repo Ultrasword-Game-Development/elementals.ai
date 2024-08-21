@@ -57,7 +57,7 @@ def _DEFAULT_CREATE_PARTICLE(self, **kwargs):
     _velocity = pygame.math.Vector2(random.random() * 40, 0).rotate(random.randint(0, 360))
     _time = random.random() * 4
 
-    self._particles[_particle_id] = [_particle_id, self._parent_gameobject.position.copy(), _velocity, _time]
+    self._particles[_particle_id] = [_particle_id, pygame.math.Vector2(self._parent_gameobject.position), _velocity, _time]
 
 def _DEFAULT_UPDATE_PARTICLE(self, surface: pygame.Surface, camera: "Camera"):
     """ Update all particles """

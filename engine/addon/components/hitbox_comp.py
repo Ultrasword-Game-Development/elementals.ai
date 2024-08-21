@@ -31,8 +31,6 @@ class HitBoxComponent(component.Component):
     def __post_gameobject__(self, gameobject: "GameObject"):
         """ Post init function """
         super().__post_gameobject__(gameobject)
-
-        self._rect.center = gameobject.position
     
     # ---------------------------- #
     # logic
@@ -51,7 +49,7 @@ class HitBoxComponent(component.Component):
     
     def set_offset(self, offset: tuple):
         """ Set the offset """
-        self._rect.topleft = (offset)
+        self._rect.topleft = offset
     
     def set_area(self, area: tuple):
         """ Set the area """
@@ -84,7 +82,7 @@ class HitBoxDebugAspect(aspect.Aspect):
 
             pygame.draw.rect(
                 _layer_surface,
-                (255, 0, 0), 
+                (255, 0, 255), 
                 pygame.Rect(_position, _c.get_area()), 
                 1
             )
