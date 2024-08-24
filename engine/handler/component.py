@@ -104,6 +104,18 @@ class Component:
     def get_component_id(self):
         """ Get the component id """
         return self._component_id
+    
+    # ---------------------------- #
+    # dill
+
+    def __getstate__(self):
+        """ Get the state of the component """
+        state = self.__dict__.copy()
+        return state
+    
+    def __setstate__(self, state: dict):
+        """ Set the state of the component """
+        self.__dict__.update(state)
 
 # ---------------------------- #
 # util functions

@@ -166,10 +166,12 @@ def system_update_function():
             pygame.quit()
             sys.exit()
         elif e.type == pygame.KEYDOWN:
+            io.KEY_PRESSED.add(e.key)
             io.KEY_CLICKED.add(e.key)
             io.KEY_HELD.add(e.key)
             GLOBAL_KEYBOARD_PRESS_SIGNAL_EMITTER.emit({"event": e})
         elif e.type == pygame.KEYUP:
+            io.KEY_PRESSED.remove(e.key)
             io.KEY_HELD.remove(e.key)
         # TODO - handle mouse scrolling
         elif e.type == pygame.MOUSEBUTTONDOWN:

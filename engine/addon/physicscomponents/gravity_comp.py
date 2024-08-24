@@ -45,9 +45,10 @@ class GravityComponent(physicscomponent.PhysicsComponent):
     def update(self):
         """ Updates the handler using the component """ 
         # rotate gravity by 1 degree
+        # self._gravity.rotate_ip(1)
         
         for _rect_comp in self._rect_aspect.iter_components():
-            _rect_comp._velocity += self._gravity * singleton.DELTA_TIME
+            _rect_comp._acceleration += self._gravity
 
 # ---------------------------- #
 # utils

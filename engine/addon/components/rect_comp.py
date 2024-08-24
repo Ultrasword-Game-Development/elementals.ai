@@ -43,7 +43,7 @@ class WorldRectComponent(physics_comp.PhysicsComponent):
 
         if self._has_sprite:
             self._sprite_comp = gameobject.get_component([sprite_comp.COMPONENT_NAME, mask_comp.COMPONENT_NAME])
-            self._area = self._sprite_comp.get_sprite().get_size()
+            self._area = self._sprite_comp.get_size()
             self._rect.size = self._area
         if self._has_mask:
             self._mask_comp = gameobject.get_component([mask_comp.COMPONENT_NAME])
@@ -97,6 +97,9 @@ class WorldRectAspect(aspect.Aspect):
         _gameobject = _rect_comp.get_gameobject()
         _layer = _world.get_layer_at(_gameobject.zlayer)
 
+        # add acceleration
+        _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME
+
         # cache
         _tentative_rect = pygame.FRect(
             _rect_comp._rect.topleft,
@@ -110,7 +113,7 @@ class WorldRectAspect(aspect.Aspect):
         _rect_comp._touching[3] = False
 
         # x-axis movement
-        _tentative_rect.x += _rect_comp._velocity.x
+        _tentative_rect.x += _rect_comp._velocity.x * singleton.DELTA_TIME
         for dx, dy in singleton.ITER_CHUNK_3x3:
             cx, cy = _center_chunk[0] + dx, _center_chunk[1] + dy
             # get chunk
@@ -135,7 +138,7 @@ class WorldRectAspect(aspect.Aspect):
                     _rect_comp._touching[physics_comp.TOUCHING_LEFT] = True
         
         # y-axis movement
-        _tentative_rect.y += _rect_comp._velocity.y
+        _tentative_rect.y += _rect_comp._velocity.y * singleton.DELTA_TIME
         for dx, dy in singleton.ITER_CHUNK_3x3:
             cx, cy = _center_chunk[0] + dx, _center_chunk[1] + dy
             # get chunk
@@ -159,6 +162,9 @@ class WorldRectAspect(aspect.Aspect):
                     _rect_comp._velocity.y = 0
                     _rect_comp._touching[physics_comp.TOUCHING_TOP] = True
 
+        # add acceleration again
+        _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME
+
         # update final coordinates
         _rect_comp._rect.topleft = _tentative_rect.topleft
         _gameobject.position.xy = _tentative_rect.center
@@ -168,6 +174,9 @@ class WorldRectAspect(aspect.Aspect):
         _gameobject = _rect_comp.get_gameobject()
         _layer = _world.get_layer_at(_gameobject.zlayer)
         _hitbox = _rect_comp._hitbox
+
+        # add acceleration
+        _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME
 
         # cache
         _tentative_rect = pygame.FRect(
@@ -182,7 +191,7 @@ class WorldRectAspect(aspect.Aspect):
         _rect_comp._touching[3] = False
 
         # x-axis movement
-        _tentative_rect.x += _rect_comp._velocity.x
+        _tentative_rect.x += _rect_comp._velocity.x * singleton.DELTA_TIME
         for dx, dy in singleton.ITER_CHUNK_3x3:
             cx, cy = _center_chunk[0] + dx, _center_chunk[1] + dy
             # get chunk
@@ -207,7 +216,7 @@ class WorldRectAspect(aspect.Aspect):
                     _rect_comp._touching[physics_comp.TOUCHING_LEFT] = True
         
         # y-axis movement
-        _tentative_rect.y += _rect_comp._velocity.y
+        _tentative_rect.y += _rect_comp._velocity.y * singleton.DELTA_TIME
         for dx, dy in singleton.ITER_CHUNK_3x3:
             cx, cy = _center_chunk[0] + dx, _center_chunk[1] + dy
             # get chunk
@@ -231,6 +240,10 @@ class WorldRectAspect(aspect.Aspect):
                     _rect_comp._velocity.y = 0
                     _rect_comp._touching[physics_comp.TOUCHING_TOP] = True
 
+
+        # add acceleration again
+        _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME
+
         # update final coordinates
         _gameobject.position.xy  = (
             _tentative_rect.x - _hitbox._rect.x,
@@ -248,6 +261,9 @@ class WorldRectAspect(aspect.Aspect):
                 self.handle_hitbox(_world, _rect_comp)
             else:
                 self.handle_rect(_world, _rect_comp)
+            
+            # reset acceleration
+            _rect_comp._acceleration.xy = (0, 0)
 
 
 class WorldRectDebugAspect(aspect.Aspect):

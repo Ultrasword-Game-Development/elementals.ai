@@ -142,6 +142,7 @@ class Editor(ui.Frame):
         self._frame.fill(editor_singleton.CURRENT_EDITING_WORLD._background_color)
         # render the world into the frame
         editor_singleton.CURRENT_EDITING_WORLD.update_and_render_world(self._frame)
+        editor_singleton.CURRENT_EDITING_WORLD.update_and_render_physics()
 
         # TODO - rendering images of gameobjects if they have spriterenderer component
         if (_aspect := editor_singleton.CURRENT_EDITING_WORLD._aspect_handler.get_aspect(spriterenderer_comp.SpriteRendererAspect)):

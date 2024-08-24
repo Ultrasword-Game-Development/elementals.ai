@@ -29,11 +29,11 @@ class PhysicsHandler:
 
     def update(self):
         """ Update the physics handler """
-        for gameobject in self._gameobjects.values():
-            gameobject.update()
         # update physics world components
         for component in self._components:
             component.update() if component._active else None
+        for gameobject in self._gameobjects.values():
+            gameobject.update()
     
     def add_component(self, component: "PhysicsComponent"):
         """ Add an component to the physics handler """
@@ -67,6 +67,13 @@ class PhysicsHandler:
         self._gameobjects[data['id']].handle_death_signal(data)
         # remove the gameobject
         del self._gameobjects[data['id']]
+    
+    def load_components(self):
+        """ Load the components """
+        for _gameobject in self._gameobjects.values():
+            _gameobject.__post_init__()
+        for _comp in self._components:
+            _comp.__post_init__(self)
     
     # ---------------------------- #
     # serialize

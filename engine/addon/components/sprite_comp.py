@@ -108,6 +108,10 @@ class SpriteComponent(renderable_comp.RenderableComponent):
         )
         
         return self._sprite
+    
+    def get_size(self):
+        """ Get the size """
+        return self._sprite_rect.size
 
     # ---------------------------- #
     # serialize

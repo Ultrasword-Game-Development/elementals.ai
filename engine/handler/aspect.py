@@ -120,6 +120,7 @@ class Aspect:
     - Serialize all components when saving the game
 
     They are 'component handlers'
+
     """
 
     def __init__(self, priority: int = 0, target_component_classes: list = []):

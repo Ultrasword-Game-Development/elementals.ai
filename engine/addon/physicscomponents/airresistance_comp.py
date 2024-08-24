@@ -1,3 +1,4 @@
+import math
 import pygame
 
 from engine import utils
@@ -6,6 +7,7 @@ from engine import singleton
 from engine.physics import physicscomponent
 
 from engine.addon.components import rect_comp
+from engine.addon.components import physics_comp
 
 # ---------------------------- #
 # constants
@@ -42,15 +44,18 @@ class AirResistanceComponent(physicscomponent.PhysicsComponent):
     
     # ---------------------------- #
     # logic
-
-    def get_resistance_coefficient(self, speed: float):
-        """ Get the resistance coefficient """
-        return (1 - utils.clamp(speed, 0, 100) / 100) * self._resistance_factor
     
     def update(self):
         """ Updates the handler using the component """
         for _rect_comp in self._rect_aspect.iter_components():
-            _rect_comp._velocity += _rect_comp._velocity * - self.get_resistance_coefficient(_rect_comp._velocity.length())
+
+            # make sure not touching ground
+            if _rect_comp._touching[physics_comp.TOUCHING_BOTTOM]:
+                continue
+            
+            blend = 0.3
+            _rect_comp._acceleration += _rect_comp._velocity.rotate(180) * blend
+
 
 # ---------------------------- #
 # utils

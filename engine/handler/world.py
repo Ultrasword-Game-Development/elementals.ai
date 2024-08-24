@@ -610,7 +610,6 @@ class World:
         for layer in self._layers:
             self._layers[layer].render(surface)
             
-        
     def update_and_render_physics(self):
         """ Update and render the physics """
         self._physics_handler.update()
@@ -759,6 +758,9 @@ class World:
         singleton.GAMEOBJECT_ID_COUNT = result._data["GAMEOBJECT_ID_COUNT"]
         singleton.COMPONENT_ID_COUNT = result._data["COMPONENT_ID_COUNT"]
         singleton.PHYSICS_COMP_ID_COUNT = result._data["PHYSICS_COMP_ID_COUNT"]
+        # load up all components again
+        result._physics_handler.load_components()
+
         return result
     
     @classmethod

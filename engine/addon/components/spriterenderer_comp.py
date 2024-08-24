@@ -43,7 +43,7 @@ class SpriteRendererAspect(aspect.Aspect):
 
     def __init__(self):
         """ Initialize the Sprite Renderer Aspect """
-        super().__init__(target_component_classes=[SpriteRendererComponent])
+        super().__init__(priority=-100, target_component_classes=[SpriteRendererComponent])
 
     # ---------------------------- #
     # logic
@@ -62,7 +62,10 @@ class SpriteRendererAspect(aspect.Aspect):
             
             _sprite = _sprite_comp.get_sprite()
             # render sprite into world
-            _position = _gameobject.position - camera.position - _sprite_comp._sprite_rect.center
+            _position = (
+                round(_gameobject.position.x - camera.position.x - _sprite_comp._sprite_rect.centerx),
+                round(_gameobject.position.y - camera.position.y - _sprite_comp._sprite_rect.centery)
+            )
             _layer_surface.blit(_sprite, _position)
 
 

@@ -20,6 +20,9 @@ def normalize_rgb(color: tuple):
 def clamp(val, min_val, max_val):
     return max(min(val, max_val), min_val)
 
+def lerp(a, b, t):
+    return a + (b - a) * t
+
 
 # ---------------------------- #
 # surface

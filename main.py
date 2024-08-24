@@ -50,6 +50,7 @@ singleton.WIN_BACKGROUND = utils.hex_to_rgb('000000')
 singleton.set_framebuffer_size_factor(3)
 singleton.DEBUG = True
 singleton.set_render_distance(4)
+singleton.set_fps(60)
 
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
 gl.GLContext.add_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
@@ -79,6 +80,7 @@ Have fun!
 
 from game import singleton as game_singleton
 
+from game import components as game_components
 from game.entities import soldier
 from game.tiles import ladder
 
@@ -151,22 +153,24 @@ w.add_aspect(components.cameracontrol_comp.CameraControlAspect())
 w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())
 w.add_aspect(components.rect_comp.WorldRectDebugAspect())
 w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
+w.add_aspect(game_components.player_comp.PlayerAspect())
 
 w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(game_singleton.GAME_GRAVITY))
 w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(game_singleton.AIR_RESISTANCE_COEF))
 w._physics_handler.add_component(physicscomponents.friction_comp.FrictionComponent())
 
-_gameobject = w.add_gameobject(gameobject.GameObject(
-    position=(0, -100),
-))
-_gameobject.add_component(components.sprite_comp.SpriteComponent(_spritesheet.get_sprite_str_id(0), scale_area=2))
-_gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent())
-_left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
-_gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default", zlayer=-1))
+# _gameobject = w.add_gameobject(gameobject.GameObject(
+#     position=(0, -100),
+# ))
+# _gameobject.add_component(components.sprite_comp.SpriteComponent(_spritesheet.get_sprite_str_id(0), scale_area=2))
+# _gameobject.add_component(components.spriterenderer_comp.SpriteRendererComponent())
+# _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
+# _gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default", zlayer=-1))
+
+game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(100, -100))
 
 world.World.save_world(w)
 
-game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(100, -100))
 
 
 # [print(x, ": ", io.IMAGES_CACHE[x]) for x in io.IMAGES_CACHE]
@@ -175,6 +179,7 @@ game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(100, -100))
 pygame.mixer.music.set_volume(0)
 pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
 pygame.mixer.music.play(-1)
+
 
 
 # ---------------------------- #
@@ -189,13 +194,14 @@ while singleton.RUNNING:
 
     # ---------------------------- #
     # update loop    
+
     
     singleton.FRAMEBUFFER.fill(singleton.WIN_BACKGROUND)
     singleton.SCREENBUFFER.fill((0, 0, 0, 0))
 
-    w.update_and_render_world(singleton.FRAMEBUFFER)
     w.update_and_render_physics()
-    
+    w.update_and_render_world(singleton.FRAMEBUFFER)
+
     # ---------------------------- #
     # final rendering
     gl.GLContext.render_to_opengl_window(singleton.FRAMEBUFFER, singleton.DEFAULT_SHADER, singleton.FRAMEBUFFER_SHADER_QUAD, {
@@ -215,7 +221,7 @@ while singleton.RUNNING:
 
     # update signals
     signal.update_signals()
-    clock.tick(singleton.FPS)
+    time.sleep(utils.clamp(singleton.DESIRE_DELTA - singleton.DELTA_TIME, 0, singleton.DESIRE_DELTA))
 
     # update statistics
     singleton.FRAME_COUNTER += 1

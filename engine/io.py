@@ -12,6 +12,7 @@ IMAGES_CACHE = {}
 AUDIO_CACHE = {}
 FONT_CACHE = {}
 
+KEY_PRESSED = set()
 KEY_HELD = set()
 KEY_CLICKED = set()
 KEY_MOD_CLICKED = None
@@ -118,11 +119,13 @@ def get_key_clicked(key: int):
 
 def get_key_pressed(key: int):
     """ Check if a key is pressed """
-    return pygame.key.get_pressed()[key]
+    return key in KEY_PRESSED
+    # return pygame.key.get_pressed()[key]
 
 def get_key_released(key: int):
     """ Check if a key is released """
-    return not pygame.key.get_pressed()[key]
+    return key not in KEY_PRESSED
+    # return not pygame.key.get_pressed()[key]
 
 def get_key_held(key: int):
     """ Check if a key is held """

@@ -30,6 +30,7 @@ class PhysicsComponent(component.Component):
         # stored in kg
         self._mass = 0
         self._velocity = pygame.math.Vector2(0, 0)
+        self._acceleration = pygame.math.Vector2(0, 0)
         self._force = pygame.math.Vector2(0, 0)
         self._touching = [False, False, False, False]
 
