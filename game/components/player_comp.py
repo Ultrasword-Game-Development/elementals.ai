@@ -23,8 +23,10 @@ COMPONENT_NAME = "PlayerComponent"
 
 class PlayerComponent(component.Component):
     
-    def __init__(self):
+    def __init__(self, _main_player: bool = True):
         super().__init__()
+
+        self._main_player = _main_player
     
     # ---------------------------- #
     # logic
@@ -34,7 +36,8 @@ class PlayerComponent(component.Component):
         super().__post_gameobject__(_parent_gameobject)
 
         # set the player object
-        game_singleton.PLAYER_ENTITY = self._parent_gameobject
+        if self._main_player:
+            game_singleton.PLAYER_ENTITY = self._parent_gameobject
     
     # ---------------------------- #
     # dill
@@ -95,7 +98,7 @@ class PlayerAspect(aspect.Aspect):
         # set flipx
         _gameobject._sprite_comp.set_flipx(_gameobject._rect_comp._velocity.x < 0)
 
-        # set animation
+        # set animation)
         _velocity_mag = _gameobject._rect_comp._velocity.length()
         if _velocity_mag < 5:
             # is idle

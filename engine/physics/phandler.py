@@ -38,7 +38,9 @@ class PhysicsHandler:
     def add_component(self, component: "PhysicsComponent"):
         """ Add an component to the physics handler """
         self._components.append(component)
-        component.__post_init__(self)    
+        component.__post_init__(self)  
+
+        return component
             
     def add_gameobject(self, gameobject: "GameObject"):
         """ Add an gameobject to the physics handler """

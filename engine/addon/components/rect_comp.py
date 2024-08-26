@@ -136,6 +136,8 @@ class WorldRectAspect(aspect.Aspect):
                     _tentative_rect.left = _collided_tile._rect.right
                     _rect_comp._velocity.x = 0
                     _rect_comp._touching[physics_comp.TOUCHING_LEFT] = True
+
+                _collided_tile.on_collision(_gameobject)
         
         # y-axis movement
         _tentative_rect.y += _rect_comp._velocity.y * singleton.DELTA_TIME
@@ -161,6 +163,8 @@ class WorldRectAspect(aspect.Aspect):
                     _tentative_rect.top = _collided_tile._rect.bottom
                     _rect_comp._velocity.y = 0
                     _rect_comp._touching[physics_comp.TOUCHING_TOP] = True
+
+                _collided_tile.on_collision(_gameobject)
 
         # add acceleration again
         _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME
@@ -206,15 +210,21 @@ class WorldRectAspect(aspect.Aspect):
                 if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
 
+                _collided_tile.on_collision(_gameobject)
+                if _collided_tile._transparent:
+                    continue
+                
                 if _rect_comp._velocity.x > 0:
                     _tentative_rect.right = _collided_tile._rect.left
                     _rect_comp._velocity.x = 0
+                    _rect_comp._acceleration.x = 0
                     _rect_comp._touching[physics_comp.TOUCHING_RIGHT] = True
                 elif _rect_comp._velocity.x < 0:
                     _tentative_rect.left = _collided_tile._rect.right
                     _rect_comp._velocity.x = 0
+                    _rect_comp._acceleration.x = 0
                     _rect_comp._touching[physics_comp.TOUCHING_LEFT] = True
-        
+                
         # y-axis movement
         _tentative_rect.y += _rect_comp._velocity.y * singleton.DELTA_TIME
         for dx, dy in singleton.ITER_CHUNK_3x3:
@@ -230,14 +240,20 @@ class WorldRectAspect(aspect.Aspect):
             for _collided_tile in _chunk.collide_tiles(_tentative_rect):
                 if not phandler.is_collision_masks_overlap(_collided_tile._collision_mask, _rect_comp._collision_mask):
                     continue
-
+                
+                _collided_tile.on_collision(_gameobject)
+                if _collided_tile._transparent:
+                    continue
+                
                 if _rect_comp._velocity.y > 0:
                     _tentative_rect.bottom = _collided_tile._rect.top
                     _rect_comp._velocity.y = 0
+                    _rect_comp._acceleration.y = 0
                     _rect_comp._touching[physics_comp.TOUCHING_BOTTOM] = True
                 elif _rect_comp._velocity.y < 0:
                     _tentative_rect.top = _collided_tile._rect.bottom
                     _rect_comp._velocity.y = 0
+                    _rect_comp._acceleration.y = 0
                     _rect_comp._touching[physics_comp.TOUCHING_TOP] = True
 
 

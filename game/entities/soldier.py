@@ -22,9 +22,9 @@ from game import singleton as game_singleton
 
 IDLE_ANIM = "Idle"
 WALK_ANIM = "Walk"
-ATTACK1_ANIM = "Attack1"
-ATTACK2_ANIM = "Attack2"
-ATTACK3_ANIM = "Attack3"
+ATTACK1_ANIM = "Attack01"
+ATTACK2_ANIM = "Attack02"
+ATTACK3_ANIM = "Attack03"
 HURT_ANIM = "Hurt"
 DEATH_ANIM = "Death"
 
@@ -38,8 +38,8 @@ class Soldier(entity.Entity):
         
         # add components
         self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/soldier.json"))
-        self._camera_comp = self.add_component(components.cameracontrol_comp.CameraControlComponent())
         self._player_comp = self.add_component(player_comp.PlayerComponent())
+        self._camera_comp = self.add_component(components.cameracontrol_comp.CameraControlComponent())
         
         components.particlehandler_comp.register_particle_function_combination("playertest", create_func=_DEFAULT_CREATE_PARTICLE, update_func=_DEFAULT_UPDATE_PARTICLE)
         self.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="playertest" ,update_func_str="playertest", zlayer=-2))

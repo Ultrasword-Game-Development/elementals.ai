@@ -62,10 +62,11 @@ class SpriteRendererAspect(aspect.Aspect):
             
             _sprite = _sprite_comp.get_sprite()
             # render sprite into world
-            _position = (
-                round(_gameobject.position.x - camera.position.x - _sprite_comp._sprite_rect.centerx),
-                round(_gameobject.position.y - camera.position.y - _sprite_comp._sprite_rect.centery)
-            )
+            # _position = (
+            #     round(_gameobject.position.x - camera.position.x - _sprite_comp._sprite_rect.centerx),
+            #     round(_gameobject.position.y - camera.position.y - _sprite_comp._sprite_rect.centery)
+            # )
+            _position = _gameobject.position - camera.position - _sprite_comp._sprite_rect.center
             _layer_surface.blit(_sprite, _position)
 
 

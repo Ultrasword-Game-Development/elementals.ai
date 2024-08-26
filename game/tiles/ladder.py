@@ -4,6 +4,8 @@ from engine.handler import world
 
 from game import singleton
 
+from game.entities import entity
+
 
 # ---------------------------- #
 # constants
@@ -16,9 +18,9 @@ LADDER_SPRITE = "assets/sprites/entities/ladder.png"
 class LadderTile(world.DefaultTile):
     def __init__(self, position: tuple):
         """ Create a new ladder tile """
-        super().__init__(position=position, sprite=LADDER_SPRITE)
+        super().__init__(position=position, sprite=LADDER_SPRITE, transparent=True)
         
-        self.set_mask_value(singleton.BASIC_COLLISION_LAYER, False)
+        self.set_mask_value(singleton.BASIC_COLLISION_LAYER, True)
         self.set_mask_value(singleton.LADDER_COLLISION_LAYER, True)
 
     def __post_init__(self, chunk: "world.Chunk"):
@@ -27,15 +29,12 @@ class LadderTile(world.DefaultTile):
 
     # ---------------------------- #
     # logic
-    
-    def update(self):
-        """ Update the ladder """
-        # print(self._rect, end='\t')
-        
-        # check if the player object is colliding against it
-        if singleton.PLAYER_ENTITY._rect_comp.get_hitbox().colliderect(self._rect):
-            # if colliding, check if player is climbing
-            singleton.PLAYER_ENTITY._can_climb = True
+
+    def on_collision(self, gameobject: "GameObject"):
+        """ On collision with a gameobject """
+
+        if issubclass(gameobject.__class__, entity.Entity):
+            gameobject._can_climb = True
             
 
 

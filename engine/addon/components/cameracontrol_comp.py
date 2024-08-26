@@ -1,6 +1,8 @@
 
+import math
 import pygame
 
+from engine import utils
 from engine import singleton
 
 from engine.handler import world
@@ -29,7 +31,6 @@ class CameraControlComponent(component.Component):
         
         self._active = active
         self._camera = None
-
     
     def __post_gameobject__(self, gameobject: "GameObject"):
         """ Post init function """
@@ -83,7 +84,7 @@ class CameraControlAspect(aspect.Aspect):
         """ Handle the aspect """
         for _camera in self.iter_components():
             # update camera position to gameobject position
-            _camera._camera._rect.center = _camera._parent_gameobject.position
+            _camera._camera._rect.center = utils.lerp(_camera._camera._rect.center, _camera._parent_gameobject.position.xy, 0.1)
 
 
 # ---------------------------- #

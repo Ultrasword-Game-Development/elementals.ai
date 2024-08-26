@@ -41,6 +41,8 @@ WORLD_LEVEL_CHUNKS_FOLDER = "chunkdata/"
 
 WORLD_CACHE = {}
 
+TRANSPARENT_TILE_BITMASK = 0b10
+
 # ---------------------------- #
 # tile
 
@@ -61,8 +63,9 @@ class DefaultTile:
     _rect: "pygame.Rect"
     _collision_mask: int
     _data: dict
+    _transparent: bool
     
-    def __init__(self, position: tuple, sprite: str) -> None:
+    def __init__(self, position: tuple, sprite: str, transparent: bool = False) -> None:
         """ Initialize the default tile """
         if not "__parent_class__" in self.__dict__:
             self.__parent_class__ = DefaultTile
@@ -77,7 +80,10 @@ class DefaultTile:
             singleton.DEFAULT_TILE_WIDTH, 
             singleton.DEFAULT_TILE_HEIGHT
         )
+        # 0 = basic collision
+        # 1 = projectile collide
         self._collision_mask = 0b0000000000000001
+        self._transparent = transparent
         
         # extra data storage for custom data objects (child classes)
         self._data = {}
@@ -101,6 +107,10 @@ class DefaultTile:
         """ Create a copy """
         print(self._data)
         return self.__parent_class__(self._index_position, self._sprite_path)
+
+    def on_collision(self, gameobject: "GameObject"):
+        """ On collision with a gameobject """
+        pass
 
     # ---------------------------- #
     # utils
@@ -239,6 +249,7 @@ class Chunk:
                 # check if tile exists
                 if not self._tiles[j][i]:
                     continue
+
                 # check if colliding
                 if phandler.collide_rect_to_rect(rect, self._tiles[j][i]._rect):
                     yield self._tiles[j][i]

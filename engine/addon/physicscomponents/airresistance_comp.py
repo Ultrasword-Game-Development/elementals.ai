@@ -56,7 +56,6 @@ class AirResistanceComponent(physicscomponent.PhysicsComponent):
             blend = 0.3
             _rect_comp._acceleration += _rect_comp._velocity.rotate(180) * blend
 
-
 # ---------------------------- #
 # utils
 

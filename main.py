@@ -46,7 +46,7 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-singleton.WIN_BACKGROUND = utils.hex_to_rgb('000000')
+singleton.WIN_BACKGROUND = utils.hex_to_rgb('ffffff')
 singleton.set_framebuffer_size_factor(3)
 singleton.DEBUG = True
 singleton.set_render_distance(4)
@@ -81,7 +81,10 @@ Have fun!
 from game import singleton as game_singleton
 
 from game import components as game_components
+
 from game.entities import soldier
+from game.entities import archer
+
 from game.tiles import ladder
 
 world_save = "world"
@@ -155,7 +158,7 @@ w.add_aspect(components.rect_comp.WorldRectDebugAspect())
 w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
 w.add_aspect(game_components.player_comp.PlayerAspect())
 
-w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(game_singleton.GAME_GRAVITY))
+g_comp = w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(game_singleton.GAME_GRAVITY))
 w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(game_singleton.AIR_RESISTANCE_COEF))
 w._physics_handler.add_component(physicscomponents.friction_comp.FrictionComponent())
 
@@ -168,9 +171,9 @@ w._physics_handler.add_component(physicscomponents.friction_comp.FrictionCompone
 # _gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default", zlayer=-1))
 
 game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(100, -100))
+w.add_gameobject(archer.Archer(-100, -50))
 
 world.World.save_world(w)
-
 
 
 # [print(x, ": ", io.IMAGES_CACHE[x]) for x in io.IMAGES_CACHE]
