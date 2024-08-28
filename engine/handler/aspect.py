@@ -68,9 +68,9 @@ class AspectHandler:
                 break
     
     # component logic
-    
     def register_component(self, component: "Component"):
         """ Register a component """
+        component.__post_aspect__(self)
         # register component into aspect instances
         if component.__class__.__name__ not in self._aspect_targets:
             self._component_backlog.append(component)
@@ -78,7 +78,6 @@ class AspectHandler:
         
         for aspect in self._aspect_targets[component.__class__.__name__]:
             aspect.register_component(component)
-        
         
         # update backlog of components
         if not self._component_backlog:

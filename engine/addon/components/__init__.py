@@ -13,5 +13,7 @@ from engine.addon.components import particlehandler_comp
 
 from engine.addon.components import cameracontrol_comp
 
+from engine.addon.components import neuralnet_comp
+
 
 

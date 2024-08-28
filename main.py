@@ -138,6 +138,14 @@ _c.set_tile_at((0, 0), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/p
 _c.set_tile_at((0, 2), tiles.SemiAnimatedTile((0, 0), "assets/sprites/entities/player.json"))
 _c.set_tile_at((0, 3), tiles.AnimatedTile((0, 0), "assets/sprites/entities/player.json", offset=2))
 
+# _c = w.get_layer_at(0).get_chunk_at_or_default((1, -1))
+# for y in range(singleton.DEFAULT_CHUNK_HEIGHT):
+#     _c.set_tile_at((0, y), world.DefaultTile((0, y), _spritesheet.get_sprite_str_id(index=y)))
+
+# _c = w.get_layer_at(0).get_chunk_at_or_default((-1, -1))
+# for y in range(singleton.DEFAULT_CHUNK_HEIGHT):
+#     _c.set_tile_at((0, y), world.DefaultTile((0, y), _spritesheet.get_sprite_str_id(index=y)))
+
 w.ssheet = spritesheet.load_spritesheet("assets/sprites/entities/mage.json")
 w.t_ani = animation.load_animation_from_json("assets/sprites/entities/mage.json")
 w.t_ani_reg = w.t_ani.get_registry()
@@ -151,6 +159,7 @@ w.add_aspect(components.animation_comp.AnimationAspect())
 w.add_aspect(components.rect_comp.WorldRectAspect())
 w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
 w.add_aspect(components.cameracontrol_comp.CameraControlAspect())
+w.add_aspect(components.neuralnet_comp.NeuralNetAspect(config_path = "assets/default-genome-config.txt"))
 
 # debug
 w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())

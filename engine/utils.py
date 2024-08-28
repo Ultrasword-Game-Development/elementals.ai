@@ -23,6 +23,9 @@ def clamp(val, min_val, max_val):
 def lerp(a, b, t):
     return a + (b - a) * t
 
+def itervalues(d, **kw):
+    return iter(d.values(**kw))
+
 
 # ---------------------------- #
 # surface

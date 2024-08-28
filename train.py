@@ -156,6 +156,8 @@ class Car:
 
 def run_simulation(genomes, config):
     
+    print(genomes)
+
     # Empty Collections For Nets and Cars
     nets = []
     cars = []
@@ -253,9 +255,10 @@ if __name__ == "__main__":
 
     # Create Population And Add Reporters
     population = neat.Population(config)
-    population.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    population.add_reporter(stats)
+
+    # population.add_reporter(neat.StdOutReporter(True))
+    # stats = neat.StatisticsReporter()
+    # population.add_reporter(stats)
     
     # Run Simulation For A Maximum of 1000 Generations
     population.run(run_simulation, 1000)

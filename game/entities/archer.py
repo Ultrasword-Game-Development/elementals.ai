@@ -37,12 +37,13 @@ class Archer(entity.Entity):
         
         # add components
         self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/archer.json"))
-        self._player_comp = self.add_component(player_comp.PlayerComponent(_main_player=False))
+        # self._player_comp = self.add_component(player_comp.PlayerComponent(_main_player=False))
+        self._neuralnet_comp = self.add_component(components.neuralnet_comp.NeuralNetComponent("Archer", fitness_func=fitness_func))
                 
         # set up hitbox
         self._hitbox_comp.set_offset((-4, -7))
         self._hitbox_comp.set_area((10, 18))
-                
+        
         # set up animation
         self._animation_comp.set_animation_type("Idle")
         
@@ -58,4 +59,22 @@ class Archer(entity.Entity):
     def activate_attack(self, attack: str):
         """ Activate attack """
         pass
-            
+
+
+# ---------------------------- #
+# utils
+
+def fitness_func(comp):
+    """ Fitness function """
+    _genome = comp._genome
+    _network = comp._network
+    _gameobject = comp._parent_gameobject
+
+    # distance to player
+    _player = game_singleton.PLAYER_ENTITY
+    _dist = math.sqrt((_player.position.x - _gameobject.position.x) ** 2 + (_player.position.y - _gameobject.position.y) ** 2)
+
+    # get output
+    _output = _network.activate((_dist, _gameobject.position.x, _gameobject.position.y, _player.position.x, _player.position.y))
+
+    print(_output)
