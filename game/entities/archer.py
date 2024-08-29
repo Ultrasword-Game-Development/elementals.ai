@@ -37,9 +37,10 @@ class Archer(entity.Entity):
         
         # add components
         self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/archer.json"))
-        # self._player_comp = self.add_component(player_comp.PlayerComponent(_main_player=False))
+        self._player_comp = self.add_component(player_comp.PlayerComponent(_main_player=False))
         self._neuralnet_comp = self.add_component(components.neuralnet_comp.NeuralNetComponent("Archer", fitness_func=fitness_func))
-                
+        self._line_comp = self.add_component(components.line_comp.LineComponent((0, 0), (100, 0), zlayer=0, tilecast=True, entitycast=True))
+
         # set up hitbox
         self._hitbox_comp.set_offset((-4, -7))
         self._hitbox_comp.set_area((10, 18))
@@ -77,4 +78,3 @@ def fitness_func(comp):
     # get output
     _output = _network.activate((_dist, _gameobject.position.x, _gameobject.position.y, _player.position.x, _player.position.y))
 
-    print(_output)

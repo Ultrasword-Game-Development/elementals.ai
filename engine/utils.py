@@ -26,6 +26,34 @@ def lerp(a, b, t):
 def itervalues(d, **kw):
     return iter(d.values(**kw))
 
+def rotate_point(point: tuple, angle: float, origin=(0, 0)):
+    """Rotate a point around an origin"""
+    ox, oy = origin
+    px, py = point
+    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+    qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+    return qx, qy
+
+def get_rect_lines(rect: pygame.Rect, angle: float = 0):
+    """Get the lines of a rect"""
+    # get the corners
+    points = [
+        rect.topleft,
+        rect.topright,
+        rect.bottomright,
+        rect.bottomleft
+    ]
+    # rotate the corners
+    if angle != 0:
+        points = [rotate_point(c, angle, rect.center) for c in corners]
+    # get the lines
+    lines = [
+        (points[0], points[1]),
+        (points[1], points[2]),
+        (points[2], points[3]),
+        (points[3], points[0])
+    ]
+    return lines
 
 # ---------------------------- #
 # surface

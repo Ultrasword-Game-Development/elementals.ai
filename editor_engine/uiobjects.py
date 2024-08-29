@@ -93,8 +93,7 @@ class Editor(ui.Frame):
         # convert screen mouse pos to world pos
         self._raw_buffer_pos = pygame.math.Vector2(utils.framebuffer_pos_to_screen_pos_int(self.get_relative_mouse_pos(), self._area, self._camera.area)) + self._camera.position
         # find selected tile coords
-        x_coord = int(self._raw_buffer_pos.x // singleton.DEFAULT_TILE_WIDTH)
-        y_coord = int(self._raw_buffer_pos.y // singleton.DEFAULT_TILE_HEIGHT)
+        x_coord, y_coord = world.pixel_to_tile_coords(self._raw_buffer_pos)
         self._buffer_tile_pos = (x_coord, y_coord)
         self._buffer_chunk_pos = (x_coord // singleton.DEFAULT_CHUNK_WIDTH, y_coord // singleton.DEFAULT_CHUNK_HEIGHT)
         # calculate chunk tile position

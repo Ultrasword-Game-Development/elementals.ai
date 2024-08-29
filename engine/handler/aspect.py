@@ -22,6 +22,13 @@ class AspectHandler:
     
         self._component_backlog = []
     
+    def __post_init__(self):
+        """ Post init function """
+        for aspect in self._aspects:
+            aspect.__post_init__()
+
+            print(aspect)
+
     # ---------------------------- #
     # logic
 
@@ -48,6 +55,9 @@ class AspectHandler:
                 self._aspect_targets[_class.__name__] = []
             if aspect not in self._aspect_targets[_class.__name__]:
                 self._aspect_targets[_class.__name__].append(aspect)
+        
+        print("ADDING:", aspect)
+        aspect.__post_init__()
     
     def get_aspect(self, _aspect_class: "Aspect Class"):
         """ Get an aspect by string """
@@ -128,6 +138,10 @@ class Aspect:
         self._priority = priority
         self._handler = None
         self._target_component_classes = target_component_classes
+    
+    def __post_init__(self):
+        """ Post init function """
+        pass
     
     # ---------------------------- #
     # logic

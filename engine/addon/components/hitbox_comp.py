@@ -59,6 +59,13 @@ class HitBoxComponent(physics_comp.PhysicsComponent):
 # ---------------------------- #
 # aspect
 
+
+class HitboxAspect(aspect.Aspect):
+    def __init__(self):
+        """ Create a new Hit Box Aspect """
+        super().__init__(target_component_classes=[HitBoxComponent])
+
+
 class HitBoxDebugAspect(aspect.Aspect):
     def __init__(self):
         """ Create a new Hit Box Debug Aspect """

@@ -1,5 +1,7 @@
 import pygame
 
+from engine import utils
+
 from engine.handler import signal
 
 
@@ -24,6 +26,10 @@ class PhysicsHandler:
         self._death_signal = signal.Signal(DEATH_SIGNAL_NAME)
         self._death_signal.add_emitter_handling_function(DEATH_SIGNAL_ID, self.handle_death_signal)
     
+    def __post_init__(self):
+        """ Post init function """
+        self.load_components()
+
     # ---------------------------- #
     # logic
 
@@ -88,6 +94,7 @@ class PhysicsHandler:
     def __setstate__(self, state):
         """ Unpickle state """
         self.__dict__.update(state)
+        self.load_components()
     
         
 # ---------------------------- #
@@ -116,4 +123,82 @@ def collide_bitmask_to_bitmask(bitmask1: pygame.Surface, bitmask1_rect: pygame.R
 def is_collision_masks_overlap(mask1: int, mask2: int):
     """ Check if two collision masks overlap """
     return mask1 & mask2 != 0
-            
+
+def collide_line_to_rect(line: "Tuple(Tuple(start), Tuple(end))", rect: pygame.Rect, rect_rotation: float):
+    """ Check if a line collides with a rect """
+    _lines = utils.get_rect_lines(rect, rect_rotation)
+    for _line in _lines:
+        if collide_line_to_line(line, _line):
+            return True
+    return False
+
+def collide_line_to_rect_aa(line: "Tuple(Tuple(start), Tuple(end))", rect: pygame.Rect):
+    """ Check if a line collides with a rect """
+    collide_line_to_rect(line, rect, 0)
+
+def collide_line_to_line(line1: "Tuple(Tuple(start), Tuple(end))", line2: "Tuple(Tuple(start), Tuple(end))"):
+    """ Check if two lines collide """
+    x1 = line1[0][0]
+    y1 = line1[0][1]
+    x2 = line1[1][0]
+    y2 = line1[1][1]
+    x3 = line2[0][0]
+    y3 = line2[0][1]
+    x4 = line2[1][0]
+    y4 = line2[1][1]
+
+    ua1 = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3))
+    ua2 = ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))
+    ub1 = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3))
+    ub2 = ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))
+
+    ua = ua1 / ua2 if ua2 != 0 else 0
+    ub = ub1 / ub2 if ub2 != 0 else 0
+
+    # if ua and ub are between 0 and 1, the lines are colliding
+    return 0 <= ua <= 1 and 0 <= ub <= 1
+
+def collide_line_to_line_point(line1: "Tuple(Tuple(start), Tuple(end))", line2: "Tuple(Tuple(start), Tuple(end))"):
+    """ Check if two lines collide and return the point of collision """
+    x1 = line1[0][0]
+    y1 = line1[0][1]
+    x2 = line1[1][0]
+    y2 = line1[1][1]
+    x3 = line2[0][0]
+    y3 = line2[0][1]
+    x4 = line2[1][0]
+    y4 = line2[1][1]
+
+    ua = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))
+    ub = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))
+
+    # if ua and ub are between 0 and 1, the lines are colliding
+    if 0 <= ua <= 1 and 0 <= ub <= 1:
+        ix = x1 + ua * (x2 - x1)
+        yy = y1 + ua * (y2 - y1)
+        return (ix, iy)
+    return None
+
+def collide_line_to_rects(line: "Tuple(Tuple(start), Tuple(end))", rects: "List[pygame.Rect]"):
+    """ Check if a line collides with a list of rects """
+    for rect in rects:
+        if collide_line_to_rect(line, rect):
+            yield rect
+
+def collide_line_to_lines(line: "Tuple(Tuple(start), Tuple(end))", lines: "List[Tuple(Tuple(start), Tuple(end))]"):
+    """ Check if a line collides with a list of lines """
+    for _line in lines:
+        if collide_line_to_line(line, _line):
+            yield _line
+
+def collide_line_to_lines_point(line: "Tuple(Tuple(start), Tuple(end))", lines: "List[Tuple(Tuple(start), Tuple(end))]"):
+    """ Check if a line collides with a list of lines and return the point of collision """
+    for _line in lines:
+        _point = collide_line_to_line_point(line, _line)
+        if _point:
+            yield _point
+
+def collide_point_to_rect(point: "Tuple(x, y)", rect: pygame.Rect):
+    """ Check if a point collides with a rect """
+    return rect.collidepoint(point)
+

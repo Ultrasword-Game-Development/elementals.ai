@@ -46,7 +46,7 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-singleton.WIN_BACKGROUND = utils.hex_to_rgb('ffffff')
+singleton.WIN_BACKGROUND = utils.hex_to_rgb('000000')
 singleton.set_framebuffer_size_factor(3)
 singleton.DEBUG = True
 singleton.set_render_distance(4)
@@ -159,12 +159,16 @@ w.add_aspect(components.animation_comp.AnimationAspect())
 w.add_aspect(components.rect_comp.WorldRectAspect())
 w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
 w.add_aspect(components.cameracontrol_comp.CameraControlAspect())
+w.add_aspect(components.line_comp.LineAspect())
 w.add_aspect(components.neuralnet_comp.NeuralNetAspect(config_path = "assets/default-genome-config.txt"))
+w.add_aspect(components.hitbox_comp.HitboxAspect())
+
 
 # debug
 w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())
 w.add_aspect(components.rect_comp.WorldRectDebugAspect())
 w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
+w.add_aspect(components.line_comp.LineDebugAspect())
 w.add_aspect(game_components.player_comp.PlayerAspect())
 
 g_comp = w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(game_singleton.GAME_GRAVITY))
@@ -184,6 +188,8 @@ w.add_gameobject(archer.Archer(-100, -50))
 
 world.World.save_world(w)
 
+
+w.__post_init__()
 
 # [print(x, ": ", io.IMAGES_CACHE[x]) for x in io.IMAGES_CACHE]
 

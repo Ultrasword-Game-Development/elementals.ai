@@ -25,7 +25,7 @@ class LadderTile(world.DefaultTile):
 
     def __post_init__(self, chunk: "world.Chunk"):
         """ Post init """
-        print('ladder rect: ', self._rect)
+        pass
 
     # ---------------------------- #
     # logic

@@ -316,6 +316,14 @@ class Chunk:
             get_chunk_offset(chunk_pos) - camera.position,
             (singleton.DEFAULT_CHUNK_PIXEL_HEIGHT, singleton.DEFAULT_CHUNK_PIXEL_WIDTH)
         )
+    
+    @classmethod
+    def get_chunk_rect_from_position(cls, position: tuple):
+        """ Get the chunk rect from the position """
+        return pygame.Rect(
+            get_chunk_offset(position),
+            (singleton.DEFAULT_CHUNK_PIXEL_WIDTH, singleton.DEFAULT_CHUNK_PIXEL_HEIGHT)
+        )
 
     # ---------------------------- #
     # serializable
@@ -597,6 +605,8 @@ class World:
     def __post_init__(self):
         """ Post init function """
         self.update_renderable_chunks()
+        self._physics_handler.__post_init__()
+        self._aspect_handler.__post_init__()
 
     # ---------------------------- #
     # logic
@@ -800,4 +810,11 @@ def get_chunk_offset(chunk_pos: tuple):
     return (
         chunk_pos[0] * singleton.DEFAULT_CHUNK_PIXEL_WIDTH,
         chunk_pos[1] * singleton.DEFAULT_CHUNK_PIXEL_HEIGHT
+    )
+
+def pixel_to_tile_coords(pos: tuple):
+    """ Convert pixel to tile coordinates """
+    return (
+        int(pos[0] // singleton.DEFAULT_TILE_WIDTH),
+        int(pos[1] // singleton.DEFAULT_TILE_HEIGHT)
     )
