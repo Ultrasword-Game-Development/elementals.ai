@@ -30,8 +30,8 @@ class LineComponent(component.Component):
     def __init__(self, start: "Vector2", end: "Vector2", zlayer: int = 0, tilecast: bool = False, entitycast: bool = False):
         super().__init__()
 
-        self._start = start
-        self._end = end
+        self._start = pygame.math.Vector2(start)
+        self._end = pygame.math.Vector2(end)
         self._zlayer = zlayer
 
         self._entity_cast = entitycast
@@ -87,8 +87,6 @@ class LineAspect(aspect.Aspect):
         # grab the hitbox component
         self._hitbox_aspect = self._handler.get_aspect(hitbox_comp.HitboxAspect)
         self._world = self._handler._world
-
-        print("FINDING HIT BOX ASPECT", self._hitbox_aspect)
     
     # ---------------------------- #
     # logic

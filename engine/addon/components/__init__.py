@@ -11,6 +11,8 @@ from engine.addon.components import hitbox_comp
 from engine.addon.components import physics_comp
 from engine.addon.components import particlehandler_comp
 from engine.addon.components import line_comp
+from engine.addon.components import ray2d_comp
+from engine.addon.components import ray3d_comp
 
 from engine.addon.components import cameracontrol_comp
 

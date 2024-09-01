@@ -176,10 +176,11 @@ class DefaultTile:
 
 class Chunk:
     
-    def __init__(self, chunk_position: tuple, 
-                 width: int = 0, 
-                 height: int = 0, 
-                 tile_dimensions: tuple = (0, 0)
+    def __init__(
+                self, chunk_position: tuple, 
+                width: int = 0, 
+                height: int = 0, 
+                tile_dimensions: tuple = (0, 0)
                 ) -> None:
         """ Initialize the (square) chunks """
         self._chunk_id = generate_id()
@@ -204,8 +205,10 @@ class Chunk:
         )
 
         self._chunk_rect = pygame.Rect(self._pixel_coords, (singleton.DEFAULT_CHUNK_PIXEL_WIDTH, singleton.DEFAULT_CHUNK_PIXEL_HEIGHT))
-        
         self._chunk_offset = pygame.math.Vector2(get_chunk_offset(self._chunk_position))
+
+        # not usually used besides internally in dev
+        self._chunk_gameobjects = set()
     
         # create tile storage
         self._tiles = [ 

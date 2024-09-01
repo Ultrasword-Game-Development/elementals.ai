@@ -2,6 +2,7 @@ import pygame
 
 from engine import utils
 
+from engine.handler import world
 from engine.handler import signal
 
 
@@ -25,6 +26,9 @@ class PhysicsHandler:
         # death signal
         self._death_signal = signal.Signal(DEATH_SIGNAL_NAME)
         self._death_signal.add_emitter_handling_function(DEATH_SIGNAL_ID, self.handle_death_signal)
+
+        # gameobjects + chunks
+        self._gameobject_chunks = {}
     
     def __post_init__(self):
         """ Post init function """
@@ -54,8 +58,22 @@ class PhysicsHandler:
         gameobject._parent_phandler = self
         # add death signal
         gameobject._death_emitter = self._death_signal.get_unique_emitter()
+        # setup gameobject chunk
+        self.update_gameobject_chunk(gameobject, gameobject.position)
         # post init
         gameobject.__post_init__()
+    
+    def update_gameobject_chunk(self, gameobject: "GameObject", _new_position: "Vector2"):
+        """ Update the gameobject chunk """
+        # remove gameobject from old chunk
+        _old_chunk = world.get_chunk_from_pixel_position(gameobject.position)
+        if _old_chunk in self._gameobject_chunks:
+            self._gameobject_chunks[_old_chunk].remove(gameobject._id)
+        # add gameobject to new chunk
+        _chunk_coords = world.get_chunk_from_pixel_position(_new_position)
+        if not _chunk_coords in self._gameobject_chunks:
+            self._gameobject_chunks[_chunk_coords] = set()
+        self._gameobject_chunks[_chunk_coords].add(gameobject._id)
     
     def get_gameobject(self, gameobject_hash: int):
         """ Get an gameobject by id """
@@ -70,9 +88,16 @@ class PhysicsHandler:
         - data: dict (containing whatever lol)
         """
         
+        # get chunk + remove entity from chunk
+        _chunk_coords = world.get_chunk_from_pixel_position(self._gameobjects[data['id']].position)
+        # remove gameobject from chunk cache
+        self._gameobject_chunks[_chunk_coords].remove(self._gameobjects[data['id']])
+
+
         self._gameobjects[data['id']]._alive = False
         # run the custom gameobject death function
         self._gameobjects[data['id']].handle_death_signal(data)
+        
         # remove the gameobject
         del self._gameobjects[data['id']]
     

@@ -169,6 +169,9 @@ class WorldRectAspect(aspect.Aspect):
         # add acceleration again
         _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME
 
+        if world.get_chunk_from_pixel_position(_gameobject.position) != world.get_chunk_from_pixel_position(_tentative_rect.center):
+            self._handler._world._physics_handler.update_gameobject_chunk(_gameobject, _tentative_rect.center)
+
         # update final coordinates
         _rect_comp._rect.topleft = _tentative_rect.topleft
         _gameobject.position.xy = _tentative_rect.center
@@ -255,7 +258,6 @@ class WorldRectAspect(aspect.Aspect):
                     _rect_comp._velocity.y = 0
                     _rect_comp._acceleration.y = 0
                     _rect_comp._touching[physics_comp.TOUCHING_TOP] = True
-
 
         # add acceleration again
         _rect_comp._velocity += _rect_comp._acceleration * 0.5 * singleton.DELTA_TIME

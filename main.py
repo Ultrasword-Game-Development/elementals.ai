@@ -162,6 +162,8 @@ w.add_aspect(components.cameracontrol_comp.CameraControlAspect())
 w.add_aspect(components.line_comp.LineAspect())
 w.add_aspect(components.neuralnet_comp.NeuralNetAspect(config_path = "assets/default-genome-config.txt"))
 w.add_aspect(components.hitbox_comp.HitboxAspect())
+w.add_aspect(components.ray2d_comp.Ray2DAspect())
+w.add_aspect(game_components.player_comp.PlayerAspect())
 
 
 # debug
@@ -169,7 +171,7 @@ w.add_aspect(components.hitbox_comp.HitBoxDebugAspect())
 w.add_aspect(components.rect_comp.WorldRectDebugAspect())
 w.add_aspect(components.spriterenderer_comp.SpriteRendererDebugAspect())
 w.add_aspect(components.line_comp.LineDebugAspect())
-w.add_aspect(game_components.player_comp.PlayerAspect())
+w.add_aspect(components.ray2d_comp.Ray2DDebugAspect())
 
 g_comp = w._physics_handler.add_component(physicscomponents.gravity_comp.GravityComponent(game_singleton.GAME_GRAVITY))
 w._physics_handler.add_component(physicscomponents.airresistance_comp.AirResistanceComponent(game_singleton.AIR_RESISTANCE_COEF))

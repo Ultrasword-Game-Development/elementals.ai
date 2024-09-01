@@ -39,7 +39,8 @@ class Archer(entity.Entity):
         self._animation_comp = self.add_component(components.animation_comp.AnimationComponent("assets/sprites/entities/archer.json"))
         self._player_comp = self.add_component(player_comp.PlayerComponent(_main_player=False))
         self._neuralnet_comp = self.add_component(components.neuralnet_comp.NeuralNetComponent("Archer", fitness_func=fitness_func))
-        self._line_comp = self.add_component(components.line_comp.LineComponent((0, 0), (100, 0), zlayer=0, tilecast=True, entitycast=True))
+        # self._line_comp = self.add_component(components.line_comp.LineComponent((0, 0), (100, 0), zlayer=0, tilecast=True, entitycast=True))
+        self._left_ray = self.add_component(components.ray2d_comp.Ray2DComponent((0, 0), 100, 180, zlayer=0, tilecast=True, entitycast=True))
 
         # set up hitbox
         self._hitbox_comp.set_offset((-4, -7))
