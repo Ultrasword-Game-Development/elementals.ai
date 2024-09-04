@@ -23,9 +23,16 @@ COMPONENT_NAME = "PlayerComponent"
 
 class PlayerComponent(component.Component):
     
-    def __init__(self, _main_player: bool = True):
+    def __init__(self, _main_player: bool = True, inputs_config: dict = {
+        "w": pygame.K_w,
+        "a": pygame.K_a,
+        "s": pygame.K_s,
+        "d": pygame.K_d,
+    }):
+        """ Initialize the Player Component """
         super().__init__()
 
+        self._input_config = inputs_config
         self._main_player = _main_player
     
     # ---------------------------- #
@@ -76,9 +83,9 @@ class PlayerAspect(aspect.Aspect):
         _gameobject = player_comp.get_gameobject()
 
         # update movement
-        if io.get_key_pressed(pygame.K_a):
+        if io.get_key_pressed(player_comp._input_config["a"]):
             _gameobject._rect_comp._acceleration.x += -_gameobject._agility
-        if io.get_key_pressed(pygame.K_d):
+        if io.get_key_pressed(player_comp._input_config["d"]):
             _gameobject._rect_comp._acceleration.x += _gameobject._agility
         
         if _gameobject._rect_comp._touching[components.physics_comp.TOUCHING_BOTTOM] and io.get_key_pressed(pygame.K_SPACE):

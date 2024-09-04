@@ -177,8 +177,8 @@ def collide_line_to_line(line1: "Tuple(Tuple(start), Tuple(end))", line2: "Tuple
     ub1 = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3))
     ub2 = ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))
 
-    ua = ua1 / ua2 if ua2 != 0 else 0
-    ub = ub1 / ub2 if ub2 != 0 else 0
+    ua = ua1 / (ua2 if ua2 != 0 else 1e9)
+    ub = ub1 / (ub2 if ub2 != 0 else 1e9)
 
     # if ua and ub are between 0 and 1, the lines are colliding
     return 0 <= ua <= 1 and 0 <= ub <= 1

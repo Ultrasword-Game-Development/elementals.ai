@@ -63,6 +63,7 @@ class WorldRectComponent(physics_comp.PhysicsComponent):
         """ Get the hitbox component """
         if not self._has_hitbox:
             return self._rect
+        
         return pygame.FRect(
             self._hitbox._rect.topleft + self._parent_gameobject.position,
             self._hitbox._rect.size

@@ -129,6 +129,10 @@ _c.set_tile_at((7, 5), ladder.LadderTile((7, 0)))
 _c.set_tile_at((7, 6), ladder.LadderTile((7, 0)))
 _c.set_tile_at((7, 7), ladder.LadderTile((7, 0)))
 
+for x in range(2, 7):
+    _c.set_tile_at((x, 4), world.DefaultTile((x, 0), _spritesheet.get_sprite_str_id(index=x)))
+
+
 _c = w.get_layer_at(0).get_chunk_at_or_default((-2, 0))
 for i in range(singleton.DEFAULT_CHUNK_WIDTH):
     _c.set_tile_at((i, 3), world.DefaultTile((i, j), _spritesheet.get_sprite_str_id(index=i)))
@@ -185,8 +189,8 @@ w._physics_handler.add_component(physicscomponents.friction_comp.FrictionCompone
 # _left_rect = _gameobject.add_component(components.rect_comp.WorldRectComponent(has_sprite=True))
 # _gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default", zlayer=-1))
 
-game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(100, -100))
-w.add_gameobject(archer.Archer(-100, -50))
+game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(-100, -100))
+w.add_gameobject(archer.Archer(-100, 0))
 
 world.World.save_world(w)
 
