@@ -105,6 +105,8 @@ class NeuralNetAspect(aspect.Aspect):
             elif _data[POP_REPRODUCE]:
                 _data[POP_REPRODUCE] = False
 
+                print(_data[POP_OBJ].species.species)
+
                 # reproduce
                 _data[POP_OBJ].population = _data[POP_OBJ].reproduction.reproduce(
                     _data[POP_OBJ].config,
@@ -220,6 +222,11 @@ class NeuralNetAspect(aspect.Aspect):
         
         _pop = self._populations[neuralnet_comp._pop_name]
         _pop[1].remove(neuralnet_comp)
+    
+    def evolve_population(self, population_name: str):
+        """ Evolve the population """
+        self._populations[population_name][POP_REPRODUCE] = True
+        return self.get_population(population_name)
     
     def reset_population(self, population_name: str):
         """ Reset the population """

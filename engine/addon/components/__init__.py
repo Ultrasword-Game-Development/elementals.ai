@@ -17,6 +17,7 @@ from engine.addon.components import ray3d_comp
 from engine.addon.components import cameracontrol_comp
 
 from engine.addon.components import neuralnet_comp
+from engine.addon.components import statemachine_comp
 
 
 

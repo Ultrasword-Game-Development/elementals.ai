@@ -75,7 +75,7 @@ Have fun!
 
 """
 
-# ---------------------------- #
+# -------------------------------------------------------------------------- #
 # testing
 
 from game import singleton as game_singleton
@@ -164,7 +164,7 @@ w.add_aspect(components.rect_comp.WorldRectAspect())
 w.add_aspect(components.particlehandler_comp.ParticleHandlerAspect())
 w.add_aspect(components.cameracontrol_comp.CameraControlAspect())
 w.add_aspect(components.line_comp.LineAspect())
-w.add_aspect(components.neuralnet_comp.NeuralNetAspect(config_path = "assets/default-genome-config.txt"))
+NN_COMP = w.add_aspect(components.neuralnet_comp.NeuralNetAspect(config_path = "assets/default-genome-config.txt"))
 w.add_aspect(components.hitbox_comp.HitboxAspect())
 w.add_aspect(components.ray2d_comp.Ray2DAspect())
 w.add_aspect(game_components.player_comp.PlayerAspect())
@@ -190,12 +190,18 @@ w._physics_handler.add_component(physicscomponents.friction_comp.FrictionCompone
 # _gameobject.add_component(components.particlehandler_comp.ParticleHandlerComponent(create_func_str="default", update_func_str="default", delete_func_str="default", zlayer=-1))
 
 game_singleton.PLAYER_ENTITY = w.add_gameobject(soldier.Soldier(-100, -100))
-w.add_gameobject(archer.Archer(-100, 0))
+
+
+# spawn 50 archers + reset every 10s
+# archers = [w.add_gameobject(archer.Archer(-100, 50)) for i in range(50)]
+archer = w.add_gameobject(archer.Archer(-100, 50))
 
 world.World.save_world(w)
 
 
 w.__post_init__()
+
+# -------------------------------------------------------------------------- #
 
 # [print(x, ": ", io.IMAGES_CACHE[x]) for x in io.IMAGES_CACHE]
 
@@ -204,9 +210,7 @@ pygame.mixer.music.set_volume(0)
 pygame.mixer.music.load("assets/audio/route-201-daytime.mp3")
 pygame.mixer.music.play(-1)
 
-
-
-# ---------------------------- #
+# -------------------------------------------------------------------------- #
 
 singleton.RUNNING = True
 singleton.START_TIME = time.time()
@@ -252,4 +256,5 @@ while singleton.RUNNING:
     singleton.ACTIVE_TIME += singleton.DELTA_TIME
 
 
-# ---------------------------- #
+# -------------------------------------------------------------------------- #
+pygame.quit()

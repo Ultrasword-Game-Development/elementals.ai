@@ -673,9 +673,10 @@ class World:
 
     # aspects
 
-    def add_aspect(self, aspect: "Aspect"):
+    def add_aspect(self, aspect: "Aspect") -> "Aspect":
         """ Add an aspect to the world """
         self._aspect_handler.add_aspect(aspect)
+        return aspect
     
     def get_aspect(self, _aspect_class: "Aspect Class") -> "Aspect":
         """ Get the aspect """

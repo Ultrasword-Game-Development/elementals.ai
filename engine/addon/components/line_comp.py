@@ -27,7 +27,7 @@ CHUNK_STEP_LENGTH = int(singleton.DEFAULT_CHUNK_PIXEL_WIDTH * 0.3)
 
 class LineComponent(component.Component):
     
-    def __init__(self, start: "Vector2", end: "Vector2", zlayer: int = 0, tilecast: bool = False, entitycast: bool = False):
+    def __init__(self, start: "Vector2", end: "Vector2", zlayer: int = 0, tilecast: bool = False, entitycast: bool = False, collision_mask:int = 0b1111111111111111):
         super().__init__()
 
         self._start = pygame.math.Vector2(start)
@@ -39,6 +39,8 @@ class LineComponent(component.Component):
 
         self._collidedentities = []
         self._collidedtiles = []
+        
+        self._collision_mask = collision_mask
 
     def __post_gameobject__(self, gameobject: "GameObject"):
         """ Post init function """
@@ -93,6 +95,8 @@ class LineAspect(aspect.Aspect):
 
     def handle(self, camera: "Camera"):
         """ Handle the aspect """
+        # TODO - make sure to handle COLLISION LAYERS TOO
+
         for _comp in self.iter_components():
             # check which tiles / entities collide with the line
             _layer = self._handler._world.get_layer_at(_comp.get_zlayer())
@@ -104,6 +108,7 @@ class LineAspect(aspect.Aspect):
             if _comp._entity_cast:
                 for _hitbox in self._hitbox_aspect.iter_components():
                     if phandler.collide_line_to_rect((_comp.get_start(), _comp.get_end()), _hitbox.get_rect(), 0):
+                        # check if collision mask
                         _comp._collidedentities.append(_hitbox._parent_gameobject)
 
             if _comp._tile_cast:

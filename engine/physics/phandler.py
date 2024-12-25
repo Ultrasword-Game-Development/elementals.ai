@@ -59,10 +59,17 @@ class PhysicsHandler:
         # add death signal
         gameobject._death_emitter = self._death_signal.get_unique_emitter()
         # setup gameobject chunk
-        self.update_gameobject_chunk(gameobject, gameobject.position)
+        self.new_gameobject_chunk(gameobject)
         # post init
         gameobject.__post_init__()
     
+    def new_gameobject_chunk(self, gameobject: "GameObject"):
+        """ Create a new gameobject chunk """
+        _chunk_coords = world.get_chunk_from_pixel_position(gameobject.position)
+        if not _chunk_coords in self._gameobject_chunks:
+            self._gameobject_chunks[_chunk_coords] = set()
+        self._gameobject_chunks[_chunk_coords].add(gameobject._id)
+
     def update_gameobject_chunk(self, gameobject: "GameObject", _new_position: "Vector2"):
         """ Update the gameobject chunk """
         # remove gameobject from old chunk
@@ -177,8 +184,8 @@ def collide_line_to_line(line1: "Tuple(Tuple(start), Tuple(end))", line2: "Tuple
     ub1 = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3))
     ub2 = ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1))
 
-    ua = ua1 / (ua2 if ua2 != 0 else 1e9)
-    ub = ub1 / (ub2 if ub2 != 0 else 1e9)
+    ua = ua1 / ua2 if ua2 != 0 else 1e9
+    ub = ub1 / ub2 if ub2 != 0 else 1e9
 
     # if ua and ub are between 0 and 1, the lines are colliding
     return 0 <= ua <= 1 and 0 <= ub <= 1

@@ -27,13 +27,14 @@ COMPONENT_NAME = "Ray2DComponent"
 
 class Ray2DComponent(line_comp.LineComponent):
     
-    def __init__(self, start: "Vector2", magnitude: float, angle: float, zlayer: int = 0, tilecast: bool = False, entitycast: bool = False):
+    def __init__(self, start: "Vector2", magnitude: float, angle: float, zlayer: int = 0, tilecast: bool = False, entitycast: bool = False, collision_mask:int = 0b1111111111111111):
         super().__init__(
             start = start, 
             end = pygame.math.Vector2(1, 0).rotate(angle) * magnitude, 
             zlayer = zlayer, 
             tilecast = tilecast, 
-            entitycast = entitycast
+            entitycast = entitycast,
+            collision_mask = collision_mask
         )
 
         self._angle = angle

@@ -106,4 +106,4 @@ class StateMachineAspect(aspect.Aspect):
 
 
 # caching the component class
-component.ComponentHandler.cache_component_class(RenderableComponent)
+component.ComponentHandler.cache_component_class(StateMachineComponent)

@@ -18,6 +18,8 @@ from game import singleton as game_singleton
 
 COMPONENT_NAME = "PlayerComponent"
 
+REQUIRED_KEYS = ["w", "a", "s", "d", "space", "lshift"]
+
 # ---------------------------- #
 # component
 
@@ -28,12 +30,19 @@ class PlayerComponent(component.Component):
         "a": pygame.K_a,
         "s": pygame.K_s,
         "d": pygame.K_d,
+        "space": pygame.K_SPACE,
+        "lshift": pygame.K_LSHIFT
     }):
         """ Initialize the Player Component """
         super().__init__()
 
         self._input_config = inputs_config
         self._main_player = _main_player
+
+        # verify values
+        for _key in REQUIRED_KEYS:
+            if _key not in self._input_config:
+                raise ValueError(f"Missing key '{_key}' in inputs_config")
     
     # ---------------------------- #
     # logic
@@ -88,18 +97,18 @@ class PlayerAspect(aspect.Aspect):
         if io.get_key_pressed(player_comp._input_config["d"]):
             _gameobject._rect_comp._acceleration.x += _gameobject._agility
         
-        if _gameobject._rect_comp._touching[components.physics_comp.TOUCHING_BOTTOM] and io.get_key_pressed(pygame.K_SPACE):
+        if _gameobject._rect_comp._touching[components.physics_comp.TOUCHING_BOTTOM] and io.get_key_pressed(player_comp._input_config["space"]):
             _gameobject._rect_comp._velocity.y = -200
         
         # touching ladders
-        if _gameobject._can_climb and not io.get_key_pressed(pygame.K_LSHIFT):
+        if _gameobject._can_climb and not io.get_key_pressed(player_comp._input_config["lshift"]):
             # cancel gravity
             _gameobject._rect_comp._acceleration -= game_singleton.GAME_GRAVITY
             
             # climbing up + down
-            if io.get_key_pressed(pygame.K_w) or io.get_key_pressed(pygame.K_SPACE):
+            if io.get_key_pressed(player_comp._input_config["w"]) or io.get_key_pressed(player_comp._input_config["space"]):
                 _gameobject._rect_comp._acceleration.y += -_gameobject._climbing_factor * _gameobject._agility
-            if io.get_key_pressed(pygame.K_s):
+            if io.get_key_pressed(player_comp._input_config["s"]):
                 _gameobject._rect_comp._acceleration.y += _gameobject._climbing_factor * _gameobject._agility 
         
         # set flipx
